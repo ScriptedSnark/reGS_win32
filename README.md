@@ -16,8 +16,6 @@ This is the repository of reGS (comeback xD) source code without engine (hardwar
 - vgui2_surfacelib (vgui2_surfacelib.lib) | Status: Finished
 - vstdlib (vstdlib.lib) | Status: WIP (not implemented yet)
 
-Linux support is not planned because it requires extra code. For example, hw.so has custom voice/sound system and OS-specific code.
-
 ## Future projects
 
 - AdminServer | GUI for HLDS
