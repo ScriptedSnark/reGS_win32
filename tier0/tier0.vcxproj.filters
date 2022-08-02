@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="assert_dialog.cpp" />
+    <ClCompile Include="cpu.cpp" />
+    <ClCompile Include="dbg.cpp" />
+    <ClCompile Include="fasttimer.cpp" />
+    <ClCompile Include="mem.cpp" />
+    <ClCompile Include="mem_helpers.cpp" />
+    <ClCompile Include="memblockhdr.cpp" />
+    <ClCompile Include="memstd.cpp" />
+    <ClCompile Include="memvalidate.cpp" />
+    <ClCompile Include="minidump.cpp" />
+    <ClCompile Include="pch_tier0.cpp" />
+    <ClCompile Include="platform.cpp" />
+    <ClCompile Include="pme.cpp" />
+    <ClCompile Include="testthread.cpp" />
+    <ClCompile Include="thread.cpp" />
+    <ClCompile Include="threadtools.cpp" />
+    <ClCompile Include="tier0.cpp" />
+    <ClCompile Include="validator.cpp" />
+    <ClCompile Include="valobject.cpp" />
+    <ClCompile Include="vprof.cpp" />
+  </ItemGroup>
+</Project>
