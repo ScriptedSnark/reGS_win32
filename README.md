@@ -1,6 +1,6 @@
 ![1280x640_regs_](https://user-images.githubusercontent.com/51358194/182458618-a3d8876f-d48a-4f91-a3da-d21c0658e189.png)
 
-# reGS: reverse-engineered GoldSrc engine
+# reGS: reverse-engineered GoldSrc
 
 This is the repository of reGS (comeback xD) source code without engine (hardware). **Based on [GoldSourceRebuild](https://github.com/Triang3l/GoldSourceRebuild) repository.**
 
