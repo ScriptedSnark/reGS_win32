@@ -7,12 +7,19 @@
 
 namespace vgui2
 {
-Bitmap::Bitmap(const char* filename, bool hardwareFiltered)
-	: _filtered(hardwareFiltered)
-{
-	_filename = reinterpret_cast<char*>(malloc(strlen(filename) + 1));
-	strcpy(_filename, filename);
 
+Bitmap::Bitmap(const char* filename, bool hardwareFiltered)
+{
+	_filtered = hardwareFiltered;
+	_filename = (char*)malloc(strlen(filename) + 1);
+	strcpy(_filename, filename);
+	_id = 0;
+	_uploaded = 0;
+	_color = SDK_Color(255, 255, 255, 255);
+	_pos[0] = _pos[1] = 0;
+	_valid = true;
+	wide = 0;
+	tall = 0;
 	ForceUpload();
 }
 
