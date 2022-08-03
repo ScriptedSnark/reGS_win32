@@ -13,7 +13,7 @@ This is the repository of reGS (comeback xD) source code without engine (hardwar
 - tier1 (tier1.lib) | Status: Finished?
 - vgui2 (vgui2.dll) | Status: WIP
 - vgui2_controls (vgui2_controls.lib) | Status: WIP (requires re-reversing because also has many bugs from Solokiller's project)
-- vgui2_surfacelib (vgui2_surfacelib.lib) | Status: Finished
+- vgui2_surfacelib (vgui2_surfacelib.lib) | Status: Finished (by [TheDoomsayer](https://github.com/TheDoomsayer))
 - vstdlib (vstdlib.lib) | Status: WIP (not implemented yet)
 
 ## Future projects
