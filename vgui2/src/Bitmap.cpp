@@ -78,10 +78,10 @@ void Bitmap::GetSize(int& wide, int& tall)
 	}
 }
 
-void Bitmap::SetSize(int wide, int tall)
+void Bitmap::SetSize(int x, int y)
 {
-	this->wide = wide;
-	this->tall = tall;
+	wide = x;
+	tall = y;
 }
 
 void Bitmap::SetColor(SDK_Color col)
