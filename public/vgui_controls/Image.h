@@ -38,22 +38,22 @@ public:
 	virtual void GetSize(int& wide,int& tall);
 	virtual void GetContentSize(int& wide,int& tall);
 	// Set the draw color 
-	virtual void SetColor( SDK_Color color);
+	virtual void SetColor( Color color);
 	// set the background color
-	virtual void SetBkColor( SDK_Color color) { DrawSetColor(color); }
+	virtual void SetBkColor( Color color) { DrawSetColor(color); }
 	// Get the draw color 
-	virtual SDK_Color GetColor();
+	virtual Color GetColor();
 
 protected:
 	virtual void SetSize(int wide, int tall);
-	virtual void DrawSetColor( SDK_Color color);
+	virtual void DrawSetColor( Color color);
 	virtual void DrawSetColor(int r, int g, int b, int a);
 	virtual void DrawFilledRect(int x0, int y0, int x1, int y1);
 	virtual void DrawOutlinedRect(int x0, int y0, int x1, int y1);
 	virtual void DrawLine(int x0,int y0,int x1,int y1);
 	virtual void DrawPolyLine(int *px, int *py, int numPoints);
 	virtual void DrawSetTextFont(HFont font);
-	virtual void DrawSetTextColor( SDK_Color color);
+	virtual void DrawSetTextColor( Color color);
 	virtual void DrawSetTextColor(int r, int g, int b, int a);
 	virtual void DrawSetTextPos(int x,int y);
 	virtual void DrawPrintText(const wchar_t *str, int strlen);
@@ -67,7 +67,7 @@ protected:
 private:
 	int _pos[2];
 	int _size[2];
-	SDK_Color _color;
+	Color _color;
 };
 
 } // namespace vgui2

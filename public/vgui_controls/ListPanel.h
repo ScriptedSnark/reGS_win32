@@ -330,10 +330,10 @@ private:
 	int 		m_iTableStartX;
 	int	 		m_iTableStartY;
 
-	SDK_Color 		m_LabelFgColor;
-	SDK_Color		m_DisabledColor;
-	SDK_Color 		m_SelectionFgColor;
-	SDK_Color		m_DisabledSelectionFgColor;
+	Color 		m_LabelFgColor;
+	Color		m_DisabledColor;
+	Color 		m_SelectionFgColor;
+	Color		m_DisabledSelectionFgColor;
 
 	ImageList 	*m_pImageList;
 	TextImage 	*m_pEmptyListText;

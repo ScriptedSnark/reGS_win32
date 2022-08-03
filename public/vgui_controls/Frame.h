@@ -122,10 +122,10 @@ public:
 	// Shows the dialog in a modal fashion
 	virtual void DoModal();
 
-	virtual void SetInFocusBgColor( SDK_Color color );
-	virtual void SetOutOfFocusBgColor( SDK_Color color );
-	virtual SDK_Color GetInFocusBgColor();
-	virtual SDK_Color GetOutOfFocusBgColor();
+	virtual void SetInFocusBgColor( Color color );
+	virtual void SetOutOfFocusBgColor( Color color );
+	virtual Color GetInFocusBgColor();
+	virtual Color GetOutOfFocusBgColor();
 
 protected:
 	// Respond to mouse presses
@@ -194,12 +194,12 @@ private:
 	void FinishClose();
 	void OnFrameFocusChanged(bool bHasFocus);
 
-	SDK_Color _titleBarBgColor;
-	SDK_Color _titleBarDisabledBgColor;
-	SDK_Color _titleBarFgColor;
-	SDK_Color _titleBarDisabledFgColor;
-	SDK_Color m_InFocusBgColor;
-	SDK_Color m_OutOfFocusBgColor;
+	Color _titleBarBgColor;
+	Color _titleBarDisabledBgColor;
+	Color _titleBarFgColor;
+	Color _titleBarDisabledFgColor;
+	Color m_InFocusBgColor;
+	Color m_OutOfFocusBgColor;
 	TextImage *_title;
 	Panel * _topGrip;
 	Panel *_bottomGrip;

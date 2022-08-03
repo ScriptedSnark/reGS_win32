@@ -297,7 +297,7 @@ void Button::PerformLayout()
 // Purpose: Get button foreground color
 // Output : Color
 //-----------------------------------------------------------------------------
-SDK_Color Button::GetButtonFgColor()
+Color Button::GetButtonFgColor()
 {
 	if (_buttonFlags.IsFlagSet(DEPRESSED))
 		return _depressedFgColor;
@@ -309,7 +309,7 @@ SDK_Color Button::GetButtonFgColor()
 //-----------------------------------------------------------------------------
 // Purpose: Get button background color
 //-----------------------------------------------------------------------------
-SDK_Color Button::GetButtonBgColor()
+Color Button::GetButtonBgColor()
 {
 	if (_buttonFlags.IsFlagSet(DEPRESSED))
 		return _depressedBgColor;
@@ -356,14 +356,14 @@ void Button::ApplySchemeSettings(IScheme* pScheme)
 
 	_depressedFgColor = GetSchemeColor("ButtonDepressedFgColor", _defaultFgColor, pScheme);
 	_depressedBgColor = GetSchemeColor("ButtonDepressedBgColor", _defaultBgColor, pScheme);
-	_keyboardFocusColor = GetSchemeColor("ButtonFocusBorder", SDK_Color(0, 0, 0, 255), pScheme);
+	_keyboardFocusColor = GetSchemeColor("ButtonFocusBorder", Color(0, 0, 0, 255), pScheme);
 	InvalidateLayout();
 }
 
 //-----------------------------------------------------------------------------
 // Purpose: Set default button colors.
 //-----------------------------------------------------------------------------
-void Button::SetDefaultColor(SDK_Color fgColor, SDK_Color bgColor)
+void Button::SetDefaultColor(Color fgColor, Color bgColor)
 {
 	if (!(_defaultFgColor == fgColor && _defaultBgColor == bgColor))
 	{
@@ -377,7 +377,7 @@ void Button::SetDefaultColor(SDK_Color fgColor, SDK_Color bgColor)
 //-----------------------------------------------------------------------------
 // Purpose: Set armed button colors
 //-----------------------------------------------------------------------------
-void Button::SetArmedColor(SDK_Color fgColor, SDK_Color bgColor)
+void Button::SetArmedColor(Color fgColor, Color bgColor)
 {
 	if (!(_armedFgColor == fgColor && _armedBgColor == bgColor))
 	{
@@ -391,7 +391,7 @@ void Button::SetArmedColor(SDK_Color fgColor, SDK_Color bgColor)
 //-----------------------------------------------------------------------------
 // Purpose: Set depressed button colors
 //-----------------------------------------------------------------------------
-void Button::SetDepressedColor(SDK_Color fgColor, SDK_Color bgColor)
+void Button::SetDepressedColor(Color fgColor, Color bgColor)
 {
 	if (!(_depressedFgColor == fgColor && _depressedBgColor == bgColor))
 	{

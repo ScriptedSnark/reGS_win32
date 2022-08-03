@@ -24,7 +24,7 @@ Image::Image()
 {
 	SetPos(0, 0);
 	SetSize(0, 0);
-	SetColor(SDK_Color(255, 255, 255, 255));
+	SetColor(Color(255, 255, 255, 255));
 }
 
 //-----------------------------------------------------------------------------
@@ -82,7 +82,7 @@ void Image::SetSize(int wide, int tall)
 //-----------------------------------------------------------------------------
 // Purpose: Set the draw color using a Color struct.
 //-----------------------------------------------------------------------------
-void Image::DrawSetColor(SDK_Color col)
+void Image::DrawSetColor(Color col)
 {
 	surface()->DrawSetColor(col[0], col[1], col[2], col[3]);
 }
@@ -157,7 +157,7 @@ void Image::DrawSetTextFont(HFont font)
 //-----------------------------------------------------------------------------
 // Purpose: Set the text color using a color struct
 //-----------------------------------------------------------------------------
-void Image::DrawSetTextColor(SDK_Color sc)
+void Image::DrawSetTextColor(Color sc)
 {
 	surface()->DrawSetTextColor(sc[0], sc[1], sc[2], sc[3]);
 }
@@ -247,7 +247,7 @@ void Image::Paint()
 //-----------------------------------------------------------------------------
 // Purpose: Set the current color using a color struct
 //-----------------------------------------------------------------------------
-void Image::SetColor(SDK_Color color)
+void Image::SetColor(Color color)
 {
 	_color = color;
 	DrawSetTextColor(color); // now update the device context underneath us :)
@@ -256,7 +256,7 @@ void Image::SetColor(SDK_Color color)
 //-----------------------------------------------------------------------------
 //  Purpose: Get the current color as a color struct
 //-----------------------------------------------------------------------------
-SDK_Color Image::GetColor()
+Color Image::GetColor()
 {
 	return _color;
 }

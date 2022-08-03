@@ -37,7 +37,7 @@ Label::Label(Panel* parent, const char* panelName, const char* text): Panel(pare
 	Init();
 
 	_textImage = new TextImage(text);
-	_textImage->SetColor(SDK_Color(0, 0, 0, 0));
+	_textImage->SetColor(Color(0, 0, 0, 0));
 	SetText(text);
 	_textImageIndex = AddImage(_textImage, 0);
 
@@ -52,7 +52,7 @@ Label::Label(Panel* parent, const char* panelName, const wchar_t* wszText): Pane
 	Init();
 
 	_textImage = new TextImage(wszText);
-	_textImage->SetColor(SDK_Color(0, 0, 0, 0));
+	_textImage->SetColor(Color(0, 0, 0, 0));
 	SetText(wszText);
 	_textImageIndex = AddImage(_textImage, 0);
 
@@ -668,7 +668,7 @@ HFont Label::GetFont()
 //-----------------------------------------------------------------------------
 // Purpose: Set the foreground color of the Label
 //-----------------------------------------------------------------------------
-void Label::SetFgColor(SDK_Color color)
+void Label::SetFgColor(Color color)
 {
 	if (!(GetFgColor() == color))
 	{
@@ -681,16 +681,16 @@ void Label::SetFgColor(SDK_Color color)
 //-----------------------------------------------------------------------------
 // Purpose: Get the foreground color of the Label
 //-----------------------------------------------------------------------------
-SDK_Color Label::GetFgColor()
+Color Label::GetFgColor()
 {
-	SDK_Color clr = Panel::GetFgColor();
+	Color clr = Panel::GetFgColor();
 	return clr;
 }
 
 //-----------------------------------------------------------------------------
 // Purpose: Set the foreground color 1 color of the Label
 //-----------------------------------------------------------------------------
-void Label::SetDisabledFgColor1(SDK_Color color)
+void Label::SetDisabledFgColor1(Color color)
 {
 	_disabledFgColor1 = color;
 }
@@ -698,7 +698,7 @@ void Label::SetDisabledFgColor1(SDK_Color color)
 //-----------------------------------------------------------------------------
 // Purpose:
 //-----------------------------------------------------------------------------
-void Label::SetDisabledFgColor2(SDK_Color color)
+void Label::SetDisabledFgColor2(Color color)
 {
 	_disabledFgColor2 = color;
 }
@@ -706,7 +706,7 @@ void Label::SetDisabledFgColor2(SDK_Color color)
 //-----------------------------------------------------------------------------
 // Purpose:
 //-----------------------------------------------------------------------------
-SDK_Color Label::GetDisabledFgColor1()
+Color Label::GetDisabledFgColor1()
 {
 	return _disabledFgColor1;
 }
@@ -714,7 +714,7 @@ SDK_Color Label::GetDisabledFgColor1()
 //-----------------------------------------------------------------------------
 // Purpose:
 //-----------------------------------------------------------------------------
-SDK_Color Label::GetDisabledFgColor2()
+Color Label::GetDisabledFgColor2()
 {
 	return _disabledFgColor2;
 }

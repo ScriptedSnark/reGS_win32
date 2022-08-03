@@ -13,12 +13,12 @@ void CBackgroundMenuButton::ApplySchemeSettings(vgui2::IScheme* pScheme)
 {
 	BaseClass::ApplySchemeSettings(pScheme);
 
-	SetFgColor(SDK_Color(255, 255, 255, 255));
-	SetBgColor(SDK_Color(0, 0, 0, 0));
+	SetFgColor(Color(255, 255, 255, 255));
+	SetBgColor(Color(0, 0, 0, 0));
 
-	SetDefaultColor(SDK_Color(255, 255, 255, 255), SDK_Color(0, 0, 0, 0));
-	SetArmedColor(SDK_Color(255, 0, 255, 255), SDK_Color(0, 0, 0, 0));
-	SetDepressedColor(SDK_Color(255, 0, 255, 255), SDK_Color(0, 0, 0, 0));
+	SetDefaultColor(Color(255, 255, 255, 255), Color(0, 0, 0, 0));
+	SetArmedColor(Color(255, 0, 255, 255), Color(0, 0, 0, 0));
+	SetDepressedColor(Color(255, 0, 255, 255), Color(0, 0, 0, 0));
 
 	SetContentAlignment(vgui2::Label::a_west);
 

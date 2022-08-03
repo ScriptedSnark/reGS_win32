@@ -42,7 +42,7 @@ public:
 	virtual void SetTitleBarInfo( vgui2::HFont hFont, int titleBarHeight );
 
 	// Set the color to draw the border lines in.
-	virtual void SetBorderColor( SDK_Color clr );
+	virtual void SetBorderColor( Color clr );
 	
 	// Initialize the column headers.. This info includes the tree view on the left, so this 
 	virtual void SetNumColumns( int nColumns );
@@ -121,7 +121,7 @@ private:
 	// These are indices into the tree view.
 	CUtlVector<int> m_Rows;
 
-	SDK_Color m_BorderColor;
+	Color m_BorderColor;
 };
 
 } // namespace

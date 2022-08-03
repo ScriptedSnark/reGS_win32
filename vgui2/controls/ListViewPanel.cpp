@@ -196,12 +196,12 @@ public:
 	}
 
 private:
-	SDK_Color m_FgColor1;
-	SDK_Color m_FgColor2;
-	SDK_Color m_BgColor;
-	SDK_Color m_ArmedFgColor2;
-	SDK_Color m_ArmedBgColor;
-	SDK_Color m_SelectionBG2Color;
+	Color m_FgColor1;
+	Color m_FgColor2;
+	Color m_BgColor;
+	Color m_ArmedFgColor2;
+	Color m_ArmedBgColor;
+	Color m_SelectionBG2Color;
 
 	// IBorder			  *_keyFocusBorder;		// maybe in the future when I'm the 'active' but not selected item, I'll have a border
 

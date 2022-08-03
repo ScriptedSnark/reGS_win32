@@ -37,8 +37,8 @@ private:
 	int m_textPad;
 	int m_imagePad;
 
-	SDK_Color m_textNormalColor = SDK_Color(0, 0, 0, 0);
-	SDK_Color m_textDisabledColor = SDK_Color(0, 0, 0, 0);
+	Color m_textNormalColor = Color(0, 0, 0, 0);
+	Color m_textDisabledColor = Color(0, 0, 0, 0);
 
 private:
 	CCareerButton(const CCareerButton&) = delete;
@@ -55,8 +55,8 @@ struct ColorFade
 		right = 3
 	};
 
-	SDK_Color m_startColor;
-	SDK_Color m_endColor;
+	Color m_startColor;
+	Color m_endColor;
 	float m_fadePercent;
 	FadeDir m_direction;
 

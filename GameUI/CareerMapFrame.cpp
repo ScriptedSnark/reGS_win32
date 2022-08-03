@@ -4,7 +4,7 @@
 #include "CareerGame.h"
 #include "CareerMapFrame.h"
 
-void ShowCareerMapDescription(vgui2::RichText* pText, CCareerMap* pMap, SDK_Color normalColor, SDK_Color friendlyFireColor)
+void ShowCareerMapDescription(vgui2::RichText* pText, CCareerMap* pMap, Color normalColor, Color friendlyFireColor)
 {
 	if (!pText)
 		return;

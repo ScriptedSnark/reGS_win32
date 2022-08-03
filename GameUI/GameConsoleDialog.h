@@ -167,8 +167,8 @@ private:
 	vgui2::Button* m_pSubmit;
 	vgui2::Menu* m_pCompletionList;
 
-	SDK_Color m_PrintColor;
-	SDK_Color m_DPrintColor;
+	Color m_PrintColor;
+	Color m_DPrintColor;
 
 	bool m_bAutoCompleteMode = false;
 	int m_iNextCompletion = 0;

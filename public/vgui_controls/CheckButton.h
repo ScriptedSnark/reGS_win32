@@ -44,7 +44,7 @@ public:
 protected:
 	virtual void ApplySchemeSettings(IScheme *pScheme);
 	MESSAGE_FUNC_PTR( OnCheckButtonChecked, "CheckButtonChecked", panel );
-	virtual SDK_Color GetButtonFgColor();
+	virtual Color GetButtonFgColor();
 
 	virtual IBorder *GetBorder(bool depressed, bool armed, bool selected, bool keyfocus);
 
@@ -57,7 +57,7 @@ private:
 	enum { CHECK_INSET = 6 };
 	CheckImage *_checkBoxImage;
 	bool m_bCheckButtonCheckable;
-	SDK_Color _selectedFgColor;
+	Color _selectedFgColor;
 	friend CheckImage;
 	IImage* m_pSelected;
 	IImage* m_pDefault;

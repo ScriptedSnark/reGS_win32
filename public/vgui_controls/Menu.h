@@ -235,8 +235,8 @@ public:
 	int  GetMinimumWidth();
 
 	// baseclass overrides to chain colors through to cascade menus
-	virtual void SetFgColor( SDK_Color newColor );
-	virtual void SetBgColor( SDK_Color newColor );
+	virtual void SetFgColor( Color newColor );
+	virtual void SetBgColor( Color newColor );
 
 	virtual void SetFont( HFont font );
 
@@ -317,7 +317,7 @@ private:
 	int 			m_iCheckImageWidth; // the size of the check box spot on a checkable menu.
 	int 			m_iProportionalScrollBarSize;
 	Label::Alignment	m_Alignment;
-	SDK_Color 		_borderDark;
+	Color 		_borderDark;
 	int 			m_iActivatedItem;
 	HFont			m_hItemFont;
 };

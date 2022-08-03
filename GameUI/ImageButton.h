@@ -17,7 +17,7 @@ public:
 
 	virtual void ForceReload();
 
-	virtual SDK_Color GetImageColor();
+	virtual Color GetImageColor();
 
 	virtual void ForceUpload();
 

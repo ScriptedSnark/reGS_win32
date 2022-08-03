@@ -144,7 +144,7 @@ RichText::RichText(Panel* parent, const char* panelName): BaseClass(parent, pane
 	_vertScrollBar->SetValue(smax);
 
 	// set default foreground color to black
-	_defaultTextColor = SDK_Color(0, 0, 0, 0);
+	_defaultTextColor = Color(0, 0, 0, 0);
 
 	// initialize the line break array
 	InvalidateLineBreakStream();
@@ -215,7 +215,7 @@ void RichText::ApplySchemeSettings(IScheme* pScheme)
 //-----------------------------------------------------------------------------
 // Purpose: if the default format color isn't set then set it
 //-----------------------------------------------------------------------------
-void RichText::SetFgColor(SDK_Color color)
+void RichText::SetFgColor(Color color)
 {
 	// Replace default format color if
 	// the stream is empty and the color is the default ( or the previous FgColor )
@@ -558,7 +558,7 @@ void RichText::FinishingURL(int x, int y)
 void RichText::Paint()
 {
 	// draw background
-	SDK_Color col = GetBgColor();
+	Color col = GetBgColor();
 	surface()->DrawSetColor(col);
 	int wide, tall;
 	GetSize(wide, tall);
@@ -865,7 +865,7 @@ void RichText::PerformLayout()
 //-----------------------------------------------------------------------------
 // Purpose: inserts a color change into the formatting stream
 //-----------------------------------------------------------------------------
-void RichText::InsertColorChange(SDK_Color col)
+void RichText::InsertColorChange(Color col)
 {
 	// see if color already exists in text stream
 	TFormatStream& prevItem = m_FormatStream[m_FormatStream.Count() - 1];
@@ -2190,7 +2190,7 @@ void RichText::InvalidateLineBreakStream()
 //			URLTextColor - color for URL text
 //          normalTextColor - color for normal text
 //-----------------------------------------------------------------------------
-void RichText::InsertPossibleURLString(const char* text, SDK_Color URLTextColor, SDK_Color normalTextColor)
+void RichText::InsertPossibleURLString(const char* text, Color URLTextColor, Color normalTextColor)
 {
 	InsertColorChange(normalTextColor);
 

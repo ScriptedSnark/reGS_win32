@@ -45,7 +45,7 @@ public:
 
 	vgui2::HFont GetFont(const char* fontName, bool proportional = false) override;
 
-	SDK_Color GetColor(const char* colorName, SDK_Color defaultColor) override;
+	Color GetColor(const char* colorName, Color defaultColor) override;
 
 	void LoadFromFile(const char* infilename, const char* inTag, KeyValues* inKeys);
 

@@ -86,10 +86,10 @@ protected:
 	TextImage *_leftCaption;
 	TextImage *_rightCaption;
 
-	SDK_Color m_TickColor;
-	SDK_Color m_TrackColor;
-	SDK_Color m_DisabledTextColor1;
-	SDK_Color m_DisabledTextColor2;
+	Color m_TickColor;
+	Color m_TrackColor;
+	Color m_DisabledTextColor1;
+	Color m_DisabledTextColor2;
 
 	int		m_nNumTicks;
 	bool	m_bIsDragOnRepositionNob;

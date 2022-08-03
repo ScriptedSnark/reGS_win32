@@ -95,7 +95,7 @@ SplitterHandle::~SplitterHandle()
 void SplitterHandle::ApplySchemeSettings(IScheme* pScheme)
 {
 	// Cache off background color stored in SetSplitterColor
-	SDK_Color c = GetBgColor();
+	Color c = GetBgColor();
 	SetBorder(pScheme->GetBorder("ButtonDepressedBorder"));
 	BaseClass::ApplySchemeSettings(pScheme);
 	SetBgColor(c);
@@ -261,7 +261,7 @@ void Splitter::RecreateSplitters(int nCount)
 //-----------------------------------------------------------------------------
 // Sets the splitter color
 //-----------------------------------------------------------------------------
-void Splitter::SetSplitterColor(SDK_Color c)
+void Splitter::SetSplitterColor(Color c)
 {
 	int nCount = m_Splitters.Count() - 1;
 	if (c.a() != 0)

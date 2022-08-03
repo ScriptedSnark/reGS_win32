@@ -46,7 +46,7 @@ vgui2::HFont CScheme::GetFont(const char* fontName, bool proportional)
 	return FindFontInAliasList(GetMungedFontName(fontName, tag, proportional));
 }
 
-SDK_Color CScheme::GetColor(const char* colorName, SDK_Color defaultColor)
+Color CScheme::GetColor(const char* colorName, Color defaultColor)
 {
 	int r, g, b, a;
 
@@ -55,7 +55,7 @@ SDK_Color CScheme::GetColor(const char* colorName, SDK_Color defaultColor)
 	if (pszColor)
 	{
 		sscanf(pszColor, "%d %d %d %d", &r, &g, &b, &a);
-		return SDK_Color(r, g, b, a);
+		return Color(r, g, b, a);
 	}
 
 	pszColor = baseSettings->GetString(colorName, nullptr);
@@ -64,7 +64,7 @@ SDK_Color CScheme::GetColor(const char* colorName, SDK_Color defaultColor)
 	{
 		if (sscanf(pszColor, "%d %d %d %d", &r, &g, &b, &a) >= 3)
 		{
-			return SDK_Color(r, g, b, a);
+			return Color(r, g, b, a);
 		}
 
 		char color[64];
@@ -76,7 +76,7 @@ SDK_Color CScheme::GetColor(const char* colorName, SDK_Color defaultColor)
 	}
 	else if (sscanf(colorName, "%d %d %d %d", &r, &g, &b, &a) >= 3)
 	{
-		return SDK_Color(r, g, b, a);
+		return Color(r, g, b, a);
 	}
 
 	return defaultColor;

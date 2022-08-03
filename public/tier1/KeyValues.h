@@ -31,7 +31,7 @@
 
 class IFileSystem;
 class CUtlBuffer;
-class SDK_Color;
+class Color;
 typedef void * FileHandle_t;
 
 //-----------------------------------------------------------------------------
@@ -128,7 +128,7 @@ public:
 	virtual const char *GetString( const char *keyName = NULL, const char *defaultValue = "" );
 	virtual const wchar_t *GetWString( const char *keyName = NULL, const wchar_t *defaultValue = L"" );
 	virtual void *GetPtr( const char *keyName = NULL, void *defaultValue = (void*)0 );
-	SDK_Color GetColor( const char *keyName = NULL /* default value is all black */);
+	Color GetColor( const char *keyName = NULL /* default value is all black */);
 	virtual bool  IsEmpty(const char *keyName = NULL);
 
 	// Data access
@@ -137,7 +137,7 @@ public:
 	const char *GetString( int keySymbol, const char *defaultValue = "" );
 	const wchar_t *GetWString( int keySymbol, const wchar_t *defaultValue = L"" );
 	void *GetPtr( int keySymbol, void *defaultValue = (void*)0 );
-	SDK_Color GetColor( int keySymbol /* default value is all black */);
+	Color GetColor( int keySymbol /* default value is all black */);
 	bool  IsEmpty( int keySymbol );
 
 	// Key writing
@@ -147,7 +147,7 @@ public:
 	void SetUint64( const char *keyName, uint64 value );
 	virtual void SetFloat( const char *keyName, float value );
 	virtual void SetPtr( const char *keyName, void *value );
-	void SetColor( const char *keyName, SDK_Color value);
+	void SetColor( const char *keyName, Color value);
 
 	// Memory allocation (optimized)
 	void *operator new( size_t iAllocSize );
@@ -289,9 +289,9 @@ inline void *KeyValues::GetPtr( int keySymbol, void *defaultValue )
 	return dat ? dat->GetPtr( (const char *)NULL, defaultValue ) : defaultValue;
 }
 
-inline SDK_Color KeyValues::GetColor( int keySymbol )
+inline Color KeyValues::GetColor( int keySymbol )
 {
-	SDK_Color defaultValue( 0, 0, 0, 0 );
+	Color defaultValue( 0, 0, 0, 0 );
 	KeyValues *dat = FindKey( keySymbol );
 	return dat ? dat->GetColor( ) : defaultValue;
 }

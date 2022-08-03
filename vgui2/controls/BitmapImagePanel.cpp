@@ -54,7 +54,7 @@ CBitmapImagePanel::CBitmapImagePanel(Panel* parent, char const* panelName,
 		m_pszImageName = CloneString(filename);
 	}
 
-	m_bgColor = SDK_Color(255, 255, 255, 255);
+	m_bgColor = Color(255, 255, 255, 255);
 }
 
 //-----------------------------------------------------------------------------

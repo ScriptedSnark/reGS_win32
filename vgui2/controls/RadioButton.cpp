@@ -51,10 +51,10 @@ public:
 
 	virtual void ApplySchemeSettings(IScheme* pScheme, bool proportional)
 	{
-		_bgColor = _radioButton->GetSchemeColor("CheckBgColor", SDK_Color(150, 150, 150, 0), pScheme);
-		_borderColor1 = _radioButton->GetSchemeColor("CheckButtonBorder1", SDK_Color(20, 20, 20, 0), pScheme);
-		_borderColor2 = _radioButton->GetSchemeColor("CheckButtonBorder2", SDK_Color(90, 90, 90, 0), pScheme);
-		_checkColor = _radioButton->GetSchemeColor("CheckButtonCheck", SDK_Color(20, 20, 20, 0), pScheme);
+		_bgColor = _radioButton->GetSchemeColor("CheckBgColor", Color(150, 150, 150, 0), pScheme);
+		_borderColor1 = _radioButton->GetSchemeColor("CheckButtonBorder1", Color(20, 20, 20, 0), pScheme);
+		_borderColor2 = _radioButton->GetSchemeColor("CheckButtonBorder2", Color(90, 90, 90, 0), pScheme);
+		_checkColor = _radioButton->GetSchemeColor("CheckButtonCheck", Color(20, 20, 20, 0), pScheme);
 	}
 
 	virtual void Paint()
@@ -67,10 +67,10 @@ public:
 
 private:
 	RadioButton* _radioButton;
-	SDK_Color _borderColor1;
-	SDK_Color _borderColor2;
-	SDK_Color _checkColor;
-	SDK_Color _bgColor;
+	Color _borderColor1;
+	Color _borderColor2;
+	Color _checkColor;
+	Color _bgColor;
 	vgui2::IImage* m_pSelected;
 	vgui2::IImage* m_pDefault;
 };

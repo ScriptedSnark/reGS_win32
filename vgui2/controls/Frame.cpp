@@ -481,8 +481,8 @@ private:
 
 private:
 	IBorder *_brightBorder, *_depressedBorder, *_disabledBorder;
-	SDK_Color _enabledFgColor, _enabledBgColor;
-	SDK_Color _disabledFgColor, _disabledBgColor;
+	Color _enabledFgColor, _enabledBgColor;
+	Color _disabledFgColor, _disabledBgColor;
 	bool _disabledLook;
 	vgui2::IImage* m_pImage;
 
@@ -604,7 +604,7 @@ class FrameSystemButton: public MenuButton
 
 private:
 	IImage *_enabled, *_disabled;
-	SDK_Color _enCol, _disCol;
+	Color _enCol, _disCol;
 	bool _respond;
 
 public:
@@ -1510,7 +1510,7 @@ void Frame::PaintBackground()
 	// take the panel with focus and check up tree for this panel
 	// if you find it, than some child of you has the focus, so
 	// you should be focused
-	SDK_Color titleColor = _titleBarDisabledBgColor;
+	Color titleColor = _titleBarDisabledBgColor;
 	if (m_bHasFocus)
 	{
 		titleColor = _titleBarBgColor;
@@ -2161,22 +2161,22 @@ bool Frame::IsSmallCaption() const
 	return m_bSmallCaption;
 }
 
-void Frame::SetInFocusBgColor(SDK_Color color)
+void Frame::SetInFocusBgColor(Color color)
 {
 	m_InFocusBgColor = color;
 }
 
-void Frame::SetOutOfFocusBgColor(SDK_Color color)
+void Frame::SetOutOfFocusBgColor(Color color)
 {
 	m_OutOfFocusBgColor = color;
 }
 
-SDK_Color Frame::GetInFocusBgColor()
+Color Frame::GetInFocusBgColor()
 {
 	return m_InFocusBgColor;
 }
 
-SDK_Color Frame::GetOutOfFocusBgColor()
+Color Frame::GetOutOfFocusBgColor()
 {
 	return m_OutOfFocusBgColor;
 }

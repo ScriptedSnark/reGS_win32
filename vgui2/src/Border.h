@@ -11,7 +11,7 @@ class Border: public IBorder
 private:
 	struct line_t
 	{
-		SDK_Color col;
+		Color col;
 		int startOffset;
 		int endOffset;
 	};

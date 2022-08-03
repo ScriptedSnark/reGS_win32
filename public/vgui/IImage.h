@@ -14,7 +14,7 @@
 
 #include <vgui/VGUI2.h>
 
-class SDK_Color;
+class Color;
 
 namespace vgui2
 {
@@ -42,7 +42,7 @@ public:
 	virtual void SetSize(int wide, int tall) = 0;
 
 	// Set the draw color 
-	virtual void SetColor( SDK_Color col) = 0;
+	virtual void SetColor( Color col) = 0;
 
 	// virtual destructor
 	virtual ~IImage() {}

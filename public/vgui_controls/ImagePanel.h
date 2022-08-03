@@ -39,11 +39,11 @@ public:
 	void SetShouldScaleImage( bool state );
 
 	// set the color to fill with, if no image is specified
-	void SetFillColor( SDK_Color col );
-	SDK_Color GetFillColor();
+	void SetFillColor( Color col );
+	Color GetFillColor();
 
-	virtual SDK_Color GetDrawColor();
-	virtual void SetDrawColor( SDK_Color drawColor );
+	virtual Color GetDrawColor();
+	virtual void SetDrawColor( Color drawColor );
 
 protected:
 	virtual void PaintBackground();
@@ -64,8 +64,8 @@ private:
 	bool m_bTileHorizontally;
 	bool m_bTileVertically;
 	float m_fScaleAmount;
-	SDK_Color m_FillColor;
-	SDK_Color m_DrawColor;
+	Color m_FillColor;
+	Color m_DrawColor;
 };
 
 } // namespace vgui2

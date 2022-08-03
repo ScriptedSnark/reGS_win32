@@ -37,7 +37,7 @@ void ToggleButton::OnMouseDoublePressed(MouseCode code)
 //-----------------------------------------------------------------------------
 // Purpose:
 //-----------------------------------------------------------------------------
-SDK_Color ToggleButton::GetButtonFgColor()
+Color ToggleButton::GetButtonFgColor()
 {
 	if (IsSelected())
 	{

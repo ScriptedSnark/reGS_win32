@@ -39,8 +39,8 @@ ImagePanel::ImagePanel(Panel* parent, const char* name): Panel(parent, name)
 	m_bTileHorizontally = false;
 	m_bTileVertically = false;
 	m_fScaleAmount = 0.0f;
-	m_FillColor = SDK_Color(0, 0, 0, 0);
-	m_DrawColor = SDK_Color(255, 255, 255, 255);
+	m_FillColor = Color(0, 0, 0, 0);
+	m_DrawColor = Color(255, 255, 255, 255);
 
 	SetImage(m_pImage);
 
@@ -123,7 +123,7 @@ IImage* ImagePanel::GetImage()
 //-----------------------------------------------------------------------------
 // Purpose:
 //-----------------------------------------------------------------------------
-SDK_Color ImagePanel::GetDrawColor(void)
+Color ImagePanel::GetDrawColor(void)
 {
 	return m_DrawColor;
 }
@@ -131,7 +131,7 @@ SDK_Color ImagePanel::GetDrawColor(void)
 //-----------------------------------------------------------------------------
 // Purpose:
 //-----------------------------------------------------------------------------
-void ImagePanel::SetDrawColor(SDK_Color drawColor)
+void ImagePanel::SetDrawColor(Color drawColor)
 {
 	m_DrawColor = drawColor;
 }
@@ -324,12 +324,12 @@ void ImagePanel::ApplySettings(KeyValues* inResourceData)
 		if (sscanf(pszFillColor, "%d %d %d %d", &r, &g, &b, &a) >= 3)
 		{
 			// it's a direct color
-			m_FillColor = SDK_Color(r, g, b, a);
+			m_FillColor = Color(r, g, b, a);
 		}
 		else
 		{
 			IScheme* pScheme = scheme()->GetIScheme(GetScheme());
-			m_FillColor = pScheme->GetColor(pszFillColor, SDK_Color(0, 0, 0, 0));
+			m_FillColor = pScheme->GetColor(pszFillColor, Color(0, 0, 0, 0));
 		}
 	}
 
@@ -348,12 +348,12 @@ void ImagePanel::ApplySettings(KeyValues* inResourceData)
 		if (sscanf(pszDrawColor, "%d %d %d %d", &r, &g, &b, &a) >= 3)
 		{
 			// it's a direct color
-			m_DrawColor = SDK_Color(r, g, b, a);
+			m_DrawColor = Color(r, g, b, a);
 		}
 		else
 		{
 			IScheme* pScheme = scheme()->GetIScheme(GetScheme());
-			m_DrawColor = pScheme->GetColor(pszDrawColor, SDK_Color(255, 255, 255, 255));
+			m_DrawColor = pScheme->GetColor(pszDrawColor, Color(255, 255, 255, 255));
 		}
 	}
 	//=============================================================================
@@ -403,7 +403,7 @@ void ImagePanel::SetShouldScaleImage(bool state)
 //-----------------------------------------------------------------------------
 // Purpose: set the color to fill with, if no Image is specified
 //-----------------------------------------------------------------------------
-void ImagePanel::SetFillColor(SDK_Color col)
+void ImagePanel::SetFillColor(Color col)
 {
 	m_FillColor = col;
 }
@@ -411,7 +411,7 @@ void ImagePanel::SetFillColor(SDK_Color col)
 //-----------------------------------------------------------------------------
 // Purpose: data accessor
 //-----------------------------------------------------------------------------
-SDK_Color ImagePanel::GetFillColor()
+Color ImagePanel::GetFillColor()
 {
 	return m_FillColor;
 }

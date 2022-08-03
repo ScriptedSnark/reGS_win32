@@ -71,7 +71,7 @@ void MemoryBitmap::SetSize(int wide, int tall)
 	// Nothing
 }
 
-void MemoryBitmap::SetColor(SDK_Color col)
+void MemoryBitmap::SetColor(Color col)
 {
 	_color = col;
 }

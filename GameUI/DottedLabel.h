@@ -19,7 +19,7 @@ private:
 	int m_dash;
 	int m_gap;
 	int m_corner;
-	SDK_Color m_color;
+	Color m_color;
 
 private:
 	CDottedBgLabel(const CDottedBgLabel&) = delete;

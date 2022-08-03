@@ -15,14 +15,14 @@
 CCareerBaseBox::CCareerBaseBox(vgui2::Panel* parent, const char* panelName, bool loadResources)
 	: BaseClass(parent, panelName, false)
 {
-	m_bgColor = SDK_Color(0, 0, 0, 0);
+	m_bgColor = Color(0, 0, 0, 0);
 
 	SetScheme("CareerBoxScheme");
 	SetProportional(true);
 	SetMoveable(false);
 	SetSizeable(false);
 
-	m_bgColor = SDK_Color(0, 0, 0, 0);
+	m_bgColor = Color(0, 0, 0, 0);
 
 	m_pTopLeftPanel = new vgui2::CBitmapImagePanel(this, "TopLeftPanel", "gfx/career/round_corner_nw");
 	m_pTopRightPanel = new vgui2::CBitmapImagePanel(this, "TopRightPanel", "gfx/career/round_corner_ne");
@@ -162,10 +162,10 @@ void CCareerBaseBox::ApplySchemeSettings(vgui2::IScheme* pScheme)
 
 	m_bgColor = GetSchemeColor("CareerBoxBG", GetSchemeColor("ControlBG", pScheme), pScheme);
 
-	m_pTopLeftPanel->SetBgColor(SDK_Color(255, 255, 255, m_bgColor.a()));
-	m_pTopRightPanel->SetBgColor(SDK_Color(255, 255, 255, m_bgColor.a()));
-	m_pBottomLeftPanel->SetBgColor(SDK_Color(255, 255, 255, m_bgColor.a()));
-	m_pBottomRightPanel->SetBgColor(SDK_Color(255, 255, 255, m_bgColor.a()));
+	m_pTopLeftPanel->SetBgColor(Color(255, 255, 255, m_bgColor.a()));
+	m_pTopRightPanel->SetBgColor(Color(255, 255, 255, m_bgColor.a()));
+	m_pBottomLeftPanel->SetBgColor(Color(255, 255, 255, m_bgColor.a()));
+	m_pBottomRightPanel->SetBgColor(Color(255, 255, 255, m_bgColor.a()));
 
 	SetBorder(nullptr);
 }

@@ -23,7 +23,7 @@ public:
 
 	void SetSize(int wide, int tall) override;
 
-	void SetColor(SDK_Color col) override;
+	void SetColor(Color col) override;
 
 	const char* GetName() { return "MemoryBitmap"; }
 
@@ -41,7 +41,7 @@ private:
 
 	int _pos[2] = {};
 
-	SDK_Color _color = SDK_Color(255, 255, 255, 255);
+	Color _color = Color(255, 255, 255, 255);
 
 	int _w;
 	int _h;

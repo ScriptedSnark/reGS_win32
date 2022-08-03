@@ -6,6 +6,6 @@
 
 class CCareerMap;
 
-void ShowCareerMapDescription(vgui2::RichText* pText, CCareerMap* pMap, SDK_Color normalColor, SDK_Color friendlyFireColor);
+void ShowCareerMapDescription(vgui2::RichText* pText, CCareerMap* pMap, Color normalColor, Color friendlyFireColor);
 
 #endif // GAMEUI_CAREERMAPFRAME_H

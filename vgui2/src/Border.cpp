@@ -234,7 +234,7 @@ void Border::ParseSideSettings(int side_index, KeyValues* inResourceData, ISchem
 
 	for (auto pKV = inResourceData->GetFirstSubKey(); pKV; pKV = pKV->GetNextKey(), ++index)
 	{
-		auto color = pScheme->GetColor(pKV->GetString("color", nullptr), SDK_Color(0, 0, 0, 0));
+		auto color = pScheme->GetColor(pKV->GetString("color", nullptr), Color(0, 0, 0, 0));
 
 		side.lines[index].col = color;
 

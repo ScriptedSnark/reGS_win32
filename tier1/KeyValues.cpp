@@ -1172,9 +1172,9 @@ const wchar_t* KeyValues::GetWString(const char* keyName, const wchar_t* default
 //-----------------------------------------------------------------------------
 // Purpose: Gets a color
 //-----------------------------------------------------------------------------
-SDK_Color KeyValues::GetColor(const char* keyName)
+Color KeyValues::GetColor(const char* keyName)
 {
-	SDK_Color color(0, 0, 0, 0);
+	Color color(0, 0, 0, 0);
 	KeyValues* dat = FindKey(keyName, false);
 	if (dat)
 	{
@@ -1221,7 +1221,7 @@ SDK_Color KeyValues::GetColor(const char* keyName)
 //-----------------------------------------------------------------------------
 // Purpose: Sets a color
 //-----------------------------------------------------------------------------
-void KeyValues::SetColor(const char* keyName, SDK_Color value)
+void KeyValues::SetColor(const char* keyName, Color value)
 {
 	KeyValues* dat = FindKey(keyName, true);
 

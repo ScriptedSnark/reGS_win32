@@ -1159,7 +1159,7 @@ void Panel::PaintBackground()
 			int cornerWide, cornerTall;
 			GetCornerTextureSize(cornerWide, cornerTall);
 
-			SDK_Color col = GetBgColor();
+			Color col = GetBgColor();
 			DrawHollowBox(0, 0, wide, tall, col, 1.0f);
 
 			wide -= 2 * cornerWide;
@@ -1175,7 +1175,7 @@ void Panel::PaintBackground()
 	else
 #endif
 	{
-		SDK_Color col = GetBgColor();
+		Color col = GetBgColor();
 
 		switch (m_nPaintBackgroundType)
 		{
@@ -3389,22 +3389,22 @@ bool Panel::IsBuildGroupEnabled()
 	return false;
 }
 
-void Panel::SetBgColor(SDK_Color color)
+void Panel::SetBgColor(Color color)
 {
 	_bgColor = color;
 }
 
-void Panel::SetFgColor(SDK_Color color)
+void Panel::SetFgColor(Color color)
 {
 	_fgColor = color;
 }
 
-SDK_Color Panel::GetBgColor()
+Color Panel::GetBgColor()
 {
 	return _bgColor;
 }
 
-SDK_Color Panel::GetFgColor()
+Color Panel::GetFgColor()
 {
 	return _fgColor;
 }
@@ -3604,8 +3604,8 @@ void Panel::ApplySchemeSettings(IScheme* pScheme)
 	SetBgColor(GetSchemeColor("BgColor", pScheme));
 
 #if defined(VGUI_USEDRAGDROP)
-	m_clrDragFrame = pScheme->GetColor("DragDrop/DragFrame", SDK_Color(255, 255, 255, 192));
-	m_clrDropFrame = pScheme->GetColor("DragDrop/DropFrame", SDK_Color(150, 255, 150, 255));
+	m_clrDragFrame = pScheme->GetColor("DragDrop/DragFrame", Color(255, 255, 255, 192));
+	m_clrDropFrame = pScheme->GetColor("DragDrop/DropFrame", Color(150, 255, 150, 255));
 
 	m_infoFont = pScheme->GetFont("DefaultVerySmall");
 #endif
@@ -4004,7 +4004,7 @@ void Panel::ApplySettings(KeyValues* inResourceData)
 		{
 			// Get the color as a string - test whether it is an actual color or a reference to a scheme color
 			const char* pColorStr = inResourceData->GetString(m_OverridableColorEntries[i].m_pszScriptName);
-			SDK_Color& clrDest = m_OverridableColorEntries[i].m_colFromScript;
+			Color& clrDest = m_OverridableColorEntries[i].m_colFromScript;
 			if (pColorStr[0] == '.' || isdigit(pColorStr[0]))
 			{
 				float r = 0.0f, g = 0.0f, b = 0.0f, a = 0.0f;
@@ -4017,7 +4017,7 @@ void Panel::ApplySettings(KeyValues* inResourceData)
 			else
 			{
 				// First character wasn't a digit or a decimal - do a scheme color lookup
-				clrDest = pScheme->GetColor(pColorStr, SDK_Color(255, 255, 255, 255));
+				clrDest = pScheme->GetColor(pColorStr, Color(255, 255, 255, 255));
 			}
 
 			(*m_OverridableColorEntries[i].m_pColor) = m_OverridableColorEntries[i].m_colFromScript;
@@ -4147,7 +4147,7 @@ void Panel::ApplyOverridableColors(void)
 //-----------------------------------------------------------------------------
 // Purpose:
 //-----------------------------------------------------------------------------
-void Panel::SetOverridableColor(SDK_Color* pColor, const SDK_Color& newColor)
+void Panel::SetOverridableColor(Color* pColor, const Color& newColor)
 {
 	for (int i = 0; i < m_OverridableColorEntries.Count(); i++)
 	{
@@ -4165,15 +4165,15 @@ void Panel::SetOverridableColor(SDK_Color* pColor, const SDK_Color& newColor)
 //-----------------------------------------------------------------------------
 // Purpose:
 //-----------------------------------------------------------------------------
-SDK_Color Panel::GetSchemeColor(const char* keyName, IScheme* pScheme)
+Color Panel::GetSchemeColor(const char* keyName, IScheme* pScheme)
 {
-	return pScheme->GetColor(keyName, SDK_Color(255, 255, 255, 255));
+	return pScheme->GetColor(keyName, Color(255, 255, 255, 255));
 }
 
 //-----------------------------------------------------------------------------
 // Purpose:
 //-----------------------------------------------------------------------------
-SDK_Color Panel::GetSchemeColor(const char* keyName, SDK_Color defaultColor, IScheme* pScheme)
+Color Panel::GetSchemeColor(const char* keyName, Color defaultColor, IScheme* pScheme)
 {
 	return pScheme->GetColor(keyName, defaultColor);
 }
@@ -5011,7 +5011,7 @@ public:
 	virtual void GetData(Panel* panel, KeyValues* kv, PanelAnimationMapEntry* entry)
 	{
 		void* data = (void*)((*entry->m_pfnLookup)(panel));
-		kv->SetColor(entry->name(), *(SDK_Color*)data);
+		kv->SetColor(entry->name(), *(Color*)data);
 	}
 
 	virtual void SetData(Panel* panel, KeyValues* kv, PanelAnimationMapEntry* entry)
@@ -5025,11 +5025,11 @@ public:
 			char const* colorName = kv->GetString(entry->name());
 			if (!colorName || !colorName[0])
 			{
-				*(SDK_Color*)data = kv->GetColor(entry->name());
+				*(Color*)data = kv->GetColor(entry->name());
 			}
 			else
 			{
-				*(SDK_Color*)data = scheme->GetColor(colorName, SDK_Color(0, 0, 0, 0));
+				*(Color*)data = scheme->GetColor(colorName, Color(0, 0, 0, 0));
 			}
 		}
 	}
@@ -5041,7 +5041,7 @@ public:
 		if (scheme)
 		{
 			void* data = (void*)((*entry->m_pfnLookup)(panel));
-			*(SDK_Color*)data = scheme->GetColor(entry->defaultvalue(), SDK_Color(0, 0, 0, 0));
+			*(Color*)data = scheme->GetColor(entry->defaultvalue(), Color(0, 0, 0, 0));
 		}
 	}
 };
@@ -5415,7 +5415,7 @@ void Panel::GetCornerTextureSize(int& w, int& h)
 //-----------------------------------------------------------------------------
 // Purpose: draws a selection box
 //-----------------------------------------------------------------------------
-void Panel::DrawBox(int x, int y, int wide, int tall, SDK_Color color, float normalizedAlpha, bool hollow /*=false*/)
+void Panel::DrawBox(int x, int y, int wide, int tall, Color color, float normalizedAlpha, bool hollow /*=false*/)
 {
 	if (m_nBgTextureId1 == -1 ||
 		m_nBgTextureId2 == -1 ||
@@ -5466,7 +5466,7 @@ void Panel::DrawBox(int x, int y, int wide, int tall, SDK_Color color, float nor
 //			color -
 //			normalizedAlpha -
 //-----------------------------------------------------------------------------
-void Panel::DrawHollowBox(int x, int y, int wide, int tall, SDK_Color color, float normalizedAlpha)
+void Panel::DrawHollowBox(int x, int y, int wide, int tall, Color color, float normalizedAlpha)
 {
 	DrawBox(x, y, wide, tall, color, normalizedAlpha, true);
 }
@@ -5474,7 +5474,7 @@ void Panel::DrawHollowBox(int x, int y, int wide, int tall, SDK_Color color, flo
 //-----------------------------------------------------------------------------
 // Purpose: draws a selection box
 //-----------------------------------------------------------------------------
-void Panel::DrawTexturedBox(int x, int y, int wide, int tall, SDK_Color color, float normalizedAlpha)
+void Panel::DrawTexturedBox(int x, int y, int wide, int tall, Color color, float normalizedAlpha)
 {
 	if (m_nBgTextureId1 == -1)
 		return;
@@ -6352,12 +6352,12 @@ void Panel::OnDroppablePanelPaint(CUtlVector<KeyValues*>& msglist, CUtlVector<Pa
 // Input  :  -
 // Output : Color
 //-----------------------------------------------------------------------------
-SDK_Color Panel::GetDropFrameColor()
+Color Panel::GetDropFrameColor()
 {
 #if defined(VGUI_USEDRAGDROP)
 	return m_clrDropFrame;
 #endif
-	return SDK_Color(0, 0, 0, 0);
+	return Color(0, 0, 0, 0);
 }
 
 //-----------------------------------------------------------------------------
@@ -6365,12 +6365,12 @@ SDK_Color Panel::GetDropFrameColor()
 // Input  :  -
 // Output : Color
 //-----------------------------------------------------------------------------
-SDK_Color Panel::GetDragFrameColor()
+Color Panel::GetDragFrameColor()
 {
 #if defined(VGUI_USEDRAGDROP)
 	return m_clrDragFrame;
 #endif
-	return SDK_Color(0, 0, 0, 0);
+	return Color(0, 0, 0, 0);
 }
 
 //-----------------------------------------------------------------------------
@@ -6482,7 +6482,7 @@ struct srect_t
 };
 
 // Draws a filled rect of specified bounds, but omits the bounds of the skip panel from those bounds
-void Panel::FillRectSkippingPanel(const SDK_Color& clr, int x, int y, int w, int h, Panel* skipPanel)
+void Panel::FillRectSkippingPanel(const Color& clr, int x, int y, int w, int h, Panel* skipPanel)
 {
 	int sx = 0, sy = 0, sw, sh;
 	skipPanel->GetSize(sw, sh);

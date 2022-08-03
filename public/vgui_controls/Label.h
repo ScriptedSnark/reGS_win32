@@ -71,14 +71,14 @@ public:
 	virtual void SetTextInset(int xInset, int yInset);		
 
 	// Text colors
-	virtual void SetFgColor( SDK_Color color);
-	virtual SDK_Color GetFgColor();
+	virtual void SetFgColor( Color color);
+	virtual Color GetFgColor();
 
 	// colors to use when the label is disabled
-	virtual void SetDisabledFgColor1( SDK_Color color);
-	virtual void SetDisabledFgColor2( SDK_Color color);
-	virtual SDK_Color GetDisabledFgColor1();
-	virtual SDK_Color GetDisabledFgColor2();
+	virtual void SetDisabledFgColor1( Color color);
+	virtual void SetDisabledFgColor2( Color color);
+	virtual Color GetDisabledFgColor1();
+	virtual Color GetDisabledFgColor2();
 
 	// Set whether the text is displayed bright or dull
 	enum EColorState
@@ -190,9 +190,9 @@ private:
 	CUtlVector<TImageInfo> _imageDar;
 
 	int		   _textInset[2];
-	SDK_Color      _disabledFgColor1;
-	SDK_Color      _disabledFgColor2;
-	SDK_Color	   _associateColor;
+	Color      _disabledFgColor1;
+	Color      _disabledFgColor2;
+	Color	   _associateColor;
 	int		   _textImageIndex;	// index in the image array that the default _textimage resides
 	EColorState _textColorState;
 

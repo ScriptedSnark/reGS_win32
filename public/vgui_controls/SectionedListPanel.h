@@ -46,7 +46,7 @@ public:
 	virtual void RemoveAllSections();
 
 	// modifies section info
-	virtual void SetSectionFgColor(int sectionID, SDK_Color color);
+	virtual void SetSectionFgColor(int sectionID, Color color);
 	// forces a section to always be visible
 	virtual void SetSectionAlwaysVisible(int sectionID, bool visible = true);
 
@@ -80,7 +80,7 @@ public:
 	virtual void DeleteAllItems();
 
 	// set the text color of an item
-	virtual void SetItemFgColor(int itemID, SDK_Color color);
+	virtual void SetItemFgColor(int itemID, Color color);
 
 	/* MESSAGES SENT:
 		"RowSelected"

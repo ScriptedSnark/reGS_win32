@@ -80,8 +80,8 @@ void CCareerButton::ApplySchemeSettings(vgui2::IScheme* pScheme)
 
 	m_armedBorder = pScheme->GetBorder("CareerButtonArmedBorder");
 
-	m_textNormalColor = pScheme->GetColor("BrightBaseText", SDK_Color(0, 0, 0, 0));
-	m_textDisabledColor = pScheme->GetColor("DisabledText1", SDK_Color(0, 0, 0, 0));
+	m_textNormalColor = pScheme->GetColor("BrightBaseText", Color(0, 0, 0, 0));
+	m_textDisabledColor = pScheme->GetColor("DisabledText1", Color(0, 0, 0, 0));
 
 	m_textImage->SetColor(GetFgColor());
 
@@ -118,7 +118,7 @@ void CCareerButton::ApplySchemeSettings(vgui2::IScheme* pScheme)
 	if (v15 < textWide)
 		m_textImage->SetSize(v15, textTall);
 
-	auto color = pScheme->GetColor("CareerButtonBG", SDK_Color(0, 0, 0, 0));
+	auto color = pScheme->GetColor("CareerButtonBG", Color(0, 0, 0, 0));
 
 	SetDefaultColor(color, color);
 	SetArmedColor(color, color);

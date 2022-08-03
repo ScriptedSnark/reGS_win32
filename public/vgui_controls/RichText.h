@@ -64,7 +64,7 @@ public:
 	void SetMaximumCharCount(int maxChars);
 
 	// rich edit commands
-	void InsertColorChange( SDK_Color col);
+	void InsertColorChange( Color col);
 	// IndentChange doesn't take effect until the next newline character
 	void InsertIndentChange(int pixelsIndent);
 	// clickable text
@@ -72,7 +72,7 @@ public:
 	void InsertClickableTextStart( const char *pchClickAction = NULL );
 	void InsertClickableTextEnd();
 	// inserts a string that needs to be scanned for urls/mailto commands to be made clickable
-	void InsertPossibleURLString(const char *text, SDK_Color URLTextColor, SDK_Color normalTextColor);
+	void InsertPossibleURLString(const char *text, Color URLTextColor, Color normalTextColor);
 
 	// sets the height of the window so all text is visible.
 	// used by tooltips
@@ -98,7 +98,7 @@ public:
 			returns:
 				"text" - text contained in the text box
 	*/
-	virtual void SetFgColor( SDK_Color color );
+	virtual void SetFgColor( Color color );
 	virtual void SetDrawOffsets( int ofsx, int ofsy );
 	bool IsScrollbarVisible();
 
@@ -171,7 +171,7 @@ private:
 	struct TFormatStream
 	{
 		// render state
-		SDK_Color color;
+		Color color;
 		int pixelsIndent;
 		bool textClickable;
 		CUtlSymbol m_sClickableTextAction;
@@ -197,12 +197,12 @@ private:
 	int				   _pixelsIndent;
 	int				   _maxCharCount;		// max number of chars that can be in the text buffer
 	HFont              _font;				// font of chars in the text buffer
-	SDK_Color		   _selectionColor;
-	SDK_Color		   _selectionTextColor;	// color of the highlighted text
+	Color		   _selectionColor;
+	Color		   _selectionTextColor;	// color of the highlighted text
 	bool			   _currentTextClickable;
 	CUtlVector<ClickPanel *>  _clickableTextPanels;
 	int				   _clickableTextIndex;
-	SDK_Color		   _defaultTextColor;
+	Color		   _defaultTextColor;
 	int					_scrollBarSize;
 	int					_drawOffsetX;
 	int					_drawOffsetY;
@@ -225,7 +225,7 @@ private:
 		int x, y;
 		
 		// basic state
-		SDK_Color textColor;
+		Color textColor;
 		int pixelsIndent;
 		bool textClickable;
 

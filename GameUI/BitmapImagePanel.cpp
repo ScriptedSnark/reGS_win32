@@ -26,7 +26,7 @@ void CBitmapImagePanel::PaintBackground()
 		int wide, tall;
 		GetSize(wide, tall);
 
-		vgui2::surface()->DrawSetColor(SDK_Color(255, 255, 255, 255));
+		vgui2::surface()->DrawSetColor(Color(255, 255, 255, 255));
 		vgui2::surface()->DrawSetTexture(m_nTextureId);
 		vgui2::surface()->DrawTexturedRect(0, 0, wide, tall);
 	}

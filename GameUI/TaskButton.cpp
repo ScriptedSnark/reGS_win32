@@ -83,7 +83,7 @@ void CTaskButton::ApplySchemeSettings(vgui2::IScheme* pScheme)
 	m_SelectedColor = GetSchemeColor("BrightBaseText", pScheme);
 
 	SetContentAlignment(vgui2::Label::a_west);
-	SetBgColor(SDK_Color(0, 0, 0, 0));
+	SetBgColor(Color(0, 0, 0, 0));
 
 	SetTextImageIndex(1);
 	SetImageAtIndex(0, &m_WindowStateImage, 4);

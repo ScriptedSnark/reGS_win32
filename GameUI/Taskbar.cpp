@@ -38,10 +38,10 @@ void CGameMenuItem::ApplySchemeSettings(vgui2::IScheme* pScheme)
 	BaseClass::ApplySchemeSettings(pScheme);
 
 	SetFgColor(GetSchemeColor("InGameDesktop/MenuColor", pScheme));
-	SetBgColor(SDK_Color(0, 0, 0, 0));
-	SetDefaultColor(GetSchemeColor("InGameDesktop/MenuColor", pScheme), SDK_Color(0, 0, 0, 0));
-	SetArmedColor(GetSchemeColor("InGameDesktop/ArmedMenuColor", pScheme), SDK_Color(0, 0, 0, 0));
-	SetDepressedColor(GetSchemeColor("InGameDesktop/DepressedMenuColor", pScheme), SDK_Color(0, 0, 0, 0));
+	SetBgColor(Color(0, 0, 0, 0));
+	SetDefaultColor(GetSchemeColor("InGameDesktop/MenuColor", pScheme), Color(0, 0, 0, 0));
+	SetArmedColor(GetSchemeColor("InGameDesktop/ArmedMenuColor", pScheme), Color(0, 0, 0, 0));
+	SetDepressedColor(GetSchemeColor("InGameDesktop/DepressedMenuColor", pScheme), Color(0, 0, 0, 0));
 	SetContentAlignment(vgui2::Label::a_west);
 
 	SetBorder(nullptr);
@@ -103,7 +103,7 @@ void CGameMenu::ApplySchemeSettings(vgui2::IScheme* pScheme)
 
 	SetMenuItemHeight(strtol(pScheme->GetResourceString("InGameDesktop/MenuItemHeight"), nullptr, 10));
 
-	SetBgColor(SDK_Color(0, 0, 0, 0));
+	SetBgColor(Color(0, 0, 0, 0));
 
 	SetBorder(nullptr);
 

@@ -107,7 +107,7 @@ protected:
 	bool					m_bSaveToExternalFile;
 	CUtlSymbol				m_SaveFileName;
 	CUtlSymbol				m_SaveFilePathID;
-	SDK_Color				m_clrAlteredItem;
+	Color				m_clrAlteredItem;
 };
 
 //-----------------------------------------------------------------------------

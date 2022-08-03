@@ -308,7 +308,7 @@ void ScrollBarSlider::Paint()
 	if (itemRange <= _rangeWindow)
 		return;
 
-	SDK_Color col = GetFgColor();
+	Color col = GetFgColor();
 	surface()->DrawSetColor(col);
 
 	if (_vertical)

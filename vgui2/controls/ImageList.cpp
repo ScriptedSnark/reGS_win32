@@ -34,7 +34,7 @@ public:
 		tall = 0;
 	}
 	virtual void SetSize(int wide, int tall) {}
-	virtual void SetColor(SDK_Color col) {}
+	virtual void SetColor(Color col) {}
 };
 
 //-----------------------------------------------------------------------------

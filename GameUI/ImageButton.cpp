@@ -31,7 +31,7 @@ void CImageButton::ForceReload()
 	}
 }
 
-SDK_Color CImageButton::GetImageColor()
+Color CImageButton::GetImageColor()
 {
 	return GetBgColor();
 }
@@ -77,7 +77,7 @@ void CImageButton::PaintBackground()
 		int x, y;
 		pImg->GetPos(x, y);
 		pImg->SetPos(x + 1, y + 1);
-		pImg->SetColor(SDK_Color(0, 0, 0, 192));
+		pImg->SetColor(Color(0, 0, 0, 192));
 		pImg->Paint();
 		pImg->SetPos(x, y);
 	}

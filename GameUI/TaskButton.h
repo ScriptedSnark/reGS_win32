@@ -65,8 +65,8 @@ private:
 	bool m_bHasTitle = false;
 	bool m_bSelected;
 
-	SDK_Color m_SelectedColor;
-	SDK_Color m_LabelColor;
+	Color m_SelectedColor;
+	Color m_LabelColor;
 
 	CWindowStateImage m_WindowStateImage;
 

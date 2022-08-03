@@ -49,7 +49,7 @@ protected:
 	vgui2::CBitmapImagePanel* m_pBottomLeftPanel;
 	vgui2::CBitmapImagePanel* m_pBottomRightPanel;
 
-	SDK_Color m_bgColor;
+	Color m_bgColor;
 
 	vgui2::Label* m_pTextLabel;
 

@@ -24,7 +24,7 @@ public:
 
 	virtual void	setTexture( char const *filename, bool hardwareFiltered = true );
 
-	void setImageColor( SDK_Color color ) { m_bgColor = color; }
+	void setImageColor( Color color ) { m_bgColor = color; }
 
 	// Set how the image aligns itself within the panel
 	virtual void SetContentAlignment(Label::Alignment alignment);
@@ -46,7 +46,7 @@ private:
 	bool m_hardwareFiltered;
 
 	IImage		*m_pImage;
-	SDK_Color	 m_bgColor;
+	Color	 m_bgColor;
 	char *m_pszImageName;
 	char *m_pszColorName;
 };

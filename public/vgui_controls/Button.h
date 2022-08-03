@@ -102,16 +102,16 @@ public:
 	virtual void SetButtonBorderEnabled( bool state );
 
 	// Set default button colors.
-	virtual void SetDefaultColor( SDK_Color fgColor, SDK_Color bgColor);
+	virtual void SetDefaultColor( Color fgColor, Color bgColor);
 	// Set armed button colors
-	virtual void SetArmedColor( SDK_Color fgColor, SDK_Color bgColor);
+	virtual void SetArmedColor( Color fgColor, Color bgColor);
 	// Set depressed button colors
-	virtual void SetDepressedColor( SDK_Color fgColor, SDK_Color bgColor);
+	virtual void SetDepressedColor( Color fgColor, Color bgColor);
 
 	// Get button foreground color
-	virtual SDK_Color GetButtonFgColor();
+	virtual Color GetButtonFgColor();
 	// Get button background color
-	virtual SDK_Color GetButtonBgColor();
+	virtual Color GetButtonBgColor();
 
 	// Set default button border attributes.
 	virtual void SetDefaultBorder(IBorder *border);
@@ -191,10 +191,10 @@ private:
 	IBorder			  *_depressedBorder;
 	IBorder			  *_keyFocusBorder;
 
-	SDK_Color		   _defaultFgColor, _defaultBgColor;
-	SDK_Color		   _armedFgColor, _armedBgColor;
-	SDK_Color          _depressedFgColor, _depressedBgColor;
-	SDK_Color          _keyboardFocusColor;
+	Color		   _defaultFgColor, _defaultBgColor;
+	Color		   _armedFgColor, _armedBgColor;
+	Color          _depressedFgColor, _depressedBgColor;
+	Color          _keyboardFocusColor;
 
 	unsigned short	   m_sArmedSoundName, m_sDepressedSoundName, m_sReleasedSoundName;
 	bool m_bSelectionStateSaved;

@@ -7,7 +7,7 @@
 CDottedBgLabel::CDottedBgLabel(vgui2::Panel* parent, const char* name, const char* text, int dash, int gap, int corner)
 	: BaseClass(parent, name, text)
 {
-	m_color = SDK_Color(0, 0, 0, 0);
+	m_color = Color(0, 0, 0, 0);
 
 	m_dash = dash;
 	m_gap = gap;

@@ -68,7 +68,7 @@ public:
 
 	// runs the specific animation command (doesn't use script file at all)
 	void RunAnimationCommand(vgui2::Panel *panel, const char *variable, float targetValue, float startDelaySeconds, float durationSeconds, Interpolators_e interpolator, float animParameter = 0 );
-	void RunAnimationCommand(vgui2::Panel *panel, const char *variable, SDK_Color targetValue, float startDelaySeconds, float durationSeconds, Interpolators_e interpolator, float animParameter = 0 );
+	void RunAnimationCommand(vgui2::Panel *panel, const char *variable, Color targetValue, float startDelaySeconds, float durationSeconds, Interpolators_e interpolator, float animParameter = 0 );
 
 private:
 	bool UpdateScreenSize();

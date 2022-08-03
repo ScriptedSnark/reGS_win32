@@ -102,8 +102,8 @@ private:
 	int 				m_iRowHeight;
 	HFont				m_hFont;
 
-	SDK_Color 		m_LabelFgColor;
-	SDK_Color 		m_SelectionFgColor;
+	Color 		m_LabelFgColor;
+	Color 		m_SelectionFgColor;
 
 	// selection data
 	CUtlVector<int> 	m_SelectedItems;		

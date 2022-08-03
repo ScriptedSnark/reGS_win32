@@ -296,7 +296,7 @@ void HTML::Paint()
 	{
 		surface()->DrawSetTexture(m_iHTMLTextureID);
 		int tw = 0, tt = 0;
-		surface()->DrawSetColor(SDK_Color(255, 255, 255, 255));
+		surface()->DrawSetColor(Color(255, 255, 255, 255));
 		GetSize(tw, tt);
 		surface()->DrawTexturedRect(0, 0, tw, tt);
 	}
@@ -335,7 +335,7 @@ void HTML::PaintComboBox()
 	if (m_iComboBoxTextureID != 0)
 	{
 		surface()->DrawSetTexture(m_iComboBoxTextureID);
-		surface()->DrawSetColor(SDK_Color(255, 255, 255, 255));
+		surface()->DrawSetColor(Color(255, 255, 255, 255));
 		int tw = m_allocedComboBoxWidth;
 		int tt = m_allocedComboBoxHeight;
 		surface()->DrawTexturedRect(0, 0, tw, tt);

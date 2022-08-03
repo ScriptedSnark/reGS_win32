@@ -15,7 +15,7 @@ Bitmap::Bitmap(const char* filename, bool hardwareFiltered)
 	strcpy(_filename, filename);
 	_id = 0;
 	_uploaded = 0;
-	_color = SDK_Color(255, 255, 255, 255);
+	_color = Color(255, 255, 255, 255);
 	_pos[0] = _pos[1] = 0;
 	_valid = true;
 	wide = 0;
@@ -84,7 +84,7 @@ void Bitmap::SetSize(int x, int y)
 	tall = y;
 }
 
-void Bitmap::SetColor(SDK_Color col)
+void Bitmap::SetColor(Color col)
 {
 	_color = col;
 }

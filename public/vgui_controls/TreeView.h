@@ -75,11 +75,11 @@ public:
 	virtual void GetSelectedItemData( CUtlVector< KeyValues * >& list );
 
 	// set colors for individual elments
-	virtual void SetItemFgColor(int itemIndex, const SDK_Color& color);
-	virtual void SetItemBgColor(int itemIndex, const SDK_Color& color);
-	virtual void SetItemSelectionTextColor( int itemIndex, const SDK_Color& clr );
-	virtual void SetItemSelectionBgColor( int itemIndex, const SDK_Color& clr );
-	virtual void SetItemSelectionUnfocusedBgColor( int itemIndex, const SDK_Color& clr );
+	virtual void SetItemFgColor(int itemIndex, const Color& color);
+	virtual void SetItemBgColor(int itemIndex, const Color& color);
+	virtual void SetItemSelectionTextColor( int itemIndex, const Color& clr );
+	virtual void SetItemSelectionBgColor( int itemIndex, const Color& clr );
+	virtual void SetItemSelectionUnfocusedBgColor( int itemIndex, const Color& clr );
 
 	// returns true if the itemID is valid for use
 	virtual bool IsItemIDValid(int itemIndex);
@@ -155,7 +155,7 @@ protected:
 	virtual void OnSizeChanged(int wide, int tall); 
 	virtual void ApplySchemeSettings(IScheme *pScheme);
 	MESSAGE_FUNC_INT( OnSliderMoved, "ScrollBarSliderMoved", position );
-	virtual void SetBgColor( SDK_Color color );
+	virtual void SetBgColor( Color color );
 
 //	virtual void OnKeyCodeTyped(enum KeyCode code);
 

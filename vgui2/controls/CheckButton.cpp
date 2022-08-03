@@ -35,7 +35,7 @@ CheckButton::CheckButton(Panel* parent, const char* panelName, const char* text)
 	m_pSelected = vgui2::scheme()->GetImage("resource/icon_checked", false);
 	m_pDefault = vgui2::scheme()->GetImage("resource/icon_emptybox", false);
 
-	_selectedFgColor = SDK_Color(196, 181, 80, 255);
+	_selectedFgColor = Color(196, 181, 80, 255);
 }
 
 
@@ -106,7 +106,7 @@ void CheckButton::SetCheckButtonCheckable(bool state)
 //-----------------------------------------------------------------------------
 // Purpose: Gets a different foreground text color if we are selected
 //-----------------------------------------------------------------------------
-SDK_Color CheckButton::GetButtonFgColor()
+Color CheckButton::GetButtonFgColor()
 {
 	if (IsSelected())
 	{

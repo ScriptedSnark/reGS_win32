@@ -88,8 +88,8 @@ struct OverridableColorEntry
 	char const *name() { return m_pszScriptName; }
 
 	char const	*m_pszScriptName;
-	SDK_Color	*m_pColor;
-	SDK_Color	m_colFromScript;
+	Color	*m_pColor;
+	Color	m_colFromScript;
 	bool		m_bOverridden;
 };
 
@@ -262,10 +262,10 @@ public:
 	void GetResizeOffset( int &dx, int &dy );
 
 	// colors
-	virtual void SetBgColor( SDK_Color color);
-	virtual void SetFgColor( SDK_Color color);
-	virtual SDK_Color GetBgColor();
-	virtual SDK_Color GetFgColor();
+	virtual void SetBgColor( Color color);
+	virtual void SetFgColor( Color color);
+	virtual Color GetBgColor();
+	virtual Color GetFgColor();
 
 	virtual void SetCursor(HCursor cursor);
 	virtual HCursor GetCursor();
@@ -302,8 +302,8 @@ public:
 	virtual HScheme GetScheme();
 	virtual void SetScheme(const char *tag);
 	virtual void SetScheme(HScheme scheme);
-	virtual SDK_Color GetSchemeColor(const char *keyName,IScheme *pScheme);
-	virtual SDK_Color GetSchemeColor(const char *keyName, SDK_Color defaultColor,IScheme *pScheme);
+	virtual Color GetSchemeColor(const char *keyName,IScheme *pScheme);
+	virtual Color GetSchemeColor(const char *keyName, Color defaultColor,IScheme *pScheme);
 
 	// called when scheme settings need to be applied; called the first time before the panel is painted
 	virtual void ApplySchemeSettings(IScheme *pScheme);
@@ -454,9 +454,9 @@ public:
 	virtual bool IsMouseInputEnabled();
 	virtual bool IsKeyBoardInputEnabled();
 
-	virtual void DrawTexturedBox( int x, int y, int wide, int tall, SDK_Color color, float normalizedAlpha );
-	virtual void DrawBox(int x, int y, int wide, int tall, SDK_Color color, float normalizedAlpha, bool hollow = false );
-	virtual void DrawHollowBox(int x, int y, int wide, int tall, SDK_Color color, float normalizedAlpha );
+	virtual void DrawTexturedBox( int x, int y, int wide, int tall, Color color, float normalizedAlpha );
+	virtual void DrawBox(int x, int y, int wide, int tall, Color color, float normalizedAlpha, bool hollow = false );
+	virtual void DrawHollowBox(int x, int y, int wide, int tall, Color color, float normalizedAlpha );
 
 // Drag Drop Public interface
 
@@ -509,14 +509,14 @@ public:
 	virtual Panel *GetDragPanel();
 	virtual bool	IsBeingDragged();
 
-	SDK_Color GetDropFrameColor();
-	SDK_Color GetDragFrameColor();
+	Color GetDropFrameColor();
+	Color GetDragFrameColor();
 
 	// Can override to require custom behavior to start the drag state
 	virtual bool	CanStartDragging( int startx, int starty, int mx, int my );
 
 	// Draws a filled rect of specified bounds, but omits the bounds of the skip panel from those bounds
-	virtual void FillRectSkippingPanel( const SDK_Color& clr, int x, int y, int w, int h, Panel *skipPanel );
+	virtual void FillRectSkippingPanel( const Color& clr, int x, int y, int w, int h, Panel *skipPanel );
 
 	virtual int	GetPaintBackgroundType();
 	virtual void GetCornerTextureSize( int& w, int& h );
@@ -552,7 +552,7 @@ protected:
 	MESSAGE_FUNC_INT_INT( OnScreenSizeChanged, "OnScreenSizeChanged", oldwide, oldtall );
 	virtual void *QueryInterface(EInterfaceID id);
 
-	void AddToOverridableColors( SDK_Color *pColor, char const *scriptname )
+	void AddToOverridableColors( Color *pColor, char const *scriptname )
 	{
 		int iIdx = m_OverridableColorEntries.AddToTail();
 		m_OverridableColorEntries[ iIdx ].m_pszScriptName = scriptname;
@@ -561,7 +561,7 @@ protected:
 	}
 
 	void ApplyOverridableColors( void );
-	void SetOverridableColor( SDK_Color *pColor, const SDK_Color &newColor );
+	void SetOverridableColor( Color *pColor, const Color &newColor );
 
 private:
 	enum BuildModeFlags_t
@@ -653,8 +653,8 @@ private:
 
 #if defined( VGUI_USEDRAGDROP )
 	DragDrop_t		*m_pDragDrop;
-	SDK_Color			m_clrDragFrame;
-	SDK_Color			m_clrDropFrame;
+	Color			m_clrDragFrame;
+	Color			m_clrDropFrame;
 #endif
 
 	Tooltip			*m_pTooltips;
@@ -677,8 +677,8 @@ private:
 
 	CUtlVector<OverridableColorEntry>	m_OverridableColorEntries;
 
-	SDK_Color			_fgColor;		// foreground color
-	SDK_Color			_bgColor;		// background color
+	Color			_fgColor;		// foreground color
+	Color			_bgColor;		// background color
 
 	HBuildGroup		_buildGroup;
 

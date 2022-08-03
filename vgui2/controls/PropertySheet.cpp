@@ -110,8 +110,8 @@ class PageTab: public Button
 
 private:
 	bool _active;
-	SDK_Color _textColor;
-	SDK_Color _dimTextColor;
+	Color _textColor;
+	Color _dimTextColor;
 	int m_bMaxTabWidth;
 	IBorder* m_pActiveBorder;
 	IBorder* m_pNormalBorder;
@@ -343,7 +343,7 @@ public:
 		return m_pNormalBorder;
 	}
 
-	virtual SDK_Color GetButtonFgColor()
+	virtual Color GetButtonFgColor()
 	{
 		if (_active)
 		{

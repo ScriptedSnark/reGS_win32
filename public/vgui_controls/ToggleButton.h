@@ -41,14 +41,14 @@ protected:
 	// overrides
 	virtual void OnMouseDoublePressed(MouseCode code);
 
-	virtual SDK_Color GetButtonFgColor();
+	virtual Color GetButtonFgColor();
 	virtual void ApplySchemeSettings(IScheme *pScheme);
 
     virtual bool CanBeDefaultButton(void);
     virtual void OnKeyCodePressed(KeyCode code);
 
 private:
-	SDK_Color _selectedColor;
+	Color _selectedColor;
 };
 
 } // namespace vgui2
