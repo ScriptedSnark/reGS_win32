@@ -302,7 +302,7 @@ void GraphPanel::ApplySchemeSettings(IScheme* pScheme)
 {
 	BaseClass::ApplySchemeSettings(pScheme);
 
-	SetFgColor(GetSchemeColor("GraphPanel.FgColor", pScheme));
-	SetBgColor(GetSchemeColor("GraphPanel.BgColor", pScheme));
+	SetFgColor(GetSchemeColor("GraphPanel/FgColor", pScheme));
+	SetBgColor(GetSchemeColor("GraphPanel/BgColor", pScheme));
 	SetBorder(pScheme->GetBorder("ButtonDepressedBorder"));
 }

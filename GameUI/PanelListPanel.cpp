@@ -263,7 +263,7 @@ void CPanelListPanel::ApplySchemeSettings(vgui2::IScheme* pScheme)
 	Panel::ApplySchemeSettings(pScheme);
 
 	SetBorder(pScheme->GetBorder("ButtonDepressedBorder"));
-	SetBgColor(GetSchemeColor("Label.BgColor", GetBgColor(), pScheme));
+	SetBgColor(GetSchemeColor("Label/BgColor", GetBgColor(), pScheme));
 
 
 	//	_labelFgColor = GetSchemeColor("WindowFgColor");

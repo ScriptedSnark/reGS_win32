@@ -291,7 +291,7 @@ void PanelListPanel::ApplySchemeSettings(IScheme* pScheme)
 	BaseClass::ApplySchemeSettings(pScheme);
 
 	SetBorder(pScheme->GetBorder("ButtonDepressedBorder"));
-	SetBgColor(GetSchemeColor("ListPanel.BgColor", GetBgColor(), pScheme));
+	SetBgColor(GetSchemeColor("ListPanel/BgColor", GetBgColor(), pScheme));
 }
 
 //-----------------------------------------------------------------------------

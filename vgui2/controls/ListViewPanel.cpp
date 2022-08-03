@@ -153,15 +153,15 @@ public:
 	{
 		BaseClass::ApplySchemeSettings(pScheme);
 
-		m_ArmedFgColor2 = GetSchemeColor("ListPanel.SelectedTextColor", pScheme);
-		m_ArmedBgColor = GetSchemeColor("ListPanel.SelectedBgColor", pScheme);
+		m_ArmedFgColor2 = GetSchemeColor("ListPanel/SelectedTextColor", pScheme);
+		m_ArmedBgColor = GetSchemeColor("ListPanel/SelectedBgColor", pScheme);
 
-		m_FgColor1 = GetSchemeColor("ListPanel.TextColor", pScheme);
-		m_FgColor2 = GetSchemeColor("ListPanel.SelectedTextColor", pScheme);
+		m_FgColor1 = GetSchemeColor("ListPanel/TextColor", pScheme);
+		m_FgColor2 = GetSchemeColor("ListPanel/SelectedTextColor", pScheme);
 
-		m_BgColor = GetSchemeColor("ListPanel.BgColor", GetBgColor(), pScheme);
-		m_BgColor = GetSchemeColor("ListPanel.TextBgColor", m_BgColor, pScheme);
-		m_SelectionBG2Color = GetSchemeColor("ListPanel.SelectedOutOfFocusBgColor", pScheme);
+		m_BgColor = GetSchemeColor("ListPanel/BgColor", GetBgColor(), pScheme);
+		m_BgColor = GetSchemeColor("ListPanel/TextBgColor", m_BgColor, pScheme);
+		m_SelectionBG2Color = GetSchemeColor("ListPanel/SelectedOutOfFocusBgColor", pScheme);
 		SetBgColor(m_BgColor);
 		SetFgColor(m_FgColor1);
 
@@ -707,10 +707,10 @@ void ListViewPanel::ApplySchemeSettings(IScheme* pScheme)
 {
 	BaseClass::ApplySchemeSettings(pScheme);
 
-	SetBgColor(GetSchemeColor("ListPanel.BgColor", pScheme));
+	SetBgColor(GetSchemeColor("ListPanel/BgColor", pScheme));
 	SetBorder(pScheme->GetBorder("ButtonDepressedBorder"));
 
-	m_LabelFgColor = GetSchemeColor("ListPanel.TextColor", pScheme);
+	m_LabelFgColor = GetSchemeColor("ListPanel/TextColor", pScheme);
 	m_SelectionFgColor = GetSchemeColor("ListPanel.SelectedTextColor", m_LabelFgColor, pScheme);
 
 	m_hFont = pScheme->GetFont("Default", IsProportional());

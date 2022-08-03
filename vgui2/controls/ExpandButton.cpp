@@ -46,7 +46,7 @@ void ExpandButton::ApplySchemeSettings(IScheme* pScheme)
 {
 	BaseClass::ApplySchemeSettings(pScheme);
 
-	m_Color = GetSchemeColor("ExpandButton.Color", pScheme);
+	m_Color = GetSchemeColor("ExpandButton/Color", pScheme);
 	m_hFont = pScheme->GetFont("Marlett", IsProportional());
 
 	// don't draw a background

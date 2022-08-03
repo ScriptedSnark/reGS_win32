@@ -284,8 +284,8 @@ public:
 		// set up the scheme settings
 		Button::ApplySchemeSettings(pScheme);
 
-		_textColor = GetSchemeColor("PropertySheet.SelectedTextColor", GetFgColor(), pScheme);
-		_dimTextColor = GetSchemeColor("PropertySheet.TextColor", GetFgColor(), pScheme);
+		_textColor = GetSchemeColor("PropertySheet/SelectedTextColor", GetFgColor(), pScheme);
+		_dimTextColor = GetSchemeColor("PropertySheet/TextColor", GetFgColor(), pScheme);
 		m_pActiveBorder = pScheme->GetBorder("TabActiveBorder");
 		m_pNormalBorder = pScheme->GetBorder("TabBorder");
 
