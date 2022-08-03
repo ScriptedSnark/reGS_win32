@@ -92,19 +92,16 @@ void Bitmap::SetColor(SDK_Color col)
 void Bitmap::ForceUpload()
 {
 	if (!_valid || _uploaded)
-	{
 		return;
-	}
 
-	if (NULL_HANDLE == _id)
+	if (!_id)
 		_id = surface()->CreateNewTextureID();
 
-	surface()->DrawSetTextureFile(
-		_id, _filename, _filtered, false);
-
+	surface()->DrawSetTextureFile(_id, _filename, _filtered, false);
 	_uploaded = true;
+
 	_valid = surface()->IsTextureIDValid(_id);
 
-	GetSize(wide, tall);
+	GetSize(wide, tall); // only exists in GoldSrc VGUI2 (useless) - ScriptedSnark
 }
 }
