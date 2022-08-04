@@ -159,15 +159,15 @@ void CBasePanel::DrawBackgroundImage()
 	{
 		const auto& image = m_ImageID[i];
 
-		const auto xPos = static_cast<int>(round(image.x * xScale));
-		const auto yPos = static_cast<int>(round(image.y * yScale));
+		const auto xPos = static_cast<int>(ceil(image.x * xScale));
+		const auto yPos = static_cast<int>(ceil(image.y * yScale));
 
 		int dw, dt;
 
 		if (image.scaled)
 		{
-			dw = static_cast<int>(round((image.x + image.width) * xScale));
-			dt = static_cast<int>(round((image.y + image.height) * yScale));
+			dw = static_cast<int>(ceil((image.x + image.width) * xScale));
+			dt = static_cast<int>(ceil((image.y + image.height) * yScale));
 		}
 		else
 		{
