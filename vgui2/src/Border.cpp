@@ -168,18 +168,18 @@ void Border::Paint(int x0, int y0, int x1, int y1, int breakSide, int breakStart
 
 void Border::SetInset(int left, int top, int right, int bottom)
 {
-	_inset[0] = left;
-	_inset[1] = top;
-	_inset[2] = right;
-	_inset[3] = bottom;
+	_inset[SIDE_LEFT] = left;
+	_inset[SIDE_TOP] = top;
+	_inset[SIDE_RIGHT] = right;
+	_inset[SIDE_BOTTOM] = bottom;
 }
 
 void Border::GetInset(int& left, int& top, int& right, int& bottom)
 {
-	left = _inset[0];
-	top = _inset[1];
-	right = _inset[2];
-	bottom = _inset[3];
+	left = _inset[SIDE_LEFT];
+	top = _inset[SIDE_TOP];
+	right = _inset[SIDE_RIGHT];
+	bottom = _inset[SIDE_BOTTOM];
 }
 
 void Border::ApplySchemeSettings(IScheme* pScheme, KeyValues* inResourceData)
