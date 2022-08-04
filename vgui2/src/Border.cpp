@@ -21,13 +21,11 @@ Border::Border()
 
 Border::~Border()
 {
-	if (_name)
-		delete[] _name;
+	delete[] _name;
 
-	for (auto& side : _sides)
+	for (int i = 0; i < 4; i++)
 	{
-		if (side.lines)
-			delete[] side.lines;
+		delete[] _sides[i].lines;
 	}
 }
 
