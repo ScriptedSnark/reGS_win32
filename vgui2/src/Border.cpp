@@ -184,7 +184,7 @@ void Border::GetInset(int& left, int& top, int& right, int& bottom)
 
 void Border::ApplySchemeSettings(IScheme* pScheme, KeyValues* inResourceData)
 {
-	auto insetString = inResourceData->GetString("inset", "0 0 0 0");
+	const char *insetString = inResourceData->GetString("inset", "0 0 0 0");
 
 	int left, top, right, bottom;
 	GetInset(left, top, right, bottom);
@@ -193,10 +193,10 @@ void Border::ApplySchemeSettings(IScheme* pScheme, KeyValues* inResourceData)
 
 	SetInset(left, top, right, bottom);
 
-	ParseSideSettings(0, inResourceData->FindKey("Left"), pScheme);
-	ParseSideSettings(1, inResourceData->FindKey("Top"), pScheme);
-	ParseSideSettings(2, inResourceData->FindKey("Right"), pScheme);
-	ParseSideSettings(3, inResourceData->FindKey("Bottom"), pScheme);
+	ParseSideSettings(SIDE_LEFT, inResourceData->FindKey("Left"), pScheme);
+	ParseSideSettings(SIDE_TOP, inResourceData->FindKey("Top"), pScheme);
+	ParseSideSettings(SIDE_RIGHT, inResourceData->FindKey("Right"), pScheme);
+	ParseSideSettings(SIDE_BOTTOM, inResourceData->FindKey("Bottom"), pScheme);
 }
 
 const char* Border::GetName()
