@@ -3,7 +3,7 @@
   <ItemGroup>
     <ClCompile Include="Bitmap.cpp" />
     <ClCompile Include="Border.cpp" />
-    <ClCompile Include="input.cpp" />
+    <ClCompile Include="InputWin32.cpp" />
     <ClCompile Include="LocalizedStringTable.cpp" />
     <ClCompile Include="MemoryBitmap.cpp" />
     <ClCompile Include="Scheme.cpp" />
@@ -19,7 +19,7 @@
   <ItemGroup>
     <ClInclude Include="Bitmap.h" />
     <ClInclude Include="Border.h" />
-    <ClInclude Include="input.h" />
+    <ClInclude Include="InputWin32.h" />
     <ClInclude Include="LocalizedStringTable.h" />
     <ClInclude Include="MemoryBitmap.h" />
     <ClInclude Include="Scheme.h" />

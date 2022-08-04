@@ -4,7 +4,7 @@
 #include <vgui/IVGui.h>
 #include <vgui_controls/Controls.h>
 
-#include "input.h"
+#include "InputWin32.h"
 #include "VPanel.h"
 
 using vgui2::IInput;
