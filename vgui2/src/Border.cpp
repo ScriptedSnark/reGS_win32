@@ -10,6 +10,13 @@ namespace vgui2
 {
 Border::Border()
 {
+	_inset[0] = 0;
+	_inset[1] = 0;
+	_inset[2] = 0;
+	_inset[3] = 0;
+	_name = NULL;
+
+	memset(_sides, 0, sizeof(_sides)); // memset(this + 6, 0, 0x20u) in Win32 pseudo-code - ScriptedSnark
 }
 
 Border::~Border()
