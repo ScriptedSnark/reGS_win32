@@ -8,6 +8,7 @@ This is the repository of reGS (comeback xD) source code without engine (hardwar
 
 - dedicated (hlds.exe) | Status: WIP (not implemented yet)
 - GameUI (GameUI.dll) | Status: WIP (many bugs from Solokiller's project)
+- launcher (hl.exe) | Status: Finished (also has improvements)
 - particleman (particleman.dll) | Status: WIP (not implemented yet)
 - tier0 (tier0.dll) | Status: Finished?
 - tier1 (tier1.lib) | Status: Finished?
