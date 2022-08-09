@@ -99,7 +99,6 @@
     <ClCompile Include="..\public\FileSystem_Helpers.cpp" />
     <ClCompile Include="..\tier1\CharacterSet.cpp" />
     <ClCompile Include="controls\AnimatingImagePanel.cpp" />
-    <ClCompile Include="controls\AnimationController.cpp" />
     <ClCompile Include="controls\BitmapImagePanel.cpp" />
     <ClCompile Include="controls\BuildFactoryHelper.cpp" />
     <ClCompile Include="controls\BuildGroup.cpp" />

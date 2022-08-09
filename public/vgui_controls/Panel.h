@@ -23,7 +23,7 @@
 #include "vgui/IScheme.h"
 #include "vgui_controls/Controls.h"
 #include "vgui_controls/PHandle.h"
-#include "vgui_controls/PanelAnimationVar.h"
+
 #include "SDK_Color.h"
 #include "vstdlib/IKeyValuesSystem.h"
 #include "tier1/UtlSymbol.h"
@@ -96,16 +96,6 @@ struct OverridableColorEntry
 #define REGISTER_COLOR_AS_OVERRIDABLE( name, scriptname )			\
 	AddToOverridableColors( &name, scriptname );
 
-//-----------------------------------------------------------------------------
-// Purpose: For hudanimations.txt scripting of vars
-//-----------------------------------------------------------------------------
-class IPanelAnimationPropertyConverter
-{
-public:
-	virtual void GetData( Panel *panel, KeyValues *kv, PanelAnimationMapEntry *entry ) = 0;
-	virtual void SetData( Panel *panel, KeyValues *kv, PanelAnimationMapEntry *entry ) = 0;
-	virtual void InitFromDefault( Panel *panel, PanelAnimationMapEntry *entry ) = 0;
-};
 
 #if defined( VGUI_USEKEYBINDINGMAPS )
 enum KeyBindingContextHandle_t
@@ -126,9 +116,6 @@ class Panel : public IClientPanel
 	DECLARE_CLASS_SIMPLE_NOBASE( Panel );
 
 public:
-	// For property mapping
-	static void InitPropertyConverters( void );
-	static void AddPropertyConverter( char const *typeName, IPanelAnimationPropertyConverter *converter );
 
 	//-----------------------------------------------------------------------------
 	// CONSTRUCTORS
@@ -175,8 +162,6 @@ public:
 	void SetBuildModeDeletable(bool state);	// set buildModeDialog deletable
 	bool IsBuildModeActive();	// true if we're currently in edit mode
 	void SetZPos(int z);	// sets Z ordering - lower numbers are always behind higher z's
-	void SetAlpha(int alpha);	// sets alpha modifier for panel and all child panels [0..255]
-	int GetAlpha();	// returns the current alpha
 
 	// panel visibility
 	// invisible panels and their children do not drawn, updated, or receive input messages
@@ -284,7 +269,6 @@ public:
 	virtual void SetPaintBackgroundEnabled(bool state);
 	virtual void SetPaintEnabled(bool state);
 	virtual void SetPostChildPaintEnabled(bool state);
-	virtual void SetPaintBackgroundType(int type);  // 0 for normal(opaque), 1 for single texture from Texture1, and 2 for rounded box w/ four corner textures
 	virtual void GetInset(int &left, int &top, int &right, int &bottom);
 	virtual void GetPaintSize(int &wide, int &tall);
 	virtual void SetBuildGroup(BuildGroup *buildGroup);
@@ -454,10 +438,6 @@ public:
 	virtual bool IsMouseInputEnabled();
 	virtual bool IsKeyBoardInputEnabled();
 
-	virtual void DrawTexturedBox( int x, int y, int wide, int tall, Color color, float normalizedAlpha );
-	virtual void DrawBox(int x, int y, int wide, int tall, Color color, float normalizedAlpha, bool hollow = false );
-	virtual void DrawHollowBox(int x, int y, int wide, int tall, Color color, float normalizedAlpha );
-
 // Drag Drop Public interface
 
 	virtual void SetDragEnabled( bool enabled );
@@ -514,12 +494,6 @@ public:
 
 	// Can override to require custom behavior to start the drag state
 	virtual bool	CanStartDragging( int startx, int starty, int mx, int my );
-
-	// Draws a filled rect of specified bounds, but omits the bounds of the skip panel from those bounds
-	virtual void FillRectSkippingPanel( const Color& clr, int x, int y, int w, int h, Panel *skipPanel );
-
-	virtual int	GetPaintBackgroundType();
-	virtual void GetCornerTextureSize( int& w, int& h );
 
 	bool		IsChildOfModalSubTree();
 	bool		IsChildOfSurfaceModalPanel();
@@ -636,15 +610,6 @@ private:
 	void Init( int x, int y, int wide, int tall );
 	void PreparePanelMap( PanelMap_t *panelMap );
 
-	bool InternalRequestInfo( PanelAnimationMap *map, KeyValues *outputData );
-	bool InternalSetInfo( PanelAnimationMap *map, KeyValues *inputData );
-
-	PanelAnimationMapEntry *FindPanelAnimationEntry( char const *scriptname, PanelAnimationMap *map );
-
-	// Recursively invoke settings for PanelAnimationVars
-	void InternalApplySettings( PanelAnimationMap *map, KeyValues *inResourceData);
-	void InternalInitDefaultValues( PanelAnimationMap *map );
-
 	// Purpose: Loads panel details related to autoresize from the resource info
 	void ApplyAutoResizeSettings(KeyValues *inResourceData);
 
@@ -695,16 +660,6 @@ private:
 
 	unsigned char	_tabPosition;		// the panel's place in the tab ordering
 	HScheme			 m_iScheme; // handle to the scheme to use
-
-	CPanelAnimationVar( float, m_flAlpha, "alpha", "255" );
-
-	// 1 == Textured (TextureId1 only)
-	// 2 == Rounded Corner Box
-	CPanelAnimationVar( int, m_nPaintBackgroundType, "PaintBackgroundType", "0" );
-	CPanelAnimationVarAliasType( int, m_nBgTextureId1, "Texture1", "vgui/hud/800corner1", "textureid" );
-	CPanelAnimationVarAliasType( int, m_nBgTextureId2, "Texture2", "vgui/hud/800corner2", "textureid" );
-	CPanelAnimationVarAliasType( int, m_nBgTextureId3, "Texture3", "vgui/hud/800corner3", "textureid" );
-	CPanelAnimationVarAliasType( int, m_nBgTextureId4, "Texture4", "vgui/hud/800corner4", "textureid" );
 	
 	//Being friends with yourself? That's impossibru. - Solokiller
 	//friend class Panel;

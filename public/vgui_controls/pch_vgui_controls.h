@@ -42,7 +42,6 @@
 #include "vgui_controls/Controls.h"
 
 #include "vgui_controls/AnimatingImagePanel.h"
-#include "vgui_controls/AnimationController.h"
 #include "vgui_controls/BitmapImagePanel.h"
 #include "vgui_controls/BuildGroup.h"
 #include "vgui_controls/BuildModeDialog.h"
@@ -73,7 +72,7 @@
 #include "vgui_controls/MessageBox.h"
 #include "vgui_controls/Panel.h"
 #ifndef HL1
-#include "vgui_controls/PanelAnimationVar.h"
+
 #endif
 #include "vgui_controls/PanelListPanel.h"
 #include "vgui_controls/PHandle.h"

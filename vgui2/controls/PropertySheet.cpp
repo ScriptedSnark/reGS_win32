@@ -24,7 +24,6 @@
 #include <vgui_controls/TextImage.h>
 #include <vgui_controls/ImagePanel.h>
 #include <vgui_controls/PropertyPage.h>
-#include "vgui_controls/AnimationController.h"
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include <tier0/memdbgon.h>
@@ -1125,27 +1124,10 @@ void PropertySheet::ChangeActiveTab(int index)
 
 	_activePage->MakeReadyForUse();
 
-	// transition effect
-	if (m_flPageTransitionEffectTime)
+	if (m_hPreviouslyActivePage.Get())
 	{
-		if (m_hPreviouslyActivePage.Get())
-		{
-			// fade out the previous page
-			GetAnimationController()->RunAnimationCommand(m_hPreviouslyActivePage, "Alpha", 0.0f, 0.0f, m_flPageTransitionEffectTime / 2, AnimationController::INTERPOLATOR_LINEAR);
-		}
-
-		// fade in the new page
-		_activePage->SetAlpha(0);
-		GetAnimationController()->RunAnimationCommand(_activePage, "Alpha", 255.0f, m_flPageTransitionEffectTime / 2, m_flPageTransitionEffectTime / 2, AnimationController::INTERPOLATOR_LINEAR);
-	}
-	else
-	{
-		if (m_hPreviouslyActivePage.Get())
-		{
-			// no transition, just hide the previous page
-			m_hPreviouslyActivePage->SetVisible(false);
-		}
-		_activePage->SetAlpha(255);
+		// no transition, just hide the previous page
+		m_hPreviouslyActivePage->SetVisible(false);
 	}
 
 	// notify

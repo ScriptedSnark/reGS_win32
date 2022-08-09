@@ -678,12 +678,6 @@ void Panel::Init(int x, int y, int wide, int tall)
 	m_pTooltips = NULL;
 #endif
 
-	m_flAlpha = 255.0f;
-	m_nPaintBackgroundType = 0;
-	m_nBgTextureId1 = -1;
-	m_nBgTextureId2 = -1;
-	m_nBgTextureId3 = -1;
-	m_nBgTextureId4 = -1;
 #if defined(VGUI_USEDRAGDROP)
 	m_pDragDrop = new DragDrop_t;
 
@@ -1020,7 +1014,7 @@ void Panel::PaintTraverse(bool repaint, bool allowForce)
 	}
 
 	float oldAlphaMultiplier = DrawGetAlphaMultiplier();
-	float newAlphaMultiplier = oldAlphaMultiplier * m_flAlpha * 1.0f / 255.0f;
+	float newAlphaMultiplier = oldAlphaMultiplier * 1.0f / 255.0f;
 
 	if (IsXbox() && !newAlphaMultiplier)
 	{
@@ -1151,53 +1145,10 @@ void Panel::PaintBackground()
 {
 	int wide, tall;
 	GetSize(wide, tall);
-#if !defined(_XBOX)
-	if (m_SkipChild.Get() && m_SkipChild->IsVisible())
-	{
-		if (GetPaintBackgroundType() == 2)
-		{
-			int cornerWide, cornerTall;
-			GetCornerTextureSize(cornerWide, cornerTall);
+	Color col = GetBgColor();
 
-			Color col = GetBgColor();
-			DrawHollowBox(0, 0, wide, tall, col, 1.0f);
-
-			wide -= 2 * cornerWide;
-			tall -= 2 * cornerTall;
-
-			FillRectSkippingPanel(GetBgColor(), cornerWide, cornerTall, wide, tall, m_SkipChild.Get());
-		}
-		else
-		{
-			FillRectSkippingPanel(GetBgColor(), 0, 0, wide, tall, m_SkipChild.Get());
-		}
-	}
-	else
-#endif
-	{
-		Color col = GetBgColor();
-
-		switch (m_nPaintBackgroundType)
-		{
-		default:
-		case 0:
-		{
-			surface()->DrawSetColor(col);
-			surface()->DrawFilledRect(0, 0, wide, tall);
-		}
-		break;
-		case 1:
-		{
-			DrawTexturedBox(0, 0, wide, tall, col, 1.0f);
-		}
-		break;
-		case 2:
-		{
-			DrawBox(0, 0, wide, tall, col, 1.0f);
-		}
-		break;
-		}
-	}
+	surface()->DrawSetColor(col);
+	surface()->DrawFilledRect(0, 0, wide, tall);
 }
 
 //-----------------------------------------------------------------------------
@@ -1335,22 +1286,6 @@ void Panel::OnSizeChanged(int newWide, int newTall)
 void Panel::SetZPos(int z)
 {
 	ipanel()->SetZPos(GetVPanel(), z);
-}
-
-//-----------------------------------------------------------------------------
-// Purpose: sets alpha modifier for panel and all child panels [0..255]
-//-----------------------------------------------------------------------------
-void Panel::SetAlpha(int alpha)
-{
-	m_flAlpha = alpha;
-}
-
-//-----------------------------------------------------------------------------
-// Purpose: data accessor
-//-----------------------------------------------------------------------------
-int Panel::GetAlpha()
-{
-	return (int)m_flAlpha;
 }
 
 //-----------------------------------------------------------------------------
@@ -3279,9 +3214,6 @@ void Panel::SetBorder(IBorder* border)
 		int x, y, x2, y2;
 		border->GetInset(x, y, x2, y2);
 		ipanel()->SetInset(GetVPanel(), x, y, x2, y2);
-
-		// update our background type based on the bord
-		// SetPaintBackgroundType(border->GetBackgroundType());
 	}
 	else
 	{
@@ -3303,12 +3235,6 @@ void Panel::SetPaintBorderEnabled(bool state)
 void Panel::SetPaintBackgroundEnabled(bool state)
 {
 	_flags.SetFlag(PAINT_BACKGROUND_ENABLED, state);
-}
-
-void Panel::SetPaintBackgroundType(int type)
-{
-	// HACK only 0 through 2 supported for now
-	m_nPaintBackgroundType = clamp(type, 0, 2);
 }
 
 void Panel::SetPaintEnabled(bool state)
@@ -3624,11 +3550,6 @@ void Panel::ApplySchemeSettings(IScheme* pScheme)
 //-----------------------------------------------------------------------------
 void Panel::PerformApplySchemeSettings()
 {
-	if (_flags.IsFlagSet(NEEDS_DEFAULT_SETTINGS_APPLIED))
-	{
-		InternalInitDefaultValues(GetAnimMap());
-	}
-
 	if (_flags.IsFlagSet(NEEDS_SCHEME_UPDATE))
 	{
 		VPROF("ApplySchemeSettings");
@@ -3754,16 +3675,6 @@ void Panel::ApplyAutoResizeSettings(KeyValues* inResourceData)
 //-----------------------------------------------------------------------------
 void Panel::ApplySettings(KeyValues* inResourceData)
 {
-	// First restore to default values
-	if (_flags.IsFlagSet(NEEDS_DEFAULT_SETTINGS_APPLIED))
-	{
-		InternalInitDefaultValues(GetAnimMap());
-	}
-
-	// Let PanelAnimationVars auto-retrieve settings (we restore defaults above
-	//  since a script might be missing certain values)
-	InternalApplySettings(GetAnimMap(), inResourceData);
-
 	// clear any alignment flags
 	_buildModeFlags &= ~(BUILDMODE_SAVE_XPOS_RIGHTALIGNED |
 						 BUILDMODE_SAVE_XPOS_CENTERALIGNED |
@@ -4683,11 +4594,6 @@ void Panel::PostMessageToChild(const char* childName, KeyValues* message)
 //-----------------------------------------------------------------------------
 bool Panel::RequestInfo(KeyValues* outputData)
 {
-	if (InternalRequestInfo(GetAnimMap(), outputData))
-	{
-		return true;
-	}
-
 	if (GetVParent())
 	{
 		return ipanel()->RequestInfo(GetVParent(), outputData);
@@ -4701,11 +4607,6 @@ bool Panel::RequestInfo(KeyValues* outputData)
 //-----------------------------------------------------------------------------
 bool Panel::SetInfo(KeyValues* inputData)
 {
-	if (InternalSetInfo(GetAnimMap(), inputData))
-	{
-		return true;
-	}
-
 	// doesn't chain to parent
 	return false;
 }
@@ -4904,586 +4805,6 @@ bool Panel::IsMouseInputEnabled()
 #else
 	return false;
 #endif
-}
-
-class CFloatProperty: public vgui2::IPanelAnimationPropertyConverter
-{
-public:
-	virtual void GetData(Panel* panel, KeyValues* kv, PanelAnimationMapEntry* entry)
-	{
-		void* data = (void*)((*entry->m_pfnLookup)(panel));
-		kv->SetFloat(entry->name(), *(float*)data);
-	}
-
-	virtual void SetData(Panel* panel, KeyValues* kv, PanelAnimationMapEntry* entry)
-	{
-		void* data = (void*)((*entry->m_pfnLookup)(panel));
-		*(float*)data = kv->GetFloat(entry->name());
-	}
-
-	virtual void InitFromDefault(Panel* panel, PanelAnimationMapEntry* entry)
-	{
-		void* data = (void*)((*entry->m_pfnLookup)(panel));
-		*(float*)data = atof(entry->defaultvalue());
-	}
-};
-
-class CProportionalFloatProperty: public vgui2::IPanelAnimationPropertyConverter
-{
-public:
-	virtual void GetData(Panel* panel, KeyValues* kv, PanelAnimationMapEntry* entry)
-	{
-		void* data = (void*)((*entry->m_pfnLookup)(panel));
-		float f = *(float*)data;
-		f = scheme()->GetProportionalNormalizedValueEx(panel->GetScheme(), f);
-		kv->SetFloat(entry->name(), f);
-	}
-
-	virtual void SetData(Panel* panel, KeyValues* kv, PanelAnimationMapEntry* entry)
-	{
-		void* data = (void*)((*entry->m_pfnLookup)(panel));
-		float f = kv->GetFloat(entry->name());
-		f = scheme()->GetProportionalScaledValueEx(panel->GetScheme(), f);
-		*(float*)data = f;
-	}
-
-	virtual void InitFromDefault(Panel* panel, PanelAnimationMapEntry* entry)
-	{
-		void* data = (void*)((*entry->m_pfnLookup)(panel));
-		float f = atof(entry->defaultvalue());
-		f = scheme()->GetProportionalScaledValueEx(panel->GetScheme(), f);
-		*(float*)data = f;
-	}
-};
-
-class CIntProperty: public vgui2::IPanelAnimationPropertyConverter
-{
-public:
-	virtual void GetData(Panel* panel, KeyValues* kv, PanelAnimationMapEntry* entry)
-	{
-		void* data = (void*)((*entry->m_pfnLookup)(panel));
-		kv->SetInt(entry->name(), *(int*)data);
-	}
-
-	virtual void SetData(Panel* panel, KeyValues* kv, PanelAnimationMapEntry* entry)
-	{
-		void* data = (void*)((*entry->m_pfnLookup)(panel));
-		*(int*)data = kv->GetInt(entry->name());
-	}
-
-	virtual void InitFromDefault(Panel* panel, PanelAnimationMapEntry* entry)
-	{
-		void* data = (void*)((*entry->m_pfnLookup)(panel));
-		*(int*)data = atoi(entry->defaultvalue());
-	}
-};
-
-class CProportionalIntProperty: public vgui2::IPanelAnimationPropertyConverter
-{
-public:
-	virtual void GetData(Panel* panel, KeyValues* kv, PanelAnimationMapEntry* entry)
-	{
-		void* data = (void*)((*entry->m_pfnLookup)(panel));
-		int i = *(int*)data;
-		i = scheme()->GetProportionalNormalizedValueEx(panel->GetScheme(), i);
-		kv->SetInt(entry->name(), i);
-	}
-
-	virtual void SetData(Panel* panel, KeyValues* kv, PanelAnimationMapEntry* entry)
-	{
-		void* data = (void*)((*entry->m_pfnLookup)(panel));
-		int i = kv->GetInt(entry->name());
-		i = scheme()->GetProportionalScaledValueEx(panel->GetScheme(), i);
-		*(int*)data = i;
-	}
-	virtual void InitFromDefault(Panel* panel, PanelAnimationMapEntry* entry)
-	{
-		void* data = (void*)((*entry->m_pfnLookup)(panel));
-		int i = atoi(entry->defaultvalue());
-		i = scheme()->GetProportionalScaledValueEx(panel->GetScheme(), i);
-		*(int*)data = i;
-	}
-};
-
-class CColorProperty: public vgui2::IPanelAnimationPropertyConverter
-{
-public:
-	virtual void GetData(Panel* panel, KeyValues* kv, PanelAnimationMapEntry* entry)
-	{
-		void* data = (void*)((*entry->m_pfnLookup)(panel));
-		kv->SetColor(entry->name(), *(Color*)data);
-	}
-
-	virtual void SetData(Panel* panel, KeyValues* kv, PanelAnimationMapEntry* entry)
-	{
-		vgui2::IScheme* scheme = vgui2::scheme()->GetIScheme(panel->GetScheme());
-		Assert(scheme);
-		if (scheme)
-		{
-			void* data = (void*)((*entry->m_pfnLookup)(panel));
-
-			char const* colorName = kv->GetString(entry->name());
-			if (!colorName || !colorName[0])
-			{
-				*(Color*)data = kv->GetColor(entry->name());
-			}
-			else
-			{
-				*(Color*)data = scheme->GetColor(colorName, Color(0, 0, 0, 0));
-			}
-		}
-	}
-
-	virtual void InitFromDefault(Panel* panel, PanelAnimationMapEntry* entry)
-	{
-		vgui2::IScheme* scheme = vgui2::scheme()->GetIScheme(panel->GetScheme());
-		Assert(scheme);
-		if (scheme)
-		{
-			void* data = (void*)((*entry->m_pfnLookup)(panel));
-			*(Color*)data = scheme->GetColor(entry->defaultvalue(), Color(0, 0, 0, 0));
-		}
-	}
-};
-
-class CBoolProperty: public vgui2::IPanelAnimationPropertyConverter
-{
-public:
-	virtual void GetData(Panel* panel, KeyValues* kv, PanelAnimationMapEntry* entry)
-	{
-		void* data = (void*)((*entry->m_pfnLookup)(panel));
-		kv->SetInt(entry->name(), *(bool*)data ? 1 : 0);
-	}
-
-	virtual void SetData(Panel* panel, KeyValues* kv, PanelAnimationMapEntry* entry)
-	{
-		void* data = (void*)((*entry->m_pfnLookup)(panel));
-		*(bool*)data = kv->GetInt(entry->name()) ? true : false;
-	}
-
-	virtual void InitFromDefault(Panel* panel, PanelAnimationMapEntry* entry)
-	{
-		void* data = (void*)((*entry->m_pfnLookup)(panel));
-		bool b = false;
-		if (!stricmp(entry->defaultvalue(), "true") ||
-			atoi(entry->defaultvalue()) != 0)
-		{
-			b = true;
-		}
-
-		*(bool*)data = b;
-	}
-};
-
-class CStringProperty: public vgui2::IPanelAnimationPropertyConverter
-{
-public:
-	virtual void GetData(Panel* panel, KeyValues* kv, PanelAnimationMapEntry* entry)
-	{
-		void* data = (void*)((*entry->m_pfnLookup)(panel));
-		kv->SetString(entry->name(), (char*)data);
-	}
-
-	virtual void SetData(Panel* panel, KeyValues* kv, PanelAnimationMapEntry* entry)
-	{
-		void* data = (void*)((*entry->m_pfnLookup)(panel));
-		strcpy((char*)data, kv->GetString(entry->name()));
-	}
-
-	virtual void InitFromDefault(Panel* panel, PanelAnimationMapEntry* entry)
-	{
-		void* data = (void*)((*entry->m_pfnLookup)(panel));
-		strcpy((char*)data, entry->defaultvalue());
-	}
-};
-
-// This class won't work in GoldSource. - Solokiller
-/*
-class CHFontProperty : public vgui2::IPanelAnimationPropertyConverter
-{
-public:
-	virtual void GetData( Panel *panel, KeyValues *kv, PanelAnimationMapEntry *entry )
-	{
-		vgui2::IScheme *scheme = vgui2::scheme()->GetIScheme( panel->GetScheme() );
-		Assert( scheme );
-		if ( scheme )
-		{
-			void *data = ( void * )( (*entry->m_pfnLookup)( panel ) );
-			char const *fontName = scheme->GetFontName( *(HFont *)data );
-			kv->SetString( entry->name(), fontName );
-		}
-	}
-
-	virtual void SetData( Panel *panel, KeyValues *kv, PanelAnimationMapEntry *entry )
-	{
-		vgui2::IScheme *scheme = vgui2::scheme()->GetIScheme( panel->GetScheme() );
-		Assert( scheme );
-		if ( scheme )
-		{
-			void *data = ( void * )( (*entry->m_pfnLookup)( panel ) );
-			char const *fontName = kv->GetString( entry->name() );
-			*(HFont *)data = scheme->GetFont( fontName, panel->IsProportional() );
-		}
-	}
-
-	virtual void InitFromDefault( Panel *panel, PanelAnimationMapEntry *entry )
-	{
-		vgui2::IScheme *scheme = vgui2::scheme()->GetIScheme( panel->GetScheme() );
-		Assert( scheme );
-		if ( scheme )
-		{
-			void *data = ( void * )( (*entry->m_pfnLookup)( panel ) );
-			*(HFont *)data = scheme->GetFont( entry->defaultvalue(), panel->IsProportional() );
-		}
-	}
-};
-*/
-
-// This class won't work in GoldSource. - Solokiller
-/*
-class CTextureIdProperty : public vgui2::IPanelAnimationPropertyConverter
-{
-public:
-	virtual void GetData( Panel *panel, KeyValues *kv, PanelAnimationMapEntry *entry )
-	{
-		void *data = ( void * )( (*entry->m_pfnLookup)( panel ) );
-		int currentId = *(int *)data;
-
-		// lookup texture name for id
-		char texturename[ 512 ];
-		if ( currentId != -1 &&
-			surface()->DrawGetTextureFile( currentId, texturename, sizeof( texturename ) ) )
-		{
-			kv->SetString( entry->name(), texturename );
-		}
-		else
-		{
-			kv->SetString( entry->name(), "" );
-		}
-	}
-
-	virtual void SetData( Panel *panel, KeyValues *kv, PanelAnimationMapEntry *entry )
-	{
-		void *data = ( void * )( (*entry->m_pfnLookup)( panel ) );
-
-		int currentId = -1;
-
-		char const *texturename = kv->GetString( entry->name() );
-		if ( texturename && texturename[ 0 ] )
-		{
-			currentId = surface()->DrawGetTextureId( texturename );
-			if ( currentId == -1 )
-			{
-				currentId = surface()->CreateNewTextureID();
-			}
-			surface()->DrawSetTextureFile( currentId, texturename, false, true );
-		}
-
-		*(int *)data = currentId;
-	}
-
-	virtual void InitFromDefault( Panel *panel, PanelAnimationMapEntry *entry )
-	{
-		void *data = ( void * )( (*entry->m_pfnLookup)( panel ) );
-
-		int currentId = -1;
-
-		char const *texturename = entry->defaultvalue();
-		if ( texturename && texturename[ 0 ] )
-		{
-			currentId = surface()->DrawGetTextureId( texturename );
-			if ( currentId == -1 )
-			{
-				currentId = surface()->CreateNewTextureID();
-			}
-			surface()->DrawSetTextureFile( currentId, texturename, false, true );
-		}
-
-		*(int *)data = currentId;
-	}
-};
-*/
-
-static CFloatProperty floatconverter;
-static CProportionalFloatProperty p_floatconverter;
-static CIntProperty intconverter;
-static CProportionalIntProperty p_intconverter;
-static CColorProperty colorconverter;
-static CBoolProperty boolconverter;
-static CStringProperty stringconverter;
-// static CHFontProperty fontconverter;
-// static CTextureIdProperty textureidconverter;
-
-static CUtlDict<IPanelAnimationPropertyConverter*, int> g_AnimationPropertyConverters;
-
-static IPanelAnimationPropertyConverter* FindConverter(char const* typeName)
-{
-	int lookup = g_AnimationPropertyConverters.Find(typeName);
-	if (lookup == g_AnimationPropertyConverters.InvalidIndex())
-		return NULL;
-
-	IPanelAnimationPropertyConverter* converter = g_AnimationPropertyConverters[lookup];
-	return converter;
-}
-
-void Panel::AddPropertyConverter(char const* typeName, IPanelAnimationPropertyConverter* converter)
-{
-	int lookup = g_AnimationPropertyConverters.Find(typeName);
-	if (lookup != g_AnimationPropertyConverters.InvalidIndex())
-	{
-		Msg("Already have converter for type %s, ignoring...\n", typeName);
-		return;
-	}
-
-	g_AnimationPropertyConverters.Insert(typeName, converter);
-}
-
-//-----------------------------------------------------------------------------
-// Purpose: Static method to initialize all needed converters
-//-----------------------------------------------------------------------------
-void Panel::InitPropertyConverters(void)
-{
-	static bool initialized = false;
-	if (initialized)
-		return;
-	initialized = true;
-
-	AddPropertyConverter("float", &floatconverter);
-	AddPropertyConverter("int", &intconverter);
-	AddPropertyConverter("Color", &colorconverter);
-	//	AddPropertyConverter( "vgui2::Color", &colorconverter );
-	AddPropertyConverter("bool", &boolconverter);
-	AddPropertyConverter("char", &stringconverter);
-	AddPropertyConverter("string", &stringconverter);
-	// AddPropertyConverter( "HFont", &fontconverter );
-	// AddPropertyConverter( "vgui2::HFont", &fontconverter );
-
-	// This is an aliased type for proportional float
-	AddPropertyConverter("proportional_float", &p_floatconverter);
-	AddPropertyConverter("proportional_int", &p_intconverter);
-
-	// AddPropertyConverter( "textureid", &textureidconverter );
-}
-
-bool Panel::InternalRequestInfo(PanelAnimationMap* map, KeyValues* outputData)
-{
-	if (!map)
-		return false;
-
-	Assert(outputData);
-
-	char const* name = outputData->GetName();
-
-	PanelAnimationMapEntry* e = FindPanelAnimationEntry(name, map);
-	if (e)
-	{
-		IPanelAnimationPropertyConverter* converter = FindConverter(e->type());
-		if (converter)
-		{
-			converter->GetData(this, outputData, e);
-			return true;
-		}
-	}
-
-	return false;
-}
-
-bool Panel::InternalSetInfo(PanelAnimationMap* map, KeyValues* inputData)
-{
-	if (!map)
-		return false;
-
-	Assert(inputData);
-
-	char const* name = inputData->GetName();
-
-	PanelAnimationMapEntry* e = FindPanelAnimationEntry(name, map);
-	if (e)
-	{
-		IPanelAnimationPropertyConverter* converter = FindConverter(e->type());
-		if (converter)
-		{
-			converter->SetData(this, inputData, e);
-			return true;
-		}
-	}
-
-	return false;
-}
-
-PanelAnimationMapEntry* Panel::FindPanelAnimationEntry(char const* scriptname, PanelAnimationMap* map)
-{
-	if (!map)
-		return NULL;
-
-	Assert(scriptname);
-
-	// Look through mapping for entry
-	int c = map->entries.Count();
-	for (int i = 0; i < c; i++)
-	{
-		PanelAnimationMapEntry* e = &map->entries[i];
-
-		if (!stricmp(e->name(), scriptname))
-		{
-			return e;
-		}
-	}
-
-	// Recurse
-	if (map->baseMap)
-	{
-		return FindPanelAnimationEntry(scriptname, map->baseMap);
-	}
-
-	return NULL;
-}
-
-// Recursively invoke settings for PanelAnimationVars
-void Panel::InternalApplySettings(PanelAnimationMap* map, KeyValues* inResourceData)
-{
-	// Loop through keys
-	KeyValues* kv;
-
-	for (kv = inResourceData->GetFirstSubKey(); kv; kv = kv->GetNextKey())
-	{
-		char const* varname = kv->GetName();
-
-		PanelAnimationMapEntry* entry = FindPanelAnimationEntry(varname, GetAnimMap());
-		if (entry)
-		{
-			// Set value to value from script
-			IPanelAnimationPropertyConverter* converter = FindConverter(entry->type());
-			if (converter)
-			{
-				converter->SetData(this, inResourceData, entry);
-			}
-		}
-	}
-}
-
-//-----------------------------------------------------------------------------
-// Purpose: sets the default values of all CPanelAnimationVars
-//-----------------------------------------------------------------------------
-void Panel::InternalInitDefaultValues(PanelAnimationMap* map)
-{
-	_flags.ClearFlag(NEEDS_DEFAULT_SETTINGS_APPLIED);
-
-	// Look through mapping for entry
-	int c = map->entries.Count();
-	for (int i = 0; i < c; i++)
-	{
-		PanelAnimationMapEntry* e = &map->entries[i];
-		Assert(e);
-		IPanelAnimationPropertyConverter* converter = FindConverter(e->type());
-		if (!converter)
-			continue;
-
-		converter->InitFromDefault(this, e);
-	}
-
-	if (map->baseMap)
-	{
-		InternalInitDefaultValues(map->baseMap);
-	}
-}
-
-//-----------------------------------------------------------------------------
-// Purpose:
-// Input  :  -
-//-----------------------------------------------------------------------------
-int Panel::GetPaintBackgroundType()
-{
-	return m_nPaintBackgroundType;
-}
-
-//-----------------------------------------------------------------------------
-// Purpose:
-// Input  : w -
-//			h -
-//-----------------------------------------------------------------------------
-void Panel::GetCornerTextureSize(int& w, int& h)
-{
-	if (m_nBgTextureId1 == -1)
-	{
-		w = h = 0;
-		return;
-	}
-	surface()->DrawGetTextureSize(m_nBgTextureId1, w, h);
-}
-
-//-----------------------------------------------------------------------------
-// Purpose: draws a selection box
-//-----------------------------------------------------------------------------
-void Panel::DrawBox(int x, int y, int wide, int tall, Color color, float normalizedAlpha, bool hollow /*=false*/)
-{
-	if (m_nBgTextureId1 == -1 ||
-		m_nBgTextureId2 == -1 ||
-		m_nBgTextureId3 == -1 ||
-		m_nBgTextureId4 == -1)
-	{
-		return;
-	}
-
-	color[3] *= normalizedAlpha;
-
-	// work out our bounds
-	int cornerWide, cornerTall;
-	GetCornerTextureSize(cornerWide, cornerTall);
-
-	// draw the background in the areas not occupied by the corners
-	// draw it in three horizontal strips
-	surface()->DrawSetColor(color);
-	surface()->DrawFilledRect(x + cornerWide, y, x + wide - cornerWide, y + cornerTall);
-	if (!hollow)
-	{
-		surface()->DrawFilledRect(x, y + cornerTall, x + wide, y + tall - cornerTall);
-	}
-	else
-	{
-		surface()->DrawFilledRect(x, y + cornerTall, x + cornerWide, y + tall - cornerTall);
-		surface()->DrawFilledRect(x + wide - cornerWide, y + cornerTall, x + wide, y + tall - cornerTall);
-	}
-	surface()->DrawFilledRect(x + cornerWide, y + tall - cornerTall, x + wide - cornerWide, y + tall);
-
-	// draw the corners
-	surface()->DrawSetTexture(m_nBgTextureId1);
-	surface()->DrawTexturedRect(x, y, x + cornerWide, y + cornerTall);
-	surface()->DrawSetTexture(m_nBgTextureId2);
-	surface()->DrawTexturedRect(x + wide - cornerWide, y, x + wide, y + cornerTall);
-	surface()->DrawSetTexture(m_nBgTextureId3);
-	surface()->DrawTexturedRect(x + wide - cornerWide, y + tall - cornerTall, x + wide, y + tall);
-	surface()->DrawSetTexture(m_nBgTextureId4);
-	surface()->DrawTexturedRect(x + 0, y + tall - cornerTall, x + cornerWide, y + tall);
-}
-
-//-----------------------------------------------------------------------------
-// Purpose:
-// Input  : x -
-//			y -
-//			wide -
-//			tall -
-//			color -
-//			normalizedAlpha -
-//-----------------------------------------------------------------------------
-void Panel::DrawHollowBox(int x, int y, int wide, int tall, Color color, float normalizedAlpha)
-{
-	DrawBox(x, y, wide, tall, color, normalizedAlpha, true);
-}
-
-//-----------------------------------------------------------------------------
-// Purpose: draws a selection box
-//-----------------------------------------------------------------------------
-void Panel::DrawTexturedBox(int x, int y, int wide, int tall, Color color, float normalizedAlpha)
-{
-	if (m_nBgTextureId1 == -1)
-		return;
-
-	color[3] *= normalizedAlpha;
-
-	surface()->DrawSetColor(color);
-	surface()->DrawSetTexture(m_nBgTextureId1);
-	surface()->DrawTexturedRect(x, y, x + wide, y + tall);
 }
 
 //-----------------------------------------------------------------------------
@@ -6480,71 +5801,6 @@ struct srect_t
 		return false;
 	}
 };
-
-// Draws a filled rect of specified bounds, but omits the bounds of the skip panel from those bounds
-void Panel::FillRectSkippingPanel(const Color& clr, int x, int y, int w, int h, Panel* skipPanel)
-{
-	int sx = 0, sy = 0, sw, sh;
-	skipPanel->GetSize(sw, sh);
-	skipPanel->LocalToScreen(sx, sy);
-	ScreenToLocal(sx, sy);
-
-	surface()->DrawSetColor(clr);
-
-	srect_t r1;
-	r1.x0 = x;
-	r1.y0 = y;
-	r1.x1 = x + w;
-	r1.y1 = y + h;
-
-	srect_t r2;
-	r2.x0 = sx;
-	r2.y0 = sy;
-	r2.x1 = sx + sw;
-	r2.y1 = sy + sh;
-
-	int topy = r1.y0;
-	int bottomy = r1.y1;
-
-	// We'll descend vertically and draw:
-	// 1 a possible bar across the top
-	// 2 a possible bar across the bottom
-	// 3 possible left bar
-	// 4 possible right bar
-
-	// Room at top?
-	if (r2.y0 > r1.y0)
-	{
-		topy = r2.y0;
-
-		surface()->DrawFilledRect(r1.x0, r1.y0, r1.x1, topy);
-	}
-
-	// Room at bottom?
-	if (r2.y1 < r1.y1)
-	{
-		bottomy = r2.y1;
-
-		surface()->DrawFilledRect(r1.x0, bottomy, r1.x1, r1.y1);
-	}
-
-	// Room on left side?
-	if (r2.x0 > r1.x0)
-	{
-		int left = r2.x0;
-
-		surface()->DrawFilledRect(r1.x0, topy, left, bottomy);
-	}
-
-	// Room on right side
-	if (r2.x1 < r1.x1)
-	{
-		int right = r2.x1;
-
-		surface()->DrawFilledRect(right, topy, r1.x1, bottomy);
-	}
-}
-
 
 //-----------------------------------------------------------------------------
 // Purpose:

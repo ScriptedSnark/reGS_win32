@@ -141,7 +141,6 @@ struct MessageMapItem_t
 	typedef className ThisClass;	\
 public:								\
 	DECLARE_PANELMESSAGEMAP( className ); \
-	DECLARE_PANELANIMATION( className ); \
 	DECLARE_KEYBINDINGMAP( className ); \
 	static char const *GetPanelClassName() { return #className; } \
 	static char const *GetPanelBaseClassName() { return #baseClassName; }
@@ -150,7 +149,6 @@ public:								\
 	typedef className ThisClass;	\
 public:							\
 	DECLARE_PANELMESSAGEMAP( className ); \
-	DECLARE_PANELANIMATION( className ); \
 	DECLARE_KEYBINDINGMAP( className ); \
 	static char const *GetPanelClassName() { return #className; } \
 	static char const *GetPanelBaseClassName() { return NULL; }

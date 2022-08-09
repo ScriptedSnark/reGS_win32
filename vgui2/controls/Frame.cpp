@@ -19,7 +19,6 @@
 #include "vgui/IScheme.h"
 #include "vgui/KeyCode.h"
 
-#include "vgui_controls/AnimationController.h"
 #include "vgui_controls/Controls.h"
 #include "vgui_controls/Frame.h"
 #include "vgui_controls/Button.h"
@@ -981,28 +980,6 @@ void Frame::OnThink()
 {
 	BaseClass::OnThink();
 
-	// check for transition effects
-	if (IsVisible() && m_flTransitionEffectTime > 0)
-	{
-		if (m_bFadingOut)
-		{
-			// we're fading out, see if we're done so we can fully hide the window
-			if (GetAlpha() < 1)
-			{
-				FinishClose();
-			}
-		}
-		else if (!m_bPreviouslyVisible)
-		{
-			// need to fade-in
-			m_bPreviouslyVisible = true;
-
-			// fade in
-			SetAlpha(0);
-			GetAnimationController()->RunAnimationCommand(this, "alpha", 255.0f, 0.0f, m_flTransitionEffectTime, AnimationController::INTERPOLATOR_LINEAR);
-		}
-	}
-
 	// check for focus changes
 	bool hasFocus = false;
 	VPANEL focus = input()->GetFocus();
@@ -1062,27 +1039,9 @@ void Frame::OnFrameFocusChanged(bool bHasFocus)
 
 	// set our background color
 	if (bHasFocus)
-	{
-		if (m_flFocusTransitionEffectTime)
-		{
-			GetAnimationController()->RunAnimationCommand(this, "BgColor", GetInFocusBgColor(), 0.0f, m_flTransitionEffectTime, AnimationController::INTERPOLATOR_LINEAR);
-		}
-		else
-		{
-			SetBgColor(GetInFocusBgColor());
-		}
-	}
+		SetBgColor(GetInFocusBgColor());
 	else
-	{
-		if (m_flFocusTransitionEffectTime)
-		{
-			GetAnimationController()->RunAnimationCommand(this, "BgColor", GetOutOfFocusBgColor(), 0.0f, m_flTransitionEffectTime, AnimationController::INTERPOLATOR_LINEAR);
-		}
-		else
-		{
-			SetBgColor(GetOutOfFocusBgColor());
-		}
-	}
+		SetBgColor(GetOutOfFocusBgColor());
 
 	// Stop flashing when we get focus
 	if (bHasFocus && _flashWindow)
@@ -1680,19 +1639,8 @@ void Frame::OnClose()
 
 	BaseClass::OnClose();
 
-	if (m_flTransitionEffectTime)
-	{
-		// begin the hide transition effect
-		GetAnimationController()->RunAnimationCommand(this, "alpha", 0.0f, 0.0f, m_flTransitionEffectTime, AnimationController::INTERPOLATOR_LINEAR);
-		m_bFadingOut = true;
-		// move us to the back of the draw order (so that fading out over the top of other dialogs doesn't look wierd)
-		surface()->MovePopupToBack(GetVPanel());
-	}
-	else
-	{
-		// hide us immediately
-		FinishClose();
-	}
+	// hide us immediately
+	FinishClose();
 }
 
 //-----------------------------------------------------------------------------

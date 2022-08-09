@@ -12,9 +12,6 @@
     <ClCompile Include="controls\AnimatingImagePanel.cpp">
       <Filter>Controls</Filter>
     </ClCompile>
-    <ClCompile Include="controls\AnimationController.cpp">
-      <Filter>Controls</Filter>
-    </ClCompile>
     <ClCompile Include="controls\BitmapImagePanel.cpp">
       <Filter>Controls</Filter>
     </ClCompile>
