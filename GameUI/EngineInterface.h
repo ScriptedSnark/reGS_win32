@@ -5,6 +5,7 @@
 #include "cdll_int.h"
 #include "cvardef.h"
 
+#undef ARRAYSIZE
 #define ARRAYSIZE(p) (sizeof(p) / sizeof(p[0]))
 
 extern cl_enginefunc_t gEngfuncs;

@@ -18,6 +18,7 @@ int TimeStampSortFunc(vgui2::ListPanel* pPanel, const vgui2::ListPanelItem& p1, 
 		return -1;
 }
 
+#undef MAKEID
 #define MAKEID(d, c, b, a) (((int)(a) << 24) | ((int)(b) << 16) | ((int)(c) << 8) | ((int)(d)))
 
 int SaveReadNameAndComment(FileHandle_t f, char* name, char* comment)
