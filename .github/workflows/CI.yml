@@ -1,0 +1,41 @@
+# Originally created by SmileyAG (https://github.com/SmileyAG)
+# For private reGS repository.
+
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 1 * *' # Monthly
+
+jobs:
+  build:
+    runs-on: windows-2019
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        submodules: recursive
+    - uses: microsoft/setup-msbuild@v1.0.3
+    - name: Build GoldSrc components
+      run: msbuild /m /t:Build /p:Configuration=Release goldsrc_win32.sln
+    - name: Prepare artifacts
+      run: |
+        mkdir "./bin/valve/cl_dlls"
+        mkdir "./bin/pdb"
+        mv launcher/Release/hl.exe .\bin
+        mv launcher/Release/hl.pdb .\bin\pdb
+        # mv dedicated/Release/hlds.exe .\bin
+        # mv dedciated/Release/hlds.pdb .\bin\pdb
+        mv GameUI/Release/GameUI.dll .\bin\valve\cl_dlls
+        mv GameUI/Release/GameUI.pdb .\bin\valve\cl_dlls
+        mv tier0/Release/tier0.dll .\bin
+        mv tier0/Release/tier0.pdb .\bin\pdb
+        mv vgui2/src/Release/vgui2.dll .\bin
+        mv vgui2/src/Release/vgui2.pdb .\bin\pdb
+    - name: Deploy
+      uses: actions/upload-artifact@v3
+      with:
+        name: goldsrc_win32
+        path: bin
