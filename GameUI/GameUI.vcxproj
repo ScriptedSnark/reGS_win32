@@ -61,6 +61,7 @@
       <ConformanceMode>false</ConformanceMode>
       <AdditionalIncludeDirectories>../engine;../pm_shared;../cl_dll;../game_shared;../game_shared/bot;../common;../public;../public/tier1;../external/SDL2/include;</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -77,6 +78,7 @@
       <PreprocessorDefinitions>WIN32;NO_MALLOC_OVERRIDE;GAMEUI_EXPORTS;CS_SHIELD_ENABLED;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>false</ConformanceMode>
       <AdditionalIncludeDirectories>../engine;../pm_shared;../cl_dll;../game_shared;../game_shared/bot;../common;../public;../public/tier1;../external/SDL2/include;</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
