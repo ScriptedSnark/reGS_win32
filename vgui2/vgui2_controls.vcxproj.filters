@@ -177,12 +177,6 @@
     <ClCompile Include="controls\URLLabel.cpp">
       <Filter>Controls</Filter>
     </ClCompile>
-    <ClCompile Include="controls\WizardPanel.cpp">
-      <Filter>Controls</Filter>
-    </ClCompile>
-    <ClCompile Include="controls\WizardSubPanel.cpp">
-      <Filter>Controls</Filter>
-    </ClCompile>
     <ClCompile Include="src\vgui_key_translation.cpp">
       <Filter>Src</Filter>
     </ClCompile>

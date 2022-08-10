@@ -154,8 +154,6 @@
     <ClCompile Include="controls\TreeView.cpp" />
     <ClCompile Include="controls\TreeViewListControl.cpp" />
     <ClCompile Include="controls\URLLabel.cpp" />
-    <ClCompile Include="controls\WizardPanel.cpp" />
-    <ClCompile Include="controls\WizardSubPanel.cpp" />
     <ClCompile Include="src\vgui_key_translation.cpp" />
   </ItemGroup>
   <ItemGroup>

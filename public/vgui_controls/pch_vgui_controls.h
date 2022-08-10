@@ -103,8 +103,6 @@
 #include "vgui_controls/TreeViewListControl.h"
 #endif
 #include "vgui_controls/URLLabel.h"
-#include "vgui_controls/WizardPanel.h"
-#include "vgui_controls/WizardSubPanel.h"
 
 #ifndef HL1
 #include "vgui_controls/KeyBoardEditorDialog.h"
