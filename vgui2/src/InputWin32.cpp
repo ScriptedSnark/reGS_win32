@@ -187,13 +187,12 @@ bool CInputWin32::IsMouseDown(vgui2::MouseCode code)
 
 void CInputWin32::SetCursorOveride(vgui2::HCursor cursor)
 {
-	// Nothing
+	_cursorOverride = cursor;
 }
 
 vgui2::HCursor CInputWin32::GetCursorOveride()
 {
-	// Nothing
-	return NULL_HANDLE;
+	return _cursorOverride;
 }
 
 bool CInputWin32::WasMouseReleased(vgui2::MouseCode code)

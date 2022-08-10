@@ -116,6 +116,7 @@ private:
 
 private:
 	bool _updateToggleButtonState = false;
+	vgui2::HCursor _cursorOverride;
 	char* _keyTrans[MAX_KEYS];
 
 	InputContext_t m_DefaultInputContext;
