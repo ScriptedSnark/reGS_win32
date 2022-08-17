@@ -235,7 +235,7 @@ void InitTextMode()
 
 CSysModule* LoadFilesystemModule(const char* exename, bool bRunningSteam)
 {
-	auto pModule = Sys_LoadModule(filepath::FILESYSTEM_STDIO);
+	CSysModule* pModule = Sys_LoadModule(filepath::FILESYSTEM_STDIO);
 
 	if (!pModule)
 	{
@@ -247,7 +247,7 @@ CSysModule* LoadFilesystemModule(const char* exename, bool bRunningSteam)
 
 		struct _finddata_t find_data;
 
-		auto result = _findfirst(filepath::FILESYSTEM_STDIO, &find_data);
+		intptr_t result = _findfirst(filepath::FILESYSTEM_STDIO, &find_data);
 
 		if (result == -1)
 		{
@@ -472,13 +472,13 @@ int CALLBACK WinMain(
 	do
 	{
 		// Load and mount the filesystem.
-		auto hModule = LoadFilesystemModule(Filename, cmdline->CheckParm("-game", nullptr) != nullptr);
+		CSysModule* hModule = LoadFilesystemModule(Filename, cmdline->CheckParm("-game", nullptr) != nullptr);
 
 		if (!hModule)
 			break;
 
 		{
-			auto factoryFn = Sys_GetFactory(hModule);
+			CreateInterfaceFn factoryFn = Sys_GetFactory(hModule);
 
 			g_pFileSystem = static_cast<IFileSystem*>(factoryFn(FILESYSTEM_INTERFACE_VERSION, nullptr));
 		}
@@ -495,15 +495,15 @@ int CALLBACK WinMain(
 		const char* pszLibFileName;
 		SetEngineDLL(&pszLibFileName);
 
-		auto hLibModule = Sys_LoadModule(pszLibFileName);
+		CSysModule* hLibModule = Sys_LoadModule(pszLibFileName);
 
 		if (hLibModule)
 		{
-			auto factoryFn = Sys_GetFactory(hLibModule);
+			CreateInterfaceFn factoryFn = Sys_GetFactory(hLibModule);
 
 			if (factoryFn)
 			{
-				auto pEngine = static_cast<IEngineAPI*>(factoryFn(ENGINE_LAUNCHER_INTERFACE_VERSION, nullptr));
+				IEngineAPI* pEngine = static_cast<IEngineAPI*>(factoryFn(ENGINE_LAUNCHER_INTERFACE_VERSION, nullptr));
 
 				if (pEngine)
 				{

@@ -27,7 +27,7 @@ void CRegistry::Init()
 
 	DWORD dwDisposition;
 
-	auto result = RegCreateKeyExA(
+	LSTATUS result = RegCreateKeyExA(
 		HKEY_CURRENT_USER, SubKey,
 		0, nullptr, REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, nullptr,
 		&m_hKey, &dwDisposition);
