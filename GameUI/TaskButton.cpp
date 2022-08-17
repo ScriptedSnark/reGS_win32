@@ -96,7 +96,7 @@ void CTaskButton::OnMousePressed(vgui2::MouseCode mouseCode)
 {
 	if (m_bSelected)
 	{
-		auto task = GetTaskPanel();
+		vgui2::VPANEL task = GetTaskPanel();
 
 		if (task)
 		{
@@ -123,7 +123,7 @@ void CTaskButton::SetSelected(bool state)
 	{
 		m_bSelected = state;
 
-		auto task = GetTaskPanel();
+		vgui2::VPANEL task = GetTaskPanel();
 
 		if (task)
 		{
@@ -159,7 +159,7 @@ bool CTaskButton::ShouldDisplay()
 	if (!m_bHasTitle)
 		return false;
 
-	auto task = GetTaskPanel();
+	vgui2::VPANEL task = GetTaskPanel();
 
 	if (NULL_HANDLE == task)
 		return false;

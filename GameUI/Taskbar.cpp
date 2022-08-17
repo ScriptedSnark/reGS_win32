@@ -86,7 +86,7 @@ void CGameMenu::OnKillFocus()
 
 int CGameMenu::AddMenuItem(const char* itemName, const char* itemText, const char* command, vgui2::Panel* target, KeyValues* userData)
 {
-	auto item = new CGameMenuItem(this, itemName);
+	CGameMenuItem* item = new CGameMenuItem(this, itemName);
 
 	item->SetPaintEnabled(false);
 	item->AddActionSignalTarget(target);
@@ -139,7 +139,7 @@ void CGameMenu::OnThink()
 
 		for (int i = 0; i < GetChildCount(); ++i)
 		{
-			auto pChild = GetChild(i);
+			vgui2::Panel* pChild = GetChild(i);
 
 			if (pChild)
 			{
@@ -178,7 +178,7 @@ void CGameMenu::OnCommand(const char* command)
 
 int CGameMenu::AddMenuItem(const char* itemName, const char* itemText, KeyValues* command, vgui2::Panel* target, KeyValues* userData)
 {
-	auto item = new CGameMenuItem(this, itemName);
+	CGameMenuItem* item = new CGameMenuItem(this, itemName);
 
 	item->SetPaintEnabled(false);
 	item->AddActionSignalTarget(target);
@@ -284,7 +284,7 @@ void CTaskbar::OnOpenNewCareerNameDialog()
 {
 	if (TheCareerGame && TheCareerGame->IsPlayingMatch())
 	{
-		auto pQuery = new CareerQueryBox("#Career_RestartConfirmationTitle", "#Career_RestartConfirmationText", this);
+		CareerQueryBox* pQuery = new CareerQueryBox("#Career_RestartConfirmationTitle", "#Career_RestartConfirmationText", this);
 
 		pQuery->SetOKButtonText("#Career_Restart");
 		pQuery->SetOKCommand(new KeyValues("Command", "command", "RestartCareer"));
@@ -331,7 +331,7 @@ void CTaskbar::OnGameUIActivated()
 
 void CTaskbar::OnOpenQuitConfirmationDialog()
 {
-	auto pQuery = new vgui2::QueryBox("#GameUI_QuitConfirmationTitle", "#GameUI_QuitConfirmationText", this);
+	vgui2::QueryBox* pQuery = new vgui2::QueryBox("#GameUI_QuitConfirmationTitle", "#GameUI_QuitConfirmationText", this);
 	pQuery->SetOKButtonText("#GameUI_Quit");
 	pQuery->SetOKCommand(new KeyValues("Command", "command", "QuitNoConfirm"));
 	pQuery->SetCancelCommand(new KeyValues("Command", "command", "ReleaseModalWindow"));
@@ -493,7 +493,7 @@ void CTaskbar::OnOpenCreateCareerGameDialog()
 {
 	if (TheCareerGame && TheCareerGame->IsPlayingMatch())
 	{
-		auto pQuery = new CareerQueryBox("#Career_RestartConfirmationTitle", "#Career_RestartConfirmationText", this);
+		CareerQueryBox* pQuery = new CareerQueryBox("#Career_RestartConfirmationTitle", "#Career_RestartConfirmationText", this);
 		pQuery->SetOKButtonText("#Career_Restart");
 		pQuery->SetOKCommand(new KeyValues("Command", "command", "RestartCareer"));
 		pQuery->SetCancelCommand(new KeyValues("Command", "command", "ReleaseModalWindow"));
@@ -575,7 +575,7 @@ void CTaskbar::OnCommand(const char* command)
 	}
 	else if (!stricmp(command, "OpenPlayOnLineDialog"))
 	{
-		auto pQuery = new vgui2::QueryBox("#CZero_PlayOnLine", "#CZero_PlayOnLineText");
+		vgui2::QueryBox* pQuery = new vgui2::QueryBox("#CZero_PlayOnLine", "#CZero_PlayOnLineText");
 		pQuery->AddActionSignalTarget(this);
 		pQuery->SetOKCommand(new KeyValues("Command", "command", "QuitToPlayOnLine"));
 
@@ -654,7 +654,7 @@ void CTaskbar::OnCommand(const char* command)
 	}
 	else if (!stricmp(command, "Surrender"))
 	{
-		auto pQuery = new vgui2::QueryBox("#Career_Surrender", "#GameUI_QuitConfirmationText", this);
+		vgui2::QueryBox* pQuery = new vgui2::QueryBox("#Career_Surrender", "#GameUI_QuitConfirmationText", this);
 		pQuery->SetProportional(false);
 		pQuery->SetOKCommand(new KeyValues("Command", "command", "ReallySurrender"));
 		pQuery->AddActionSignalTarget(this);
@@ -664,7 +664,7 @@ void CTaskbar::OnCommand(const char* command)
 	}
 	else if (!stricmp(command, "EndRound"))
 	{
-		auto pQuery = new vgui2::QueryBox("#Career_EndRound", "#Career_EndRoundText", this);
+		vgui2::QueryBox* pQuery = new vgui2::QueryBox("#Career_EndRound", "#Career_EndRoundText", this);
 		pQuery->SetProportional(false);
 		pQuery->SetOKCommand(new KeyValues("Command", "command", "engine career_endround\n"));
 		pQuery->AddActionSignalTarget(this);
@@ -675,7 +675,7 @@ void CTaskbar::OnCommand(const char* command)
 	else
 	{
 		// Forward engine commands
-		auto pszCommand = strstr(command, "engine ");
+		const char* pszCommand = strstr(command, "engine ");
 
 		if (pszCommand)
 		{
@@ -745,7 +745,7 @@ void CTaskbar::UpdateGameMenus()
 	bool isInGame;
 	bool isMulti;
 
-	auto pszLevelName = engine->pfnGetLevelName();
+	const char* pszLevelName = engine->pfnGetLevelName();
 
 	if (pszLevelName && *pszLevelName)
 	{
@@ -797,22 +797,22 @@ void CTaskbar::UpdateGameMenus()
 		}
 	}
 
-	const auto bIsSteam = engine->CheckParm("-steam", 0) != 0;
+	const bool bIsSteam = engine->CheckParm("-steam", 0) != 0;
 
 	// Determine which menu items are visible
 	for (int i = 0; i < m_pGameMenu->GetChildCount(); ++i)
 	{
-		auto pChild = m_pGameMenu->GetChild(i);
+		vgui2::Panel* pChild = m_pGameMenu->GetChild(i);
 
 		if (!pChild)
 			continue;
 
-		auto pMenu = dynamic_cast<vgui2::MenuItem*>(pChild);
+		vgui2::MenuItem* pMenu = dynamic_cast<vgui2::MenuItem*>(pChild);
 
 		if (!pMenu)
 			continue;
 
-		auto pData = pMenu->GetUserData();
+		KeyValues* pData = pMenu->GetUserData();
 
 		if (!pData)
 			continue;
@@ -850,14 +850,14 @@ void CTaskbar::UpdateGameMenus()
 
 void CTaskbar::UpdateTaskButtons()
 {
-	auto hFocus = vgui2::input()->GetFocus();
+	vgui2::VPANEL hFocus = vgui2::input()->GetFocus();
 
 	int reorderedButtons = 0;
 	int visibleButtonCount = 0;
 
 	for (int i = 0; i < g_Tasks.Count();)
 	{
-		auto pTask = g_Tasks[i];
+		CTaskButton* pTask = g_Tasks[i];
 
 		if (hFocus && vgui2::ipanel()->HasParent(hFocus, pTask->GetTaskPanel()))
 		{
@@ -896,7 +896,7 @@ void CTaskbar::UpdateTaskButtons()
 						// Don't move if already at the back
 						if (i != g_Tasks.Count() - 1)
 						{
-							auto pOther = g_Tasks[i];
+							CTaskButton* pOther = g_Tasks[i];
 							g_Tasks[i] = g_Tasks[i + 1];
 							g_Tasks[i + 1] = pOther;
 
@@ -925,7 +925,7 @@ void CTaskbar::UpdateTaskButtons()
 
 	for (int i = 0; i < g_Tasks.Count(); ++i)
 	{
-		auto pTask = g_Tasks[i];
+		CTaskButton* pTask = g_Tasks[i];
 
 		if (!pTask->ShouldDisplay())
 		{
@@ -970,7 +970,7 @@ void CTaskbar::PerformLayout()
 
 void CTaskbar::CreateGameMenu()
 {
-	auto pKV = new KeyValues("GameMenu");
+	KeyValues* pKV = new KeyValues("GameMenu");
 
 	if (pKV->LoadFromFile(vgui2::filesystem(), "resource/GameMenu.res"))
 	{
@@ -1003,13 +1003,13 @@ void CTaskbar::CreatePlatformMenu()
 
 CGameMenu* CTaskbar::RecursiveLoadGameMenu(KeyValues* datafile)
 {
-	auto pGameMenu = new CGameMenu(this, datafile->GetName());
+	CGameMenu* pGameMenu = new CGameMenu(this, datafile->GetName());
 
-	for (auto pKV = datafile->GetFirstSubKey(); pKV; pKV = pKV->GetNextKey())
+	for (KeyValues* pKV = datafile->GetFirstSubKey(); pKV; pKV = pKV->GetNextKey())
 	{
-		auto pszLabel = pKV->GetString("label", "<unknown>");
-		auto pszCommand = pKV->GetString("command", nullptr);
-		auto pszName = pKV->GetString("name", pszLabel);
+		const char* pszLabel = pKV->GetString("label", "<unknown>");
+		const char* pszCommand = pKV->GetString("command", nullptr);
+		const char* pszName = pKV->GetString("name", pszLabel);
 
 		pGameMenu->AddMenuItem(pszName, pszLabel, pszCommand, this, pKV);
 	}

@@ -71,7 +71,7 @@ bool CCareerCharacter::operator<(const CCareerCharacter& other) const
 	if (!m_pProfile)
 		return false;
 
-	auto pOther = other.m_pProfile;
+	const BotProfile* pOther = other.m_pProfile;
 
 	CHECK_PROFILE_VALUE(Cost);
 	CHECK_PROFILE_RANGED_VALUE(Skill);
@@ -198,7 +198,7 @@ CCareerMap::CCareerMap(const char* name, const CharacterVec& bots, bool friendly
 
 CCareerMap::~CCareerMap()
 {
-	for (auto pBot : m_bots)
+	for (CCareerCharacter* pBot : m_bots)
 	{
 		delete pBot;
 	}
@@ -217,7 +217,7 @@ const char* CCareerMap::GetBotName(int index)
 	if (index < 0 || static_cast<size_t>(index) >= m_bots.size())
 		return nullptr;
 
-	auto pProfile = m_bots[index]->m_pProfile;
+	const BotProfile* pProfile = m_bots[index]->m_pProfile;
 
 	if (pProfile)
 		return pProfile->GetName();
@@ -260,7 +260,7 @@ int CCareerMap::GetCurrentEnemyCount() const
 
 void CCareerMap::ResetTaskCompletion()
 {
-	for (auto pTask : m_tasks)
+	for (ICareerTask* pTask : m_tasks)
 	{
 		pTask->Reset();
 	}

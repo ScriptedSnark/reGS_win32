@@ -19,12 +19,12 @@ CLoadGameDialog::CLoadGameDialog(vgui2::Panel* parent)
 
 	SetTitle("#GameUI_LoadGame", true);
 
-	auto pHelp = new vgui2::Label(this, "HelpText", "#GameUI_LoadGameHelp");
+	vgui2::Label* pHelp = new vgui2::Label(this, "HelpText", "#GameUI_LoadGameHelp");
 
-	auto pLoadButton = new vgui2::Button(this, "Load", "#GameUI_Load");
+	vgui2::Button* pLoadButton = new vgui2::Button(this, "Load", "#GameUI_Load");
 	pLoadButton->SetCommand("Load");
 
-	auto pCancelButton = new vgui2::Button(this, "Cancel", "#GameUI_Cancel");
+	vgui2::Button* pCancelButton = new vgui2::Button(this, "Cancel", "#GameUI_Cancel");
 	pCancelButton->SetCommand("Close");
 
 	CreateSavedGamesList();
@@ -43,11 +43,11 @@ void CLoadGameDialog::OnCommand(const char* command)
 {
 	if (!stricmp(command, "Load"))
 	{
-		auto pItem = m_pGameList->GetItem(m_pGameList->GetSelectedItem(0));
+		KeyValues* pItem = m_pGameList->GetItem(m_pGameList->GetSelectedItem(0));
 
 		if (pItem)
 		{
-			auto pszName = pItem->GetString("ShortName");
+			const char* pszName = pItem->GetString("ShortName");
 
 			if (pszName && *pszName)
 			{
@@ -88,7 +88,7 @@ bool CLoadGameDialog::ParseSaveData(const char* pszFileName, const char* pszShor
 	kv->SetString("ShortName", pszShortName);
 	kv->SetString("FileName", pszFileName);
 
-	auto hFile = vgui2::filesystem()->Open(pszFileName, "rb", "GAMECONFIG");
+	FileHandle_t hFile = vgui2::filesystem()->Open(pszFileName, "rb", "GAMECONFIG");
 
 	if (FILESYSTEM_INVALID_HANDLE != hFile)
 	{
@@ -105,7 +105,7 @@ bool CLoadGameDialog::ParseSaveData(const char* pszFileName, const char* pszShor
 			kv->SetInt("Quick", strstr(pszFileName, "quick") ? 1 : 0);
 			kv->SetInt("Autosave", strstr(pszFileName, "autosave") ? 1 : 0);
 
-			const auto uiCommentLength = strlen(szComment);
+			const size_t uiCommentLength = strlen(szComment);
 
 			char szElapsedTime[SAVEGAME_ELAPSED_LEN] = "??";
 
@@ -131,12 +131,12 @@ bool CLoadGameDialog::ParseSaveData(const char* pszFileName, const char* pszShor
 			kv->SetString("Game", szComment);
 			kv->SetString("Elapsed Time", szElapsedTime);
 
-			auto timestamp = vgui2::filesystem()->GetFileTime(pszFileName);
+			long timestamp = vgui2::filesystem()->GetFileTime(pszFileName);
 
 			char szFileTime[32];
 			vgui2::filesystem()->FileTimeToString(szFileTime, ARRAYSIZE(szFileTime), timestamp);
 
-			auto pszNewLine = strchr(szFileTime, '\n');
+			char* pszNewLine = strchr(szFileTime, '\n');
 			if (pszNewLine)
 				*pszNewLine = '\0';
 
@@ -169,7 +169,7 @@ void CLoadGameDialog::ScanSavedGames()
 		char szFileName[_MAX_PATH];
 		Q_snprintf(szFileName, sizeof(szFileName), "save/%s", pFileName);
 
-		auto pKV = new KeyValues("SavedGame");
+		KeyValues* pKV = new KeyValues("SavedGame");
 
 		if (ParseSaveData(szFileName, pFileName, pKV))
 		{

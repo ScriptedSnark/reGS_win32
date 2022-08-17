@@ -190,7 +190,7 @@ void CrosshairImagePanel::Paint()
 
 	bool additive = m_pAdditive->IsSelected();
 
-	auto pfnFill = additive ? engine->pfnFillRGBA : engine->pfnFillRGBABlend;
+	pfnEngSrc_pfnFillRGBA_t pfnFill = additive ? engine->pfnFillRGBA : engine->pfnFillRGBABlend;
 
 	pfnFill((wide / 2 - m_barGap - m_barSize) + 1, tall / 2, m_barSize, 1, m_R, m_G, m_B, 255);
 	pfnFill(wide / 2 + m_barGap, tall / 2, m_barSize, 1, m_R, m_G, m_B, 255);
@@ -201,19 +201,19 @@ void CrosshairImagePanel::Paint()
 COptionsSubMultiplayer::COptionsSubMultiplayer(vgui2::Panel* parent)
 	: BaseClass(parent, "OptionsSubMultiplayer")
 {
-	auto pCancel = new vgui2::Button(this, "Cancel", "#GameUI_Cancel");
+	vgui2::Button* pCancel = new vgui2::Button(this, "Cancel", "#GameUI_Cancel");
 	pCancel->SetCommand("Close");
 
-	auto pOk = new vgui2::Button(this, "OK", "#GameUI_OK");
+	vgui2::Button* pOk = new vgui2::Button(this, "OK", "#GameUI_OK");
 	pOk->SetCommand("Ok");
 
-	auto pApply = new vgui2::Button(this, "Apply", "#GameUI_Apply");
+	vgui2::Button* pApply = new vgui2::Button(this, "Apply", "#GameUI_Apply");
 	pApply->SetCommand("Apply");
 
-	auto pAdvanced = new vgui2::Button(this, "Advanced", "#GameUI_AdvancedEllipsis");
+	vgui2::Button* pAdvanced = new vgui2::Button(this, "Advanced", "#GameUI_AdvancedEllipsis");
 	pAdvanced->SetCommand("Advanced");
 
-	auto pPlayerName = new vgui2::Label(this, "NameLabel", "#GameUI_PlayerName");
+	vgui2::Label* pPlayerName = new vgui2::Label(this, "NameLabel", "#GameUI_PlayerName");
 
 	m_pNameTextEntry = new CCvarTextEntry(this, "NameEntry", "name");
 
@@ -231,7 +231,7 @@ COptionsSubMultiplayer::COptionsSubMultiplayer(vgui2::Panel* parent)
 
 	m_pColorList = new CLabeledCommandComboBox(this, "SpraypaintColor");
 
-	auto pszLogoColor = engine->pfnGetCvarString("cl_logocolor");
+	char* pszLogoColor = engine->pfnGetCvarString("cl_logocolor");
 
 	char sz[128];
 
@@ -239,7 +239,7 @@ COptionsSubMultiplayer::COptionsSubMultiplayer(vgui2::Panel* parent)
 
 	for (int i = 0; i < ARRAYSIZE(itemlist); ++i)
 	{
-		const auto& color = itemlist[i];
+		const ColorItem_t& color = itemlist[i];
 
 		sprintf(sz, "cl_logocolor %s\n", color.name);
 		m_pColorList->AddItem(color.name, sz);
@@ -311,11 +311,11 @@ COptionsSubMultiplayer::COptionsSubMultiplayer(vgui2::Panel* parent)
 		if (m_pSecondaryColorSlider)
 			m_pSecondaryColorSlider->SetVisible(false);
 
-		auto pLabel1 = FindChildByName("Label1", false);
+		vgui2::Panel* pLabel1 = FindChildByName("Label1", false);
 		if (pLabel1)
 			pLabel1->SetVisible(false);
 
-		auto pColors = FindChildByName("Colors", false);
+		vgui2::Panel* pColors = FindChildByName("Colors", false);
 		if (pColors)
 			pColors->SetVisible(false);
 	}
@@ -376,11 +376,11 @@ void COptionsSubMultiplayer::OnApplyChanges()
 
 	ApplyCrosshairColorChanges();
 
-	auto pszItem = m_pColorList->GetActiveItemCommand();
+	const char* pszItem = m_pColorList->GetActiveItemCommand();
 
 	if (pszItem && *pszItem)
 	{
-		auto pszFileName = pszItem + strlen("cl_logocolor ");
+		const char* pszFileName = pszItem + strlen("cl_logocolor ");
 		char cmd[512];
 		snprintf(cmd, ARRAYSIZE(cmd) - 1, "cl_logofile %s\n", m_LogoName);
 		engine->pfnClientCmd(cmd);
@@ -409,11 +409,11 @@ void COptionsSubMultiplayer::OnApplyChanges()
 
 		strcpy(infile, "logos/remapped.bmp");
 
-		auto hFile = vgui2::filesystem()->Open(infile, "rb");
+		FileHandle_t hFile = vgui2::filesystem()->Open(infile, "rb");
 
 		if (hFile)
 		{
-			auto uiSize = vgui2::filesystem()->Size(hFile);
+			unsigned int uiSize = vgui2::filesystem()->Size(hFile);
 
 			BITMAPFILEHEADER bmfHeader;
 
@@ -421,8 +421,8 @@ void COptionsSubMultiplayer::OnApplyChanges()
 
 			if (bmfHeader.bfType == DIB_HEADER_MARKER)
 			{
-				auto uiBufSize = uiSize - sizeof(bmfHeader);
-				auto pBuffer = malloc(uiBufSize);
+				unsigned int uiBufSize = uiSize - sizeof(bmfHeader);
+				void* pBuffer = malloc(uiBufSize);
 				vgui2::filesystem()->Read(pBuffer, uiBufSize, hFile);
 				UpdateLogoWAD(pBuffer, r, g, b);
 				free(pBuffer);
@@ -439,7 +439,7 @@ void COptionsSubMultiplayer::InitModelList(CLabeledCommandComboBox* cb)
 	vgui2::filesystem()->RemoveFile("models/player/remapped.bmp", "GAME");
 	vgui2::filesystem()->RemoveFile("models/player/remapped.bmp", nullptr);
 
-	auto pszModel = engine->pfnGetCvarString("model");
+	char* pszModel = engine->pfnGetCvarString("model");
 
 	char currentmodel[64];
 	currentmodel[0] = '\0';
@@ -450,7 +450,7 @@ void COptionsSubMultiplayer::InitModelList(CLabeledCommandComboBox* cb)
 	char cmdstring[256];
 
 	FileFindHandle_t findHandle;
-	auto pszFileName = vgui2::filesystem()->FindFirst("models/player/*.*", &findHandle);
+	const char* pszFileName = vgui2::filesystem()->FindFirst("models/player/*.*", &findHandle);
 
 	int iInitialItem = 0;
 
@@ -483,7 +483,7 @@ void COptionsSubMultiplayer::RedrawCrosshairImage()
 {
 	if (m_pCrosshairColorComboBox)
 	{
-		auto pItemData = m_pCrosshairColorComboBox->GetActiveItemUserData();
+		KeyValues* pItemData = m_pCrosshairColorComboBox->GetActiveItemUserData();
 		const int r = pItemData->GetInt("red", 0);
 		const int g = pItemData->GetInt("green", 0);
 		const int b = pItemData->GetInt("blue", 0);
@@ -527,7 +527,7 @@ void COptionsSubMultiplayer::InitCrosshairColorEntries()
 
 		pszCrosshairColor = SharedParse(pszCrosshairColor);
 
-		auto pszToken = SharedGetToken();
+		char* pszToken = SharedGetToken();
 
 		if (pszToken)
 		{
@@ -557,7 +557,7 @@ void COptionsSubMultiplayer::InitCrosshairColorEntries()
 
 	if (m_pCrosshairColorComboBox)
 	{
-		auto pData = new KeyValues("data");
+		KeyValues* pData = new KeyValues("data");
 
 		pData->Clear();
 
@@ -565,7 +565,7 @@ void COptionsSubMultiplayer::InitCrosshairColorEntries()
 
 		for (int i = 0; i < ARRAYSIZE(s_crosshairColors); ++i)
 		{
-			const auto& color = s_crosshairColors[i];
+			const ColorItem_t& color = s_crosshairColors[i];
 
 			pData->SetInt("red", color.r);
 			pData->SetInt("green", color.g);
@@ -598,7 +598,7 @@ void COptionsSubMultiplayer::InitCrosshairSizeList(CLabeledCommandComboBox* cb)
 		cb->AddItem("#GameUI_Medium", "cl_crosshair_size medium");
 		cb->AddItem("#GameUI_Large", "cl_crosshair_size large");
 
-		auto pszSize = engine->pfnGetCvarString("cl_crosshair_size");
+		char* pszSize = engine->pfnGetCvarString("cl_crosshair_size");
 
 		int iInitialItem;
 
@@ -723,7 +723,7 @@ void COptionsSubMultiplayer::ColorForName(const char* pszColorName, int& r, int&
 	g = 0;
 	b = 0;
 
-	for (const auto& color : itemlist)
+	for (const ColorItem_t& color : itemlist)
 	{
 		if (!strnicmp(pszColorName, color.name, strlen(color.name)))
 		{
@@ -742,11 +742,11 @@ void COptionsSubMultiplayer::RemapLogoPalette(char* filename, int r, int g, int 
 	char infile[256];
 	sprintf(infile, "logos/%s.bmp", filename);
 
-	auto hInFile = vgui2::filesystem()->Open(infile, "rb");
+	FileHandle_t hInFile = vgui2::filesystem()->Open(infile, "rb");
 
 	if (hInFile)
 	{
-		const auto uiSize = vgui2::filesystem()->Size(hInFile);
+		const unsigned int uiSize = vgui2::filesystem()->Size(hInFile);
 
 		BITMAPFILEHEADER bmfHeader;
 		vgui2::filesystem()->Read(&bmfHeader, sizeof(bmfHeader), hInFile);
@@ -754,15 +754,15 @@ void COptionsSubMultiplayer::RemapLogoPalette(char* filename, int r, int g, int 
 
 		if (bmfHeader.bfType == DIB_HEADER_MARKER)
 		{
-			const auto uiBufferSize = uiSize - sizeof(bmfHeader);
-			auto pBuffer = malloc(uiBufferSize);
+			const unsigned int uiBufferSize = uiSize - sizeof(bmfHeader);
+			void* pBuffer = malloc(uiBufferSize);
 			vgui2::filesystem()->Read(pBuffer, uiBufferSize, hInFile);
 
-			auto pInfo = reinterpret_cast<BITMAPINFO*>(pBuffer);
+			BITMAPINFO* pInfo = reinterpret_cast<BITMAPINFO*>(pBuffer);
 
 			pInfo->bmiHeader.biClrUsed = 256;
 
-			auto pColor = pInfo->bmiColors;
+			RGBQUAD* pColor = pInfo->bmiColors;
 
 			for (int i = 0; i < 256; ++i, ++pColor)
 			{
@@ -780,7 +780,7 @@ void COptionsSubMultiplayer::RemapLogoPalette(char* filename, int r, int g, int 
 
 		vgui2::filesystem()->RemoveFile(outfile, "GAMECONFIG");
 		vgui2::filesystem()->CreateDirHierarchy("logos", "GAMECONFIG");
-		auto hOutFile = vgui2::filesystem()->Open(outfile, "wb", "GAMECONFIG");
+		FileHandle_t hOutFile = vgui2::filesystem()->Open(outfile, "wb", "GAMECONFIG");
 
 		if (hOutFile)
 		{
@@ -811,12 +811,12 @@ void COptionsSubMultiplayer::RemapLogo()
 
 	strcpy(texture, "logos/remapped");
 
-	auto pszItem = m_pColorList->GetActiveItemCommand();
+	const char* pszItem = m_pColorList->GetActiveItemCommand();
 
 	if (!pszItem || !(*pszItem))
 		return;
 
-	auto pszFileName = pszItem + strlen("cl_logocolor ");
+	const char* pszFileName = pszItem + strlen("cl_logocolor ");
 
 	int r = 0, g = 0, b = 0;
 
@@ -873,12 +873,12 @@ void COptionsSubMultiplayer::InitLogoList(CLabeledCommandComboBox* cb)
 
 	CUtlRBTree<CUtlSymbol, short> treeMapNames(&CaselessStringLessThan);
 
-	auto logofile = engine->pfnGetCvarString("cl_logofile");
+	char* logofile = engine->pfnGetCvarString("cl_logofile");
 
 	char directory[512] = "logos/*.bmp";
 
 	FileFindHandle_t fh;
-	auto pszFileName = vgui2::filesystem()->FindFirst(directory, &fh);
+	const char* pszFileName = vgui2::filesystem()->FindFirst(directory, &fh);
 
 	if (pszFileName)
 	{
@@ -890,7 +890,7 @@ void COptionsSubMultiplayer::InitLogoList(CLabeledCommandComboBox* cb)
 			{
 				strcpy(filename, pszFileName);
 
-				const auto uiFilenameLength = strlen(filename);
+				const size_t uiFilenameLength = strlen(filename);
 
 				if (uiFilenameLength > 3)
 					filename[uiFilenameLength - 4] = '\0';
@@ -905,11 +905,11 @@ void COptionsSubMultiplayer::InitLogoList(CLabeledCommandComboBox* cb)
 
 	int iItem = 0;
 
-	for (auto i = treeMapNames.FirstInorder();
+	for (short i = treeMapNames.FirstInorder();
 		 i != treeMapNames.InvalidIndex();
 		 i = treeMapNames.NextInorder(i))
 	{
-		const auto& file = treeMapNames[i];
+		const CUtlSymbol& file = treeMapNames[i];
 
 		cb->AddItem(file.String(), "");
 

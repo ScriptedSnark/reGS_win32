@@ -18,7 +18,7 @@ void CCommandCheckButton::SetSelected(bool state)
 {
 	BaseClass::SetSelected(state);
 
-	auto pszCmd = IsSelected() ? m_pszDown : m_pszUp;
+	char* pszCmd = IsSelected() ? m_pszDown : m_pszUp;
 
 	if (pszCmd)
 	{

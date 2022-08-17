@@ -127,7 +127,7 @@ void CHistoryItem::SetText(const char* text, const char* extra)
 	if (m_text)
 		delete[] m_text;
 
-	auto size = strlen(text) + 1;
+	unsigned int size = strlen(text) + 1;
 
 	m_text = new char[size];
 
@@ -142,7 +142,7 @@ void CHistoryItem::SetText(const char* text, const char* extra)
 		if (m_extraText)
 			delete[] m_extraText;
 
-		auto extraSize = strlen(extra) + 1;
+		unsigned int extraSize = strlen(extra) + 1;
 
 		m_extraText = new char[extraSize];
 
@@ -215,7 +215,7 @@ const char* CGameConsoleDialog::CompletionItem::GetItemText()
 
 	if (m_text)
 	{
-		auto pszText = m_text->GetText();
+		const char* pszText = m_text->GetText();
 
 		if (!pszText)
 			pszText = "";
@@ -244,7 +244,7 @@ const char* CGameConsoleDialog::CompletionItem::GetCommand() const
 
 	if (m_text)
 	{
-		auto pszText = m_text->GetText();
+		const char* pszText = m_text->GetText();
 
 		if (!pszText)
 			pszText = "";
@@ -320,7 +320,7 @@ void CGameConsoleDialog::OnTextChanged(vgui2::Panel* panel)
 
 	m_pEntry->GetText(m_szPartialText, ARRAYSIZE(m_szPartialText));
 
-	auto length = strlen(m_szPartialText);
+	size_t length = strlen(m_szPartialText);
 
 	if (!m_bAutoCompleteMode && length > 0 && m_szPartialText[length - 1] == ' ')
 	{
@@ -353,7 +353,7 @@ void CGameConsoleDialog::OnTextChanged(vgui2::Panel* panel)
 		{
 			dest[0] = '\0';
 
-			auto& completion = m_CompletionList[i];
+			CompletionItem& completion = m_CompletionList[i];
 
 			strcpy(dest, completion.GetItemText());
 			dest[ARRAYSIZE(dest) - 1] = '\0';
@@ -399,7 +399,7 @@ void CGameConsoleDialog::OnMenuItemSelected(const char* command)
 
 void CGameConsoleDialog::OnAutoComplete()
 {
-	auto& completion = m_CompletionList[m_iNextCompletion];
+	CompletionItem& completion = m_CompletionList[m_iNextCompletion];
 
 	char completedText[256];
 
@@ -407,7 +407,7 @@ void CGameConsoleDialog::OnAutoComplete()
 
 	if (!strchr(completedText, ' '))
 	{
-		const auto length = strlen(completedText);
+		const size_t length = strlen(completedText);
 		completedText[length] = ' ';
 		completedText[length + 1] = '\0';
 	}
@@ -423,7 +423,7 @@ void CGameConsoleDialog::OnKeyCodeTyped(vgui2::KeyCode code)
 {
 	BaseClass::OnKeyCodeTyped(code);
 
-	const auto toggleKey = gameuifuncs->GetVGUI2KeyCodeForBind("toggleconsole");
+	const vgui2::KeyCode toggleKey = gameuifuncs->GetVGUI2KeyCodeForBind("toggleconsole");
 
 	const bool bShiftDown = vgui2::input()->IsKeyDown(vgui2::KEY_LSHIFT) ||
 							vgui2::input()->IsKeyDown(vgui2::KEY_RSHIFT);
@@ -551,7 +551,7 @@ void CGameConsoleDialog::PerformLayout()
 
 	GetFocusNavGroup().SetDefaultButton(m_pSubmit);
 
-	auto pScheme = vgui2::scheme()->GetIScheme(GetScheme());
+	vgui2::IScheme* pScheme = vgui2::scheme()->GetIScheme(GetScheme());
 
 	m_pEntry->SetBorder(pScheme->GetBorder("DepressedButtonBorder"));
 	m_pHistory->SetBorder(pScheme->GetBorder("DepressedButtonBorder"));
@@ -595,7 +595,7 @@ void CGameConsoleDialog::DumpConsoleTextToFile()
 		return;
 	}
 
-	auto hFile = vgui2::filesystem()->Open(szfile, "wb");
+	FileHandle_t hFile = vgui2::filesystem()->Open(szfile, "wb");
 
 	if (hFile)
 	{
@@ -615,7 +615,7 @@ void CGameConsoleDialog::DumpConsoleTextToFile()
 
 			vgui2::localize()->ConvertUnicodeToANSI(buf, ansi, ARRAYSIZE(ansi));
 
-			auto length = strlen(ansi);
+			size_t length = strlen(ansi);
 
 			for (decltype(length) i = 0; i < length; ++i)
 			{
@@ -648,13 +648,13 @@ void CGameConsoleDialog::RebuildCompletionList(const char* text)
 {
 	m_CompletionList.RemoveAll();
 
-	const auto length = strlen(text);
+	const size_t length = strlen(text);
 
 	if (length <= 0)
 	{
 		for (int i = 0; i < m_CommandHistory.Count(); ++i)
 		{
-			auto& completion = m_CompletionList[m_CompletionList.AddToTail()];
+			CompletionItem& completion = m_CompletionList[m_CompletionList.AddToTail()];
 
 			completion.iscommand = false;
 			completion.m_text = new CHistoryItem(m_CommandHistory[i]);
@@ -662,11 +662,11 @@ void CGameConsoleDialog::RebuildCompletionList(const char* text)
 	}
 	else if (!strchr(text, ' '))
 	{
-		for (auto handle = engine->GetFirstCmdFunctionHandle(); handle; handle = engine->GetNextCmdFunctionHandle(handle))
+		for (unsigned int handle = engine->GetFirstCmdFunctionHandle(); handle; handle = engine->GetNextCmdFunctionHandle(handle))
 		{
 			if (!strnicmp(text, engine->GetCmdFunctionName(handle), length))
 			{
-				auto& completion = m_CompletionList[m_CompletionList.AddToTail()];
+				CompletionItem& completion = m_CompletionList[m_CompletionList.AddToTail()];
 
 				completion.iscommand = true;
 				completion.cmd.cmd = handle;
@@ -675,11 +675,11 @@ void CGameConsoleDialog::RebuildCompletionList(const char* text)
 			}
 		}
 
-		for (auto pCVar = engine->GetFirstCvarPtr(); pCVar; pCVar = pCVar->next)
+		for (cvar_s* pCVar = engine->GetFirstCvarPtr(); pCVar; pCVar = pCVar->next)
 		{
 			if (!strnicmp(text, pCVar->name, length))
 			{
-				auto& completion = m_CompletionList[m_CompletionList.AddToTail()];
+				CompletionItem& completion = m_CompletionList[m_CompletionList.AddToTail()];
 
 				completion.iscommand = true;
 				completion.cmd.cmd = 0;
@@ -697,7 +697,7 @@ void CGameConsoleDialog::AddToHistory(const char* commandText, const char* extra
 		m_CommandHistory.Remove(0);
 	}
 
-	const auto commandLength = strlen(commandText);
+	const size_t commandLength = strlen(commandText);
 	char* command = reinterpret_cast<char*>(stackalloc(sizeof(char) * (commandLength + 1)));
 	memset(command, 0, sizeof(char) * (commandLength + 1));
 	strncpy(command, commandText, commandLength);
@@ -714,7 +714,7 @@ void CGameConsoleDialog::AddToHistory(const char* commandText, const char* extra
 		memset(extra, 0, sizeof(char) * (extraLength + 1));
 		strncpy(extra, extraText, extraLength);
 
-		for (auto index = extraLength - 1; index >= 0 && extra[index] == ' '; --index)
+		for (int index = extraLength - 1; index >= 0 && extra[index] == ' '; --index)
 		{
 			extra[index] = '\0';
 		}
@@ -722,9 +722,9 @@ void CGameConsoleDialog::AddToHistory(const char* commandText, const char* extra
 
 	for (int i = m_CommandHistory.Count() - 1; i >= 0; --i)
 	{
-		auto& item = m_CommandHistory[i];
+		CHistoryItem& item = m_CommandHistory[i];
 
-		auto pszText = "";
+		const char* pszText = "";
 
 		if (item.GetText())
 			pszText = item.GetText();
@@ -736,7 +736,7 @@ void CGameConsoleDialog::AddToHistory(const char* commandText, const char* extra
 		}
 	}
 
-	auto& item = m_CommandHistory[m_CommandHistory.AddToTail()];
+	CHistoryItem& item = m_CommandHistory[m_CommandHistory.AddToTail()];
 	item.SetText(command, extra);
 
 	m_iNextCompletion = 0;
@@ -766,7 +766,7 @@ void CGameConsoleDialog::OnCommand(const char* command)
 
 		m_pHistory->GotoTextEnd();
 
-		auto pszSpace = strchr(text, ' ');
+		char* pszSpace = strchr(text, ' ');
 		if (pszSpace)
 			*pszSpace++ = '\0';
 

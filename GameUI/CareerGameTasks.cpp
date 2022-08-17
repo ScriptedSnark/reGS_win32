@@ -27,7 +27,7 @@ void ConstructStringWithReordering(wchar_t* unicodeOutput, int unicodeBufferSize
 		wchar_t* tmp = new wchar_t[wcslen(formatString) + 1];
 		wcscpy(tmp, formatString);
 
-		auto pszData = tmp;
+		wchar_t* pszData = tmp;
 
 		for (int i = 0; i < numFormatParameters; ++i)
 		{
@@ -36,19 +36,19 @@ void ConstructStringWithReordering(wchar_t* unicodeOutput, int unicodeBufferSize
 			if (!pszData)
 				break;
 
-			const auto c = pszData[2];
+			const wchar_t c = pszData[2];
 
 			if (c < L'0' || c > L'9')
 				break;
 
-			const auto index = c - L'1';
+			const int index = c - L'1';
 
 			if (index < numFormatParameters)
 			{
-				auto ppszCurrent = &fragments[i];
-				auto ppszTarget = &fragments[index];
+				wchar_t** ppszCurrent = &fragments[i];
+				wchar_t** ppszTarget = &fragments[index];
 
-				auto pszTemp = *ppszCurrent;
+				wchar_t* pszTemp = *ppszCurrent;
 				*ppszCurrent = *ppszTarget;
 				*ppszTarget = pszTemp;
 
@@ -57,14 +57,14 @@ void ConstructStringWithReordering(wchar_t* unicodeOutput, int unicodeBufferSize
 				pszData[2] = unicodePS[2];
 				pszData += 3;
 
-				auto pszReplace = wcsstr(pszData, unicodePS);
+				wchar_t* pszReplace = wcsstr(pszData, unicodePS);
 
 				if (pszReplace)
 					pszReplace[2] = c;
 			}
 		}
 
-		auto uiBufferSpaceLeft = static_cast<unsigned int>(unicodeBufferSizeInBytes / sizeof(wchar_t));
+		unsigned int uiBufferSpaceLeft = static_cast<unsigned int>(unicodeBufferSizeInBytes / sizeof(wchar_t));
 
 		char searchStr[32];
 		wchar_t unicodePS[4];
@@ -82,11 +82,11 @@ void ConstructStringWithReordering(wchar_t* unicodeOutput, int unicodeBufferSize
 
 			vgui2::localize()->ConvertANSIToUnicode(searchStr, unicodePS, sizeof(unicodePS));
 
-			auto pszNextParam = wcsstr(pszNext, unicodePS);
+			const wchar_t* pszNextParam = wcsstr(pszNext, unicodePS);
 
 			if (!pszNextParam)
 			{
-				const auto uiToCopy = min(uiBufferSpaceLeft, wcslen(pszNext) + 1);
+				const unsigned int uiToCopy = min(uiBufferSpaceLeft, wcslen(pszNext) + 1);
 
 				wcsncpy(pszDest, pszNext, uiToCopy);
 				pszDest[uiBufferSpaceLeft - 1] = L'\0';
@@ -94,7 +94,7 @@ void ConstructStringWithReordering(wchar_t* unicodeOutput, int unicodeBufferSize
 			}
 
 			{
-				const auto uiToCopy = min(uiBufferSpaceLeft, static_cast<size_t>(pszNextParam - pszNext));
+				const unsigned int uiToCopy = min(uiBufferSpaceLeft, static_cast<size_t>(pszNextParam - pszNext));
 
 				wcsncpy(pszDest, pszNext, uiToCopy);
 				uiBufferSpaceLeft -= uiToCopy;
@@ -104,7 +104,7 @@ void ConstructStringWithReordering(wchar_t* unicodeOutput, int unicodeBufferSize
 
 			if (i < numFormatParameters)
 			{
-				auto s = fragments[nextFragment];
+				wchar_t* s = fragments[nextFragment];
 
 				if (!s)
 				{
@@ -113,7 +113,7 @@ void ConstructStringWithReordering(wchar_t* unicodeOutput, int unicodeBufferSize
 
 				++nextFragment;
 
-				const auto uiToCopy = min(uiBufferSpaceLeft, wcslen(s));
+				const unsigned int uiToCopy = min(uiBufferSpaceLeft, wcslen(s));
 
 				// Skip the format parameter
 				pszNext += 3;
@@ -169,7 +169,7 @@ CCareerUITask::CCareerUITask(const char* taskName)
 		}
 		else
 		{
-			const auto iValue = strtol(s1, nullptr, 10);
+			const long iValue = strtol(s1, nullptr, 10);
 
 			if (iValue)
 			{
@@ -204,7 +204,7 @@ CCareerUITask::CCareerUITask(const char* taskName)
 	char taskIdStr[144];
 	sprintf(taskIdStr, "#Career_Weapon_%s", m_weapon);
 
-	auto pszLocalized = vgui2::localize()->Find(taskIdStr);
+	wchar_t* pszLocalized = vgui2::localize()->Find(taskIdStr);
 
 	if (!pszLocalized)
 		pszLocalized = L"";

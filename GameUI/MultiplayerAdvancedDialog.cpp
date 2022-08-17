@@ -390,7 +390,7 @@ bool CInfoDescription::InitFromFile(char* pszFileName)
 
 	if (!stricmp(ModInfo().GetGameDescription(), "Condition Zero"))
 	{
-		for (auto i = pObjList; i; i = i->pNext)
+		for (CScriptObject* i = pObjList; i; i = i->pNext)
 		{
 			// Old name, convert to new
 			if (!stricmp(i->cvarname, "cl_tutor"))
@@ -401,15 +401,15 @@ bool CInfoDescription::InitFromFile(char* pszFileName)
 		}
 	}
 
-	auto tmp = new CInfoDescription(nullptr);
+	CInfoDescription* tmp = new CInfoDescription(nullptr);
 
-	auto hFile = vgui2::filesystem()->Open(DEFAULT_OPTIONS_FILE, "rb");
+	FileHandle_t hFile = vgui2::filesystem()->Open(DEFAULT_OPTIONS_FILE, "rb");
 
 	if (FILESYSTEM_INVALID_HANDLE != hFile)
 	{
-		auto size = vgui2::filesystem()->Size(hFile);
+		unsigned int size = vgui2::filesystem()->Size(hFile);
 		// TODO: should be size + 1, followed by null termination - Solokiller
-		auto pBuffer = new char[size];
+		char* pBuffer = new char[size];
 		vgui2::filesystem()->Read(pBuffer, size, hFile);
 		vgui2::filesystem()->Close(hFile);
 
@@ -417,12 +417,12 @@ bool CInfoDescription::InitFromFile(char* pszFileName)
 		delete[] pBuffer;
 	}
 
-	for (auto j = tmp->pObjList; j; j = j->pNext)
+	for (CScriptObject* j = tmp->pObjList; j; j = j->pNext)
 	{
 		bool bExists = false;
 
 		// Don't overwrite existing values
-		for (auto k = pObjList; k; k = k->pNext)
+		for (CScriptObject* k = pObjList; k; k = k->pNext)
 		{
 			if (!stricmp(k->cvarname, j->cvarname))
 			{
@@ -433,14 +433,14 @@ bool CInfoDescription::InitFromFile(char* pszFileName)
 
 		if (!bExists)
 		{
-			auto pItem = new CScriptObject();
+			CScriptObject* pItem = new CScriptObject();
 			// TODO: this performs a shallow copy of j, which copies over unique Panel data as well.
 			// Find a way to copy it without causing such problems - Solokiller
 			*pItem = *j;
 			pItem->pListItems = nullptr;
 
 			// Copy items
-			for (auto k = j->pListItems; k; k = k->pNext)
+			for (CScriptListItem* k = j->pListItems; k; k = k->pNext)
 			{
 				pItem->AddItem(new CScriptListItem(*k));
 			}
@@ -520,7 +520,7 @@ void CMultiplayerAdvancedPage::OnApplyChanges()
 	{
 		m_pDescription->WriteToConfig();
 
-		auto hFile = vgui2::filesystem()->Open(OPTIONS_FILE, "wb", "GAMECONFIG");
+		FileHandle_t hFile = vgui2::filesystem()->Open(OPTIONS_FILE, "wb", "GAMECONFIG");
 		if (FILESYSTEM_INVALID_HANDLE != hFile)
 		{
 			m_pDescription->WriteToScriptFile(hFile);

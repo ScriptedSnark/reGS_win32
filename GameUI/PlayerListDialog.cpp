@@ -46,13 +46,13 @@ void CPlayerListDialog::RefreshPlayerProperties()
 {
 	for (int i = 0; i < m_pPlayerList->GetItemCount(); ++i)
 	{
-		auto pItem = m_pPlayerList->GetItem(i);
+		KeyValues* pItem = m_pPlayerList->GetItem(i);
 
 		if (pItem)
 		{
-			const auto index = pItem->GetInt("index");
+			const int index = pItem->GetInt("index");
 
-			auto pszName = engine->PlayerInfo_ValueForKey(index, "name");
+			const char* pszName = engine->PlayerInfo_ValueForKey(index, "name");
 
 			if (pszName)
 			{
@@ -60,7 +60,7 @@ void CPlayerListDialog::RefreshPlayerProperties()
 
 				bool muted = GameClientExports() && GameClientExports()->IsPlayerGameVoiceMuted(index);
 
-				auto pszBot = engine->PlayerInfo_ValueForKey(index, "*bot");
+				const char* pszBot = engine->PlayerInfo_ValueForKey(index, "*bot");
 
 				if (pszBot && !stricmp(pszBot, "1"))
 				{
@@ -99,13 +99,13 @@ void CPlayerListDialog::OnItemSelected()
 		return;
 	}
 
-	auto pItem = m_pPlayerList->GetItem(m_pPlayerList->GetSelectedItem(0));
+	KeyValues* pItem = m_pPlayerList->GetItem(m_pPlayerList->GetSelectedItem(0));
 
 	bool bMutable = false;
 
 	if (pItem)
 	{
-		auto pszBot = engine->PlayerInfo_ValueForKey(pItem->GetInt("index", 0), "*bot");
+		const char* pszBot = engine->PlayerInfo_ValueForKey(pItem->GetInt("index", 0), "*bot");
 
 		if (!pszBot || stricmp("1", pszBot))
 			bMutable = true;
@@ -140,7 +140,7 @@ void CPlayerListDialog::Activate()
 
 	m_pPlayerList->DeleteAllItems();
 
-	const auto maxClients = engine->GetMaxClients();
+	const int maxClients = engine->GetMaxClients();
 
 	char szPlayerIndex[32];
 
@@ -149,9 +149,9 @@ void CPlayerListDialog::Activate()
 		snprintf(szPlayerIndex, ARRAYSIZE(szPlayerIndex), "%d", i);
 
 		// TODO: if the name is invalid this leaks - Solokiller
-		auto pItem = new KeyValues(szPlayerIndex);
+		KeyValues* pItem = new KeyValues(szPlayerIndex);
 
-		auto pszName = engine->PlayerInfo_ValueForKey(i, "name");
+		const char* pszName = engine->PlayerInfo_ValueForKey(i, "name");
 
 		if (pszName && *pszName)
 		{
@@ -173,11 +173,11 @@ void CPlayerListDialog::ToggleMuteStateOfSelectedUser()
 {
 	if (GameClientExports())
 	{
-		auto pItem = m_pPlayerList->GetItem(m_pPlayerList->GetSelectedItem(0));
+		KeyValues* pItem = m_pPlayerList->GetItem(m_pPlayerList->GetSelectedItem(0));
 
 		if (pItem)
 		{
-			const auto index = pItem->GetInt("index", 0);
+			const int index = pItem->GetInt("index", 0);
 
 			if (GameClientExports()->IsPlayerGameVoiceMuted(index))
 			{

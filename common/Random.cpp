@@ -8,7 +8,7 @@ static int32 idum = 0;
 
 void SeedRandomNumberGenerator()
 {
-	auto result = -time(nullptr);
+	time_t result = -time(nullptr);
 
 	idum = result;
 

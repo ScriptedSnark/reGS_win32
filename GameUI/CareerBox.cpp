@@ -40,7 +40,7 @@ CCareerBaseBox::CCareerBaseBox(vgui2::Panel* parent, const char* panelName, bool
 
 	if (loadResources)
 	{
-		auto pszResourceName = new char[strlen(panelName) + 14];
+		char* pszResourceName = new char[strlen(panelName) + 14];
 
 		strcpy(pszResourceName, "resource/");
 		strcat(pszResourceName, panelName);
@@ -153,7 +153,7 @@ void CCareerBaseBox::ApplySchemeSettings(vgui2::IScheme* pScheme)
 
 	for (int i = 0; i < m_buttons.Count(); ++i)
 	{
-		auto pButton = m_buttons[i];
+		vgui2::Button* pButton = m_buttons[i];
 
 		pButton->SetArmedSound("sound/UI/buttonrollover.wav");
 		pButton->SetDepressedSound("sound/UI/buttonclick.wav");
@@ -230,7 +230,7 @@ CCareerDifficultyBox::CCareerDifficultyBox(const char* panelName, vgui2::Panel* 
 
 	m_pEnableTutorCheck = new CCvarToggleCheckButton(this, "Tutor", "#CStrike_Tutor_Enabled", "tutor_enable");
 
-	for (auto pButton : pDifficultyButton)
+	for (CCareerButton* pButton : pDifficultyButton)
 	{
 		AddButton(pButton);
 	}
@@ -239,9 +239,9 @@ CCareerDifficultyBox::CCareerDifficultyBox(const char* panelName, vgui2::Panel* 
 
 	LoadControlSettings("resource/CareerBoxDifficulty.res");
 
-	auto pszPlayerName = engine->pfnGetCvarString("name");
+	char* pszPlayerName = engine->pfnGetCvarString("name");
 
-	auto pszSaveName = CCareerGame::GetSaveGamePlayerName(pszPlayerName);
+	const char* pszSaveName = CCareerGame::GetSaveGamePlayerName(pszPlayerName);
 
 	CCareerProfileData* pProfile = TheCareerGame->GetProfileForName(pszSaveName);
 
@@ -261,8 +261,8 @@ CCareerDifficultyBox::CCareerDifficultyBox(const char* panelName, vgui2::Panel* 
 
 		if (pProfile->difficulty[i].played)
 		{
-			auto pszContinue = vgui2::localize()->Find("#Career_ContinueDifficulty");
-			auto pszDifficulty = vgui2::localize()->Find(buf);
+			wchar_t* pszContinue = vgui2::localize()->Find("#Career_ContinueDifficulty");
+			wchar_t* pszDifficulty = vgui2::localize()->Find(buf);
 
 			vgui2::localize()->ConstructString(
 				constructedBuf, sizeof(constructedBuf),

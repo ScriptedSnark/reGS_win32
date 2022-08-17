@@ -358,11 +358,11 @@ void COptionsSubKeyboard::OnKeyCodeTyped(vgui2::KeyCode code)
 {
 	if (m_pKeyBindList->IsCapturing())
 	{
-		const auto vKey = vgui2::system()->KeyCode_VGUIToVirtualKey(code);
+		const int vKey = vgui2::system()->KeyCode_VGUIToVirtualKey(code);
 
-		const auto scanCode = SDL_GetScancodeFromKey(vKey);
+		const SDL_Scancode scanCode = SDL_GetScancodeFromKey(vKey);
 
-		const auto engineKey = GetEngineKeyFromSDLScancode(scanCode);
+		const int engineKey = GetEngineKeyFromSDLScancode(scanCode);
 
 		Finish(engineKey, 0, SDL_GetKeyName(vKey));
 	}
@@ -379,7 +379,7 @@ void COptionsSubKeyboard::RemoveKeyFromBindItems(const char* key)
 
 	for (int i = 0; i < m_pKeyBindList->GetItemCount(); ++i)
 	{
-		auto pData = m_pKeyBindList->GetItemData(m_pKeyBindList->GetItemIDFromRow(i));
+		KeyValues* pData = m_pKeyBindList->GetItemData(m_pKeyBindList->GetItemIDFromRow(i));
 
 		if (pData)
 		{
@@ -398,7 +398,7 @@ void COptionsSubKeyboard::RemoveKeyFromBindItems(const char* key)
 				// TODO: this may not be the same as the item ID returned from GetItemIDFromRow - Solokiller
 				m_pKeyBindList->InvalidateItem(i);
 
-				auto pszAltKey = pData->GetString("AltKey");
+				const char* pszAltKey = pData->GetString("AltKey");
 
 				// If the alt key was bound, move the binding to the main one
 				if (pszAltKey && *pszAltKey)
@@ -433,9 +433,9 @@ void COptionsSubKeyboard::AddBinding(KeyValues* item, const char* keyname, const
 
 void COptionsSubKeyboard::Finish(int key, int button, const char* pchKeyName)
 {
-	const auto i = m_pKeyBindList->GetItemOfInterest();
+	const int i = m_pKeyBindList->GetItemOfInterest();
 	m_pKeyBindList->EndCaptureMode(vgui2::dc_arrow);
-	auto pData = m_pKeyBindList->GetItemData(i);
+	KeyValues* pData = m_pKeyBindList->GetItemData(i);
 
 	if (pData)
 	{
@@ -450,7 +450,7 @@ void COptionsSubKeyboard::Finish(int key, int button, const char* pchKeyName)
 		}
 		else if (key != K_ESCAPE && key)
 		{
-			const auto pszName = gameuifuncs->Key_NameForKey(key);
+			const char* pszName = gameuifuncs->Key_NameForKey(key);
 
 			if (stricmp(pData->GetString("Key"), pszName))
 				AddBinding(pData, pszName, pchKeyName);
@@ -530,11 +530,11 @@ void COptionsSubKeyboard::ParseActionDescriptions()
 	char szFileName[MAX_PATH];
 	sprintf(szFileName, "%s/kb_act.lst", "gfx/shell");
 
-	auto hFile = vgui2::filesystem()->Open(szFileName, "rb");
+	FileHandle_t hFile = vgui2::filesystem()->Open(szFileName, "rb");
 
 	if (FILESYSTEM_INVALID_HANDLE != hFile)
 	{
-		auto uiSize = vgui2::filesystem()->Size(hFile);
+		unsigned int uiSize = vgui2::filesystem()->Size(hFile);
 
 		CUtlBuffer buf(0, uiSize + 1, CUtlBuffer::TEXT_BUFFER);
 
@@ -542,7 +542,7 @@ void COptionsSubKeyboard::ParseActionDescriptions()
 
 		vgui2::filesystem()->Close(hFile);
 
-		auto data = reinterpret_cast<char*>(buf.Base());
+		char* data = reinterpret_cast<char*>(buf.Base());
 
 		data[uiSize] = '\0';
 
@@ -576,7 +576,7 @@ void COptionsSubKeyboard::ParseActionDescriptions()
 				}
 				else
 				{
-					auto pData = new KeyValues("Item");
+					KeyValues* pData = new KeyValues("Item");
 
 					pData->SetString("Action", szDescription);
 					pData->SetString("Binding", szBinding);
@@ -600,7 +600,7 @@ KeyValues* COptionsSubKeyboard::GetItemForBinding(const char* binding)
 
 	for (int i = 0; i < m_pKeyBindList->GetItemCount(); ++i)
 	{
-		auto pData = m_pKeyBindList->GetItemData(m_pKeyBindList->GetItemIDFromRow(i));
+		KeyValues* pData = m_pKeyBindList->GetItemData(m_pKeyBindList->GetItemIDFromRow(i));
 
 		if (pData)
 		{
@@ -621,7 +621,7 @@ int COptionsSubKeyboard::FindKeyForName(const char* keyname)
 {
 	for (int i = 0; i < 256; ++i)
 	{
-		auto pszName = GetKeyName(i);
+		const char* pszName = GetKeyName(i);
 
 		if (pszName && *pszName)
 		{
@@ -646,7 +646,7 @@ void COptionsSubKeyboard::ClearBindItems()
 
 	for (int i = 0; i < m_pKeyBindList->GetItemCount(); ++i)
 	{
-		auto pData = m_pKeyBindList->GetItemData(m_pKeyBindList->GetItemIDFromRow(i));
+		KeyValues* pData = m_pKeyBindList->GetItemData(m_pKeyBindList->GetItemIDFromRow(i));
 
 		if (pData)
 		{
@@ -664,7 +664,7 @@ void COptionsSubKeyboard::ClearBindItems()
 
 void COptionsSubKeyboard::DeleteSavedBindings()
 {
-	for (auto& binding : m_Bindings)
+	for (KeyBinding& binding : m_Bindings)
 	{
 		if (binding.binding)
 		{
@@ -680,11 +680,11 @@ void COptionsSubKeyboard::SaveCurrentBindings()
 
 	for (int i = 0; i < 256; ++i)
 	{
-		auto pszBinding = gameuifuncs->Key_BindingForKey(i);
+		const char* pszBinding = gameuifuncs->Key_BindingForKey(i);
 
 		if (pszBinding && *pszBinding)
 		{
-			auto& binding = m_Bindings[i];
+			KeyBinding& binding = m_Bindings[i];
 
 			binding.binding = new char[strlen(pszBinding) + 1];
 			strcpy(binding.binding, pszBinding);
@@ -738,27 +738,27 @@ void COptionsSubKeyboard::ApplyAllBindings()
 
 	for (int i = 0; i < m_pKeyBindList->GetItemCount(); ++i)
 	{
-		auto pData = m_pKeyBindList->GetItemData(m_pKeyBindList->GetItemIDFromRow(i));
+		KeyValues* pData = m_pKeyBindList->GetItemData(m_pKeyBindList->GetItemIDFromRow(i));
 
 		if (pData)
 		{
-			auto pszBinding = pData->GetString("Binding");
+			const char* pszBinding = pData->GetString("Binding");
 
 			if (pszBinding && *pszBinding)
 			{
-				for (auto pszKeyToCheck : ppszKeysToCheck)
+				for (const char* pszKeyToCheck : ppszKeysToCheck)
 				{
-					auto pszKey = pData->GetString(pszKeyToCheck);
+					const char* pszKey = pData->GetString(pszKeyToCheck);
 
 					if (pszKey && *pszKey)
 					{
 						engine->pfnClientCmd(UTIL_va("bind \"%s\" \"%s\"\n", pszKey, pszBinding));
 
-						const auto key = FindKeyForName(pszBinding);
+						const int key = FindKeyForName(pszBinding);
 
 						if (key != -1)
 						{
-							auto& binding = m_Bindings[key];
+							KeyBinding& binding = m_Bindings[key];
 
 							binding.binding = new char[strlen(pszBinding) + 1];
 							strcpy(binding.binding, pszBinding);
@@ -782,17 +782,17 @@ void COptionsSubKeyboard::FillInDefaultBindings()
 	char szFileName[MAX_PATH];
 	sprintf(szFileName, "%s/kb_def.lst", "gfx/shell");
 
-	auto hFile = vgui2::filesystem()->Open(szFileName, "rb");
+	FileHandle_t hFile = vgui2::filesystem()->Open(szFileName, "rb");
 	if (hFile)
 	{
-		const auto uiSize = vgui2::filesystem()->Size(hFile);
+		const unsigned int uiSize = vgui2::filesystem()->Size(hFile);
 		CUtlBuffer buf(0, uiSize, CUtlBuffer::TEXT_BUFFER);
 		vgui2::filesystem()->Read(buf.Base(), uiSize, hFile);
 		vgui2::filesystem()->Close(hFile);
 
 		ClearBindItems();
 
-		auto data = reinterpret_cast<char*>(buf.Base());
+		char* data = reinterpret_cast<char*>(buf.Base());
 
 		char szKeyName[256];
 		char szBinding[256];
@@ -809,12 +809,12 @@ void COptionsSubKeyboard::FillInDefaultBindings()
 				break;
 			strcpy(szBinding, token);
 
-			auto pItem = GetItemForBinding(szBinding);
+			KeyValues* pItem = GetItemForBinding(szBinding);
 
 			if (pItem)
 			{
-				auto keyNum = gameuifuncs->Key_KeyStringToKeyNum(szKeyName);
-				auto sdlKeyCode = GetSDLKeycodeFromEngineKey(keyNum);
+				int keyNum = gameuifuncs->Key_KeyStringToKeyNum(szKeyName);
+				SDL_Keycode sdlKeyCode = GetSDLKeycodeFromEngineKey(keyNum);
 
 				const char* pchKeyName;
 
@@ -835,14 +835,14 @@ void COptionsSubKeyboard::FillInDefaultBindings()
 
 		PostActionSignal(new KeyValues("ApplyButtonEnable"));
 
-		auto pToggleConsole = GetItemForBinding("toggleconsole");
+		KeyValues* pToggleConsole = GetItemForBinding("toggleconsole");
 		if (pToggleConsole)
 		{
 			if (stricmp(pToggleConsole->GetString("Key"), "`"))
 				AddBinding(pToggleConsole, "`", "`");
 		}
 
-		auto pCancelSelect = GetItemForBinding("cancelselect");
+		KeyValues* pCancelSelect = GetItemForBinding("cancelselect");
 		if (pCancelSelect)
 		{
 			if (stricmp(pCancelSelect->GetString("Key"), "ESCAPE"))
@@ -855,7 +855,7 @@ void COptionsSubKeyboard::OnCommand(const char* command)
 {
 	if (!stricmp(command, "Defaults"))
 	{
-		auto pQuery = new vgui2::QueryBox("#GameUI_KeyboardSettings", "#GameUI_KeyboardSettingsText");
+		vgui2::QueryBox* pQuery = new vgui2::QueryBox("#GameUI_KeyboardSettings", "#GameUI_KeyboardSettingsText");
 		pQuery->AddActionSignalTarget(this);
 		pQuery->SetOKCommand(new KeyValues("Command", "command", "DefaultsOK"));
 
@@ -887,7 +887,7 @@ void COptionsSubKeyboard::FillInCurrentBindings()
 
 	for (int i = 0; i < 256; ++i)
 	{
-		auto pszBinding = gameuifuncs->Key_BindingForKey(i);
+		const char* pszBinding = gameuifuncs->Key_BindingForKey(i);
 		if (pszBinding)
 		{
 			const char* pchKeyName;
@@ -906,15 +906,15 @@ void COptionsSubKeyboard::FillInCurrentBindings()
 			}
 			else
 			{
-				auto sdlCode = GetSDLKeycodeFromEngineKey(i);
+				SDL_Keycode sdlCode = GetSDLKeycodeFromEngineKey(i);
 				pchKeyName = SDL_GetKeyName(sdlCode);
 			}
 
-			auto pItem = GetItemForBinding(pszBinding);
+			KeyValues* pItem = GetItemForBinding(pszBinding);
 
 			if (pItem)
 			{
-				auto pszName = gameuifuncs->Key_NameForKey(i);
+				const char* pszName = gameuifuncs->Key_NameForKey(i);
 				if (stricmp(pItem->GetString("Key"), pszName))
 					AddBinding(pItem, pszName, pchKeyName);
 

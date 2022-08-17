@@ -60,7 +60,7 @@ void CCvarNegateCheckButton::ApplyChanges()
 {
 	if (m_pszCvarName && *m_pszCvarName)
 	{
-		auto flValue = fabs(engine->pfnGetCvarFloat(m_pszCvarName));
+		float flValue = fabs(engine->pfnGetCvarFloat(m_pszCvarName));
 
 		float flMin;
 		float flMax;

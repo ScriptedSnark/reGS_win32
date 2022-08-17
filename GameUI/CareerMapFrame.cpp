@@ -65,7 +65,7 @@ void ShowCareerMapDescription(vgui2::RichText* pText, CCareerMap* pMap, Color no
 		wcsncat(str, vgui2::localize()->Find("#Career_TasksColon"), ARRAYSIZE(str));
 		wcsncat(str, L"\n", ARRAYSIZE(str));
 
-		for (auto pTask : pMap->m_tasks)
+		for (ICareerTask* pTask : pMap->m_tasks)
 		{
 			if (!wcslen(pTask->GetLocalizedTaskNameWithCompletion()))
 				continue;

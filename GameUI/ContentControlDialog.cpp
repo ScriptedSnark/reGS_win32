@@ -29,7 +29,7 @@ CContentControlDialog::CContentControlDialog(vgui2::Panel* parent)
 	m_pOK = new vgui2::Button(this, "Ok", "#GameUI_OK");
 	m_pOK->SetCommand("Ok");
 
-	auto pCancel = new vgui2::Button(this, "Cancel", "#GameUI_Cancel");
+	vgui2::Button* pCancel = new vgui2::Button(this, "Cancel", "#GameUI_Cancel");
 	pCancel->SetCommand("Cancel");
 
 	m_szGorePW[0] = '\0';
@@ -101,7 +101,7 @@ void CContentControlDialog::HashPassword(const char* newPW, char* hashBuffer)
 	MD5Update(&ctx, reinterpret_cast<const unsigned char*>(newPW), strlen(newPW));
 	MD5Final(md5_hash, &ctx);
 
-	auto pszResult = BinPrintf(md5_hash, sizeof(md5_hash));
+	char* pszResult = BinPrintf(md5_hash, sizeof(md5_hash));
 
 	strcpy(hashBuffer, pszResult);
 }

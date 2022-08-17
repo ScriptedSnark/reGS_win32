@@ -118,7 +118,7 @@ void CCareerButton::ApplySchemeSettings(vgui2::IScheme* pScheme)
 	if (v15 < textWide)
 		m_textImage->SetSize(v15, textTall);
 
-	auto color = pScheme->GetColor("CareerButtonBG", Color(0, 0, 0, 0));
+	Color color = pScheme->GetColor("CareerButtonBG", Color(0, 0, 0, 0));
 
 	SetDefaultColor(color, color);
 	SetArmedColor(color, color);

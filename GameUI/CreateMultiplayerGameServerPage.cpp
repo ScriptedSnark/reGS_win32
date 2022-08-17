@@ -93,7 +93,7 @@ void CCreateMultiplayerGameServerPage::OnApplyChanges()
 
 	m_iMaxPlayers = atoi(GetControlString("MaxPlayersEdit", "8"));
 
-	auto pMapData = m_pMapList->GetActiveItemUserData();
+	KeyValues* pMapData = m_pMapList->GetActiveItemUserData();
 
 	strncpy(m_szMapName, pMapData->GetString("mapname"), ARRAYSIZE(m_szMapName));
 
@@ -109,7 +109,7 @@ void CCreateMultiplayerGameServerPage::LoadMaps(const char* pszPathID)
 	// TODO: should be FILESYSTEM_INVALID_FIND_HANDLE - Solokiller
 	FileFindHandle_t findHandle = NULL;
 
-	auto pszFilter = ModInfo().GetMPFilter();
+	const char* pszFilter = ModInfo().GetMPFilter();
 
 	if (pszFilter && !(*pszFilter))
 		pszFilter = nullptr;
@@ -208,9 +208,9 @@ void CCreateMultiplayerGameServerPage::LoadMapList()
 	// Load maps from the downloads directory as well (SteamPipe addition)
 	LoadMaps("GAMEDOWNLOAD");
 
-	for (auto i = m_MapNames.FirstInorder(); i != m_MapNames.InvalidIndex(); i = m_MapNames.NextInorder(i))
+	for (short i = m_MapNames.FirstInorder(); i != m_MapNames.InvalidIndex(); i = m_MapNames.NextInorder(i))
 	{
-		const auto& mapname = m_MapNames[i];
+		const CUtlSymbol& mapname = m_MapNames[i];
 
 		m_pMapList->AddItem(mapname.String(), new KeyValues("data", "mapname", mapname.String()));
 	}

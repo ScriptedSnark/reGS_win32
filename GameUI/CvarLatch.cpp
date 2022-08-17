@@ -13,7 +13,7 @@ CvarLatch::CvarLatch(const char* cvarName, const char* defaultValue)
 
 	if (engine->pfnGetCvarPointer(m_cvarName))
 	{
-		auto pszValue = engine->pfnGetCvarString(m_cvarName);
+		char* pszValue = engine->pfnGetCvarString(m_cvarName);
 
 		if (!pszValue)
 			pszValue = "";

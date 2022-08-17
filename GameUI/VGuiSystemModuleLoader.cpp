@@ -334,7 +334,7 @@ bool CVGuiSystemModuleLoader::ActivateModule(int moduleIndex)
 		return true;
 
 	// Update task bar title to match active module.
-	auto pszString = vgui2::localize()->Find(m_Modules[moduleIndex].data->GetName());
+	wchar_t* pszString = vgui2::localize()->Find(m_Modules[moduleIndex].data->GetName());
 
 	wchar_t w_szTitle[1024];
 

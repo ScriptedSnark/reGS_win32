@@ -16,7 +16,7 @@ CBitmapButton::CBitmapButton(vgui2::Panel* parent, const char* panelName, const 
 
 	for (int i = 0; i < IMAGE_MAX; ++i)
 	{
-		auto& imageID = m_ImageID[i];
+		bimage_t& imageID = m_ImageID[i];
 
 		imageID.imageID = vgui2::surface()->CreateNewTextureID();
 

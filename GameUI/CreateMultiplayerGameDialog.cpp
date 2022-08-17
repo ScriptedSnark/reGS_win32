@@ -116,7 +116,7 @@ CCreateMultiplayerGameDialog::CCreateMultiplayerGameDialog(vgui2::Panel* parent)
 		m_pServerPage->SetBotsEnabled(false);
 	}
 
-	auto pszMapName = m_pBotSavedData->GetString("map");
+	const char* pszMapName = m_pBotSavedData->GetString("map");
 
 	if (*pszMapName)
 		m_pServerPage->SetMap(pszMapName);
@@ -128,7 +128,7 @@ CCreateMultiplayerGameDialog::CCreateMultiplayerGameDialog(vgui2::Panel* parent)
 			"SkillLevelHard",
 			"SkillLevelExpert"};
 
-	auto pSkillPanel = m_pServerPage->FindChildByName(buttonName[iBotDifficulty]);
+	Panel* pSkillPanel = m_pServerPage->FindChildByName(buttonName[iBotDifficulty]);
 
 	// TODO: this assumes that the skill panel is a button or subclass thereof - Solokiller
 	if (pSkillPanel)
@@ -154,7 +154,7 @@ void CCreateMultiplayerGameDialog::SetTitle(const char* title, bool surfaceTitle
 	if (g_pTaskbar)
 	{
 		wchar_t w_szTitle[1024];
-		auto pszString = vgui2::localize()->Find(title);
+		wchar_t* pszString = vgui2::localize()->Find(title);
 
 		if (!pszString)
 		{
@@ -243,7 +243,7 @@ bool CCreateMultiplayerGameDialog::OnOK(bool applyOnly)
 			engine->pfnClientCmd("wait\nwait\n");
 		}
 
-		for (auto i = m_pBotSavedData->GetFirstSubKey(); i; i = i->GetNextKey())
+		for (KeyValues* i = m_pBotSavedData->GetFirstSubKey(); i; i = i->GetNextKey())
 		{
 			if (!stricmp(i->GetName(), "map") && m_pServerPage->GetMapName() != nullptr)
 			{

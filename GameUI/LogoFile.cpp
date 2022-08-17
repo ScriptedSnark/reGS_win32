@@ -423,17 +423,17 @@ int fgetLittleLong(byte** ppBuffer)
 
 bool LoadTGA(const char* szFilename, byte* buffer, int bufferSize, int* width, int* height)
 {
-	auto hFile = vgui2::filesystem()->Open(szFilename, "rb");
+	FileHandle_t hFile = vgui2::filesystem()->Open(szFilename, "rb");
 
-	auto size = vgui2::filesystem()->Size(hFile);
+	unsigned int size = vgui2::filesystem()->Size(hFile);
 
-	auto pFileBuffer = reinterpret_cast<byte*>(stackalloc(size));
+	byte* pFileBuffer = reinterpret_cast<byte*>(stackalloc(size));
 
 	vgui2::filesystem()->Read(pFileBuffer, size, hFile);
 
 	vgui2::filesystem()->Close(hFile);
 
-	auto pFileData = pFileBuffer;
+	byte* pFileData = pFileBuffer;
 
 	if (width)
 		*width = 0;

@@ -163,7 +163,7 @@ void CCDKeyEntryDialog::OnCommand(const char* command)
 {
 	if (!stricmp(command, "OK"))
 	{
-		auto pMB = new vgui2::MessageBox("#GameUI_CDKey_Invalid_Title", "#GameUI_CDKey_Invalid_Text");
+		vgui2::MessageBox* pMB = new vgui2::MessageBox("#GameUI_CDKey_Invalid_Title", "#GameUI_CDKey_Invalid_Text");
 
 		pMB->ShowWindow(this);
 	}
@@ -180,7 +180,7 @@ void CCDKeyEntryDialog::OnCommand(const char* command)
 
 	if (m_iErrCount >= MAX_CDKEY_ERRORS)
 	{
-		auto pMB = new CloseMessageBox("#GameUI_CDKey_Invalid_Title", "#GameUI_CDKey_TooManyTries", this);
+		CloseMessageBox* pMB = new CloseMessageBox("#GameUI_CDKey_Invalid_Title", "#GameUI_CDKey_TooManyTries", this);
 
 		pMB->ShowWindow(this);
 	}

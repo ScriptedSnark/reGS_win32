@@ -133,11 +133,11 @@ CLoadingDialog::CLoadingDialog(vgui2::Panel* parent)
 			}
 		}
 
-		auto pScheme = vgui2::scheme()->GetIScheme(GetScheme());
+		vgui2::IScheme* pScheme = vgui2::scheme()->GetIScheme(GetScheme());
 
 		// TODO: verify that these colors are correct - Solokiller
-		auto normalColor = pScheme->GetColor("ControlText", Color(255, 255, 255, 255));
-		auto friendlyFireColor = pScheme->GetColor("BrightControlText", Color(255, 255, 255, 255));
+		Color normalColor = pScheme->GetColor("ControlText", Color(255, 255, 255, 255));
+		Color friendlyFireColor = pScheme->GetColor("BrightControlText", Color(255, 255, 255, 255));
 
 		ShowCareerMapDescription(
 			m_pCareerMapDescLabel,

@@ -38,8 +38,8 @@ COptionsSubVideo::COptionsSubVideo(vgui2::Panel* parent)
 		m_pszAspectName[1],
 		ARRAYSIZE(m_pszAspectName[1]));
 
-	const auto iAspectNormal = m_pAspectRatio->AddItem(m_pszAspectName[0], nullptr);
-	const auto iAspectWide = m_pAspectRatio->AddItem(m_pszAspectName[1], nullptr);
+	const int iAspectNormal = m_pAspectRatio->AddItem(m_pszAspectName[0], nullptr);
+	const int iAspectWide = m_pAspectRatio->AddItem(m_pszAspectName[1], nullptr);
 
 	// Determine which aspect is in use right now
 	if (3 * m_CurrentSettings.w + -4 * m_CurrentSettings.h)
@@ -98,7 +98,7 @@ COptionsSubVideo::COptionsSubVideo(vgui2::Panel* parent)
 
 	PrepareResolutionList();
 
-	const auto flDetailTextures = engine->pfnGetCvarFloat("r_detailtexturessupported");
+	const float flDetailTextures = engine->pfnGetCvarFloat("r_detailtexturessupported");
 
 	if (ModInfo().GetDetailedTexture())
 	{
@@ -113,8 +113,8 @@ COptionsSubVideo::COptionsSubVideo(vgui2::Panel* parent)
 
 void COptionsSubVideo::OnButtonChecked(KeyValues* data)
 {
-	const auto iState = data->GetInt("state", 0);
-	auto pButton = static_cast<vgui2::CheckButton*>(data->GetPtr("panel", nullptr));
+	const int iState = data->GetInt("state", 0);
+	vgui2::CheckButton* pButton = static_cast<vgui2::CheckButton*>(data->GetPtr("panel", nullptr));
 
 	if (m_pWindowed == pButton)
 	{
@@ -381,7 +381,7 @@ void COptionsSubVideo::ApplyVidSettings(bool bForceRefresh)
 
 		engine->pfnClientCmd(szCmd);
 
-		auto pszWindowMode = p->windowed ? "windowed" : "fullscreen";
+		const char* pszWindowMode = p->windowed ? "windowed" : "fullscreen";
 
 		sprintf(szCmd, "_setrenderer %s %s\n", p->renderer, pszWindowMode);
 		engine->pfnClientCmd(szCmd);

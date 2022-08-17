@@ -24,7 +24,7 @@ void MusicManager::StartTrack(TrackType track, bool looping)
 {
 	if (m_currentTrack != track && TRACKTYPE_INVALID < track && track < TRACKTYPE_NUM)
 	{
-		auto& info = m_tracks[track - 1];
+		TrackInfo& info = m_tracks[track - 1];
 
 		if (info.t_path[0])
 		{
@@ -77,7 +77,7 @@ void MusicManager::Init()
 {
 	Reset();
 
-	auto pKV = new KeyValues("Playlist");
+	KeyValues* pKV = new KeyValues("Playlist");
 
 	if (pKV->LoadFromFile(vgui2::filesystem(), "playlist.txt"))
 	{

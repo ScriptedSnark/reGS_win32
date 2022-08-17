@@ -76,7 +76,7 @@ void CRefreshSteamLogin::OnThink()
 			{
 				vgui2::input()->ReleaseAppModalSurface();
 
-				auto pMB = new vgui2::MessageBox("#GameUI_Login_ErrorTitle", "#GameUI_ErrorLoginFailed", this);
+				vgui2::MessageBox* pMB = new vgui2::MessageBox("#GameUI_Login_ErrorTitle", "#GameUI_ErrorLoginFailed", this);
 
 				pMB->SetCommand("errorClose");
 				pMB->DoModal();
@@ -105,7 +105,7 @@ void CRefreshSteamLogin::OnThink()
 
 	vgui2::input()->ReleaseAppModalSurface();
 
-	auto pMB = new vgui2::MessageBox("#GameUI_Login_ErrorTitle", "#GameUI_ErrorLoginFailed", this);
+	vgui2::MessageBox* pMB = new vgui2::MessageBox("#GameUI_Login_ErrorTitle", "#GameUI_ErrorLoginFailed", this);
 
 	pMB->SetCommand("errorClose");
 	pMB->DoModal();
@@ -141,7 +141,7 @@ void CRefreshSteamLogin::OnCommand(const char* command)
 		{
 			vgui2::input()->ReleaseAppModalSurface();
 
-			auto pMB = new vgui2::MessageBox("#GameUI_Login_ErrorTitle", "#GameUI_ErrorLoginFailed", this);
+			vgui2::MessageBox* pMB = new vgui2::MessageBox("#GameUI_Login_ErrorTitle", "#GameUI_ErrorLoginFailed", this);
 
 			pMB->SetCommand("errorclose");
 			pMB->DoModal();

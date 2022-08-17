@@ -90,7 +90,7 @@ CGameUI::~CGameUI()
 
 void CGameUI::Initialize(CreateInterfaceFn* factories, int count)
 {
-	auto pEngFactory = factories[0];
+	CreateInterfaceFn pEngFactory = factories[0];
 	CreateInterfaceFn pClientFactory = nullptr;
 
 	if (count > 5)
@@ -165,7 +165,7 @@ void CGameUI::Start(cl_enginefunc_t* engineFuncs, int interfaceVersion, IBaseSys
 
 		strcpy(szConfigDir, m_szPlatformDir);
 
-		auto uiLength = strlen(szConfigDir);
+		size_t uiLength = strlen(szConfigDir);
 
 		szConfigDir[uiLength++] = CORRECT_PATH_SEPARATOR;
 
@@ -321,7 +321,7 @@ void CGameUI::RunFrame()
 			{
 				if (!g_pFriendsUser)
 				{
-					auto factory = g_VModuleLoader.GetModuleFactory(i);
+					CreateInterfaceFn factory = g_VModuleLoader.GetModuleFactory(i);
 
 					if (factory)
 					{
@@ -414,7 +414,7 @@ void CGameUI::DisconnectFromServer()
 
 void CGameUI::HideGameUI()
 {
-	auto pszLevelName = engine->pfnGetLevelName();
+	const char* pszLevelName = engine->pfnGetLevelName();
 
 	if (pszLevelName && *pszLevelName)
 	{

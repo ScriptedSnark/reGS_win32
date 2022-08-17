@@ -98,18 +98,18 @@ const char* CModInfo::GetMPFilter()
 
 void CModInfo::LoadCurrentGameInfo()
 {
-	auto hFile = vgui2::filesystem()->Open("liblist.gam", "rb");
+	FileHandle_t hFile = vgui2::filesystem()->Open("liblist.gam", "rb");
 
 	if (FILESYSTEM_INVALID_HANDLE != hFile)
 	{
-		auto size = vgui2::filesystem()->Size(hFile);
+		unsigned int size = vgui2::filesystem()->Size(hFile);
 
 		if (size > 0)
 		{
 			// Align to 16 byte boundary, include null terminator.
-			auto pszBuffer = reinterpret_cast<char*>(stackalloc(size + 15 + 1));
+			char* pszBuffer = reinterpret_cast<char*>(stackalloc(size + 15 + 1));
 
-			auto pszData = AlignValue(pszBuffer, 16);
+			char* pszData = AlignValue(pszBuffer, 16);
 
 			vgui2::filesystem()->Read(pszData, size, hFile);
 
@@ -130,7 +130,7 @@ void CModInfo::LoadGameInfoFromBuffer(const char* buffer)
 	char key[256];
 	char value[256];
 
-	auto pszData = const_cast<char*>(buffer);
+	char* pszData = const_cast<char*>(buffer);
 
 	while (pszData)
 	{

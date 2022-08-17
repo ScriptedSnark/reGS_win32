@@ -175,7 +175,7 @@ WeaponInfoStruct weaponInfo[ 27 ] =
 
 const char* WeaponIDToAlias( int id )
 {
-	for( const auto& info : weaponAliasInfo )
+	for( const WeaponAliasInfo& info : weaponAliasInfo )
 	{
 		if( info.id == id )
 		{
@@ -190,7 +190,7 @@ WeaponIdType AliasToWeaponID( const char* alias )
 {
 	if( alias )
 	{
-		for( const auto& info : weaponAliasInfo )
+		for( const WeaponAliasInfo& info : weaponAliasInfo )
 		{
 			if( !info.alias )
 				break;
@@ -207,7 +207,7 @@ WeaponClassType AliasToWeaponClass( const char* alias )
 {
 	if( alias )
 	{
-		for( const auto& info : weaponClassAliasInfo )
+		for( const WeaponClassAliasInfo& info : weaponClassAliasInfo )
 		{
 			if( !info.alias )
 				break;

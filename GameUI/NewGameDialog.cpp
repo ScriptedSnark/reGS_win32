@@ -14,7 +14,7 @@ CNewGameDialog::CNewGameDialog(vgui2::Panel* parent)
 
 	SetTitle("#GameUI_NewGame", true);
 
-	auto pLabel = new vgui2::Label(this, "HelpText", "#GameUI_NewGameHelpText");
+	vgui2::Label* pLabel = new vgui2::Label(this, "HelpText", "#GameUI_NewGameHelpText");
 
 	m_pTraining = new vgui2::RadioButton(this, "Training", "#GameUI_TrainingRoom");
 	m_pTraining->SetSelected(true);
@@ -25,10 +25,10 @@ CNewGameDialog::CNewGameDialog(vgui2::Panel* parent)
 	m_pMedium = new vgui2::RadioButton(this, "Medium", "#GameUI_Medium");
 	m_pHard = new vgui2::RadioButton(this, "Hard", "#GameUI_Hard");
 
-	auto pPlayButton = new vgui2::Button(this, "Play", "#GameUI_Play");
+	vgui2::Button* pPlayButton = new vgui2::Button(this, "Play", "#GameUI_Play");
 	pPlayButton->SetCommand("Play");
 
-	auto pCancelButton = new vgui2::Button(this, "Cancel", "#GameUI_Cancel");
+	vgui2::Button* pCancelButton = new vgui2::Button(this, "Cancel", "#GameUI_Cancel");
 	pCancelButton->SetCommand("Close");
 
 	LoadControlSettings("Resource\\NewGameDialog.res");

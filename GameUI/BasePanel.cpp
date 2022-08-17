@@ -31,7 +31,7 @@ void CBasePanel::OnChildAdded(vgui2::VPANEL child)
 
 void CBasePanel::PaintBackground()
 {
-	auto pszLevelName = engine->pfnGetLevelName();
+	const char* pszLevelName = engine->pfnGetLevelName();
 
 	// Draw transparently if a level is loaded.
 	// But not if we're in a career match.
@@ -74,13 +74,13 @@ void CBasePanel::ApplySchemeSettings(vgui2::IScheme* pScheme)
 {
 	BaseClass::ApplySchemeSettings(pScheme);
 
-	auto hFile = vgui2::filesystem()->Open("resource/BackgroundLayout.txt", "rt");
+	FileHandle_t hFile = vgui2::filesystem()->Open("resource/BackgroundLayout.txt", "rt");
 
 	if (FILESYSTEM_INVALID_HANDLE != hFile)
 	{
-		auto size = vgui2::filesystem()->Size(hFile);
+		unsigned int size = vgui2::filesystem()->Size(hFile);
 
-		auto pszBuffer = reinterpret_cast<char*>(stackalloc(size + 1));
+		char* pszBuffer = reinterpret_cast<char*>(stackalloc(size + 1));
 
 		vgui2::filesystem()->Read(pszBuffer, size, hFile);
 		pszBuffer[size] = '\0';
@@ -90,7 +90,7 @@ void CBasePanel::ApplySchemeSettings(vgui2::IScheme* pScheme)
 		int vid_level;
 		gameuifuncs->GetCurrentRenderer(nullptr, 0, nullptr, nullptr, nullptr, &vid_level);
 
-		auto pszData = pszBuffer;
+		char* pszData = pszBuffer;
 
 		char token[512];
 
@@ -111,11 +111,11 @@ void CBasePanel::ApplySchemeSettings(vgui2::IScheme* pScheme)
 			}
 			else
 			{
-				auto& image = m_ImageID[m_ImageID.AddToTail()];
+				bimage_t& image = m_ImageID[m_ImageID.AddToTail()];
 
 				image.imageID = vgui2::surface()->CreateNewTextureID();
 
-				auto pszExt = strstr(token, ".tga");
+				char* pszExt = strstr(token, ".tga");
 
 				if (pszExt)
 					*pszExt = '\0';
@@ -157,10 +157,10 @@ void CBasePanel::DrawBackgroundImage()
 
 	for (int i = 0; i < m_ImageID.Count(); ++i)
 	{
-		const auto& image = m_ImageID[i];
+		const bimage_t& image = m_ImageID[i];
 
-		const auto xPos = static_cast<int>(ceil(image.x * xScale));
-		const auto yPos = static_cast<int>(ceil(image.y * yScale));
+		const int xPos = static_cast<int>(ceil(image.x * xScale));
+		const int yPos = static_cast<int>(ceil(image.y * yScale));
 
 		int dw, dt;
 

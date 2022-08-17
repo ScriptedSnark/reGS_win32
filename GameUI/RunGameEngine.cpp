@@ -26,7 +26,7 @@ CRunGameEngine::ERunResult CRunGameEngine::RunEngine(int iAppID, const char* gam
 
 bool CRunGameEngine::IsInGame()
 {
-	auto pszLevelName = engine->pfnGetLevelName();
+	const char* pszLevelName = engine->pfnGetLevelName();
 
 	return pszLevelName && *pszLevelName;
 }
@@ -45,7 +45,7 @@ void CRunGameEngine::SetTrackerUserID(int trackerID, const char* trackerName)
 	engine->PlayerInfo_SetValueForKey("*fid", buf);
 	engine->PlayerInfo_SetValueForKey("*fname", trackerName);
 
-	auto pszName = engine->pfnGetCvarString("name");
+	char* pszName = engine->pfnGetCvarString("name");
 
 	if (pszName && trackerName && *trackerName)
 	{
@@ -68,7 +68,7 @@ unsigned int CRunGameEngine::GetPlayerFriendsID(int playerIndex)
 
 const char* CRunGameEngine::GetPlayerName(int friendsID)
 {
-	auto index = engine->GetPlayerForTrackerID(friendsID);
+	int index = engine->GetPlayerForTrackerID(friendsID);
 
 	if (index)
 	{
@@ -102,7 +102,7 @@ const char* CRunGameEngine::GetProductVersionString()
 
 unsigned int CRunGameEngine::GetPlayerUserID(int playerIndex)
 {
-	auto trackerID = engine->GetTrackerIDForPlayer(playerIndex);
+	int trackerID = engine->GetTrackerIDForPlayer(playerIndex);
 
 	return trackerID > 0 ? trackerID : 0;
 }

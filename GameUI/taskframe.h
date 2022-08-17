@@ -23,7 +23,7 @@ public:
 		if (g_pTaskbar)
 		{
 			wchar_t w_szTitle[1024];
-			auto pszString = vgui2::localize()->Find(title);
+			wchar_t* pszString = vgui2::localize()->Find(title);
 
 			if (!pszString)
 			{

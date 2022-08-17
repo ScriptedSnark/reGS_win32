@@ -136,7 +136,7 @@ CCreateMultiplayerGameBotPage::CCreateMultiplayerGameBotPage(vgui2::Panel* paren
 		SetJoinTeamCombo(engine->pfnGetCvarString("bot_join_team"));
 		SetChatterCombo(engine->pfnGetCvarString("bot_chatter"));
 
-		auto pszPrefix = engine->pfnGetCvarString("bot_prefix");
+		char* pszPrefix = engine->pfnGetCvarString("bot_prefix");
 
 		if (pszPrefix)
 			SetControlString("BotPrefixEntry", pszPrefix);

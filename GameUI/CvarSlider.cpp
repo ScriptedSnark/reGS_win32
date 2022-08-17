@@ -37,7 +37,7 @@ CCvarSlider::~CCvarSlider()
 
 void CCvarSlider::Paint()
 {
-	const auto flValue = engine->pfnGetCvarFloat(m_szCvarName);
+	const float flValue = engine->pfnGetCvarFloat(m_szCvarName);
 
 	if (m_fStartValue != flValue)
 	{

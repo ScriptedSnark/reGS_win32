@@ -69,7 +69,7 @@ void COptionsSubMouse::OnTextChanged(vgui2::Panel* panel)
 		char buf[64];
 		m_pMouseSensitivityLabel->GetText(buf, ARRAYSIZE(buf));
 
-		const auto flValue = atof(buf);
+		const double flValue = atof(buf);
 
 		if (flValue >= 1.0)
 		{

@@ -26,7 +26,7 @@ COptionsSubAudio::COptionsSubAudio(vgui2::Panel* parent)
 
 	if (ModInfo().IsMultiplayerOnly())
 	{
-		auto pChild = FindChildByName("suit label");
+		vgui2::Panel* pChild = FindChildByName("suit label");
 		if (pChild)
 			pChild->SetVisible(false);
 

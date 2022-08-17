@@ -17,7 +17,7 @@ CCvarTextEntry::CCvarTextEntry(vgui2::Panel* parent, const char* panelName, cons
 
 	if (m_pszCvarName)
 	{
-		auto pszValue = engine->pfnGetCvarString(m_pszCvarName);
+		char* pszValue = engine->pfnGetCvarString(m_pszCvarName);
 
 		if (pszValue && *pszValue)
 		{
@@ -86,7 +86,7 @@ void CCvarTextEntry::ApplyChanges(bool immediate)
 
 void CCvarTextEntry::Reset()
 {
-	auto pszValue = engine->pfnGetCvarString(m_pszCvarName);
+	char* pszValue = engine->pfnGetCvarString(m_pszCvarName);
 
 	if (pszValue && *pszValue)
 	{

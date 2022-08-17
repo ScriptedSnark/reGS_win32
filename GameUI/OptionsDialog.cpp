@@ -76,7 +76,7 @@ void COptionsDialog::SetTitle(const char* title, bool surfaceTitle)
 
 	if (g_pTaskbar)
 	{
-		auto pszTitle = vgui2::localize()->Find(title);
+		wchar_t* pszTitle = vgui2::localize()->Find(title);
 
 		wchar_t w_szTitle[1024];
 
