@@ -297,25 +297,25 @@ char* UTIL_GetBaseDir()
 
 void SetEngineDLL(const char** ppEngineDLL)
 {
-	*ppEngineDLL = HARDWARE_RENDERER_ENGINE;
-	const char* pEngineDLLSetting = registry->ReadString("EngineDLL", HARDWARE_RENDERER_ENGINE);
+	*ppEngineDLL = HARDWARE_ENGINE;
+	const char* pEngineDLLSetting = registry->ReadString("EngineDLL", HARDWARE_ENGINE);
 
-	if (!stricmp(pEngineDLLSetting, HARDWARE_RENDERER_ENGINE))
+	if (!stricmp(pEngineDLLSetting, HARDWARE_ENGINE))
 	{
-		*ppEngineDLL = HARDWARE_RENDERER_ENGINE;
+		*ppEngineDLL = HARDWARE_ENGINE;
 	}
-	else if (!stricmp(pEngineDLLSetting, SOFTWARE_RENDERER_ENGINE))
+	else if (!stricmp(pEngineDLLSetting, SOFTWARE_ENGINE))
 	{
-		*ppEngineDLL = SOFTWARE_RENDERER_ENGINE;
+		*ppEngineDLL = SOFTWARE_ENGINE;
 	}
 
 	if (cmdline->CheckParm("-soft", nullptr) || cmdline->CheckParm("-software", nullptr))
 	{
-		*ppEngineDLL = SOFTWARE_RENDERER_ENGINE;
+		*ppEngineDLL = SOFTWARE_ENGINE;
 	}
 	else if (cmdline->CheckParm("-gl", nullptr) || cmdline->CheckParm("-d3d", nullptr))
 	{
-		*ppEngineDLL = HARDWARE_RENDERER_ENGINE;
+		*ppEngineDLL = HARDWARE_ENGINE;
 	}
 
 	registry->WriteString("EngineDLL", *ppEngineDLL);
@@ -327,7 +327,7 @@ bool OnVideoModeFailed()
 	registry->WriteInt("ScreenHeight", 640);
 	registry->WriteInt("ScreenWidth", 480);
 
-	registry->WriteString("EngineDLL", HARDWARE_RENDERER_ENGINE);
+	registry->WriteString("EngineDLL", HARDWARE_ENGINE);
 
 	return MessageBoxA(
 			   NULL,
@@ -430,9 +430,9 @@ int CALLBACK WinMain(
 	{
 		registry->WriteInt("CrashInitializingVideoMode", 0);
 
-		const char* pszEngineDLL = registry->ReadString("EngineDLL", HARDWARE_RENDERER_ENGINE);
+		const char* pszEngineDLL = registry->ReadString("EngineDLL", HARDWARE_ENGINE);
 
-		if (!_stricmp(pszEngineDLL, HARDWARE_RENDERER_ENGINE))
+		if (!_stricmp(pszEngineDLL, HARDWARE_ENGINE))
 		{
 			const char* pszCaption = "Video mode change failure";
 			const char* pszMessage;
@@ -448,7 +448,7 @@ int CALLBACK WinMain(
 			else
 			{
 				// TODO: Shouldn't this be sw.dll? - Solokiller
-				registry->WriteString("EngineDLL", HARDWARE_RENDERER_ENGINE);
+				registry->WriteString("EngineDLL", HARDWARE_ENGINE);
 
 				pszMessage =
 					"The game has detected that the previous attempt to start in openGL video mode failed.\n"
