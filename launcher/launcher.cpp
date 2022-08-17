@@ -13,19 +13,21 @@
 
 #include <WinSock2.h>
 
-#include "../public/engine_launcher_api.h"
-#include "../common/FilePaths.h"
-#include "../public/FileSystem.h"
-#include "../common/ICommandLine.h"
-#include "../public/interface.h"
-#include "../public/IRegistry.h"
+#include "engine_launcher_api.h"
+#include "FilePaths.h"
+#include "FileSystem.h"
+#include "ICommandLine.h"
+#include "interface.h"
+#include "IRegistry.h"
 
 #define HARDWARE_ENGINE "hw.dll"
 #define SOFTWARE_ENGINE "sw.dll"
 
 // TODO: Linux version doesn't use registry so don't include it - Solokiller
 
+#ifdef CUSTOM_PARMS
 bool TextMode = false;
+#endif
 
 char com_gamedir[MAX_PATH] = {};
 
@@ -216,6 +218,7 @@ bool Sys_GetExecutableName(char* out, int len)
 	return false;
 }
 
+#ifdef CUSTOM_PARMS
 BOOL WINAPI MyHandlerRoutine(DWORD dwCtrlType)
 {
 	TerminateProcess(GetCurrentProcess(), 2);
@@ -232,6 +235,7 @@ void InitTextMode()
 	freopen("CONOUT$", "wb", stdout); // reopen stout handle as console window output
 	freopen("CONOUT$", "wb", stderr); // reopen stderr handle as console window output
 }
+#endif
 
 CSysModule* LoadFilesystemModule(const char* exename, bool bRunningSteam)
 {
@@ -353,7 +357,7 @@ int CALLBACK WinMain(
 		GetLastError();
 	}
 
-	DWORD dwMutexResult = WaitForSingleObject( hMutex, 0 );
+	DWORD dwMutexResult = ::WaitForSingleObject( hMutex, 0 );
 
 	if( dwMutexResult != WAIT_OBJECT_0 && dwMutexResult != WAIT_ABANDONED )
 	{
@@ -362,7 +366,7 @@ int CALLBACK WinMain(
 	}
 
 	WSADATA WSAData;
-	WSAStartup(MAKEWORD(2, 0), &WSAData);
+	::WSAStartup(MAKEWORD(2, 0), &WSAData);
 
 	registry->Init();
 
@@ -399,7 +403,9 @@ int CALLBACK WinMain(
 		com_gamedir[sizeof(com_gamedir) - 1] = '\0';
 	}
 
-	if (cmdline->CheckParm("-textmode", nullptr)) // custom parm
+	// -textmode, -low, -high are custom parms
+	#ifdef CUSTOM_PARMS
+	if (cmdline->CheckParm("-textmode", nullptr))
 	{
 		TextMode = true;
 		InitTextMode();
@@ -415,7 +421,7 @@ int CALLBACK WinMain(
 	{
 		SetPriorityClass(GetCurrentProcess(), HIGH_PRIORITY_CLASS);
 	}
-
+	#endif
 	// TODO: Could be the CRT heap init, but why is this here? - Solokiller
 	// sub_14032FD(0);
 
@@ -447,7 +453,6 @@ int CALLBACK WinMain(
 			}
 			else
 			{
-				// TODO: Shouldn't this be sw.dll? - Solokiller
 				registry->WriteString("EngineDLL", HARDWARE_ENGINE);
 
 				pszMessage =
@@ -583,9 +588,11 @@ int CALLBACK WinMain(
 
 	registry->Shutdown();
 
-	ReleaseMutex( hMutex );
-	CloseHandle( hMutex );
-	WSACleanup();
+	::ReleaseMutex( hMutex );
+	::CloseHandle( hMutex );
+
+	// shutdown winsock
+	::WSACleanup();
 
 	return EXIT_SUCCESS;
 }
