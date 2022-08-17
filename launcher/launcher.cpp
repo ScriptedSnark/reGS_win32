@@ -20,8 +20,8 @@
 #include "../public/interface.h"
 #include "../public/IRegistry.h"
 
-#define HARDWARE_RENDERER_ENGINE "hw.dll"
-#define SOFTWARE_RENDERER_ENGINE "sw.dll"
+#define HARDWARE_ENGINE "hw.dll"
+#define SOFTWARE_ENGINE "sw.dll"
 
 // TODO: Linux version doesn't use registry so don't include it - Solokiller
 
