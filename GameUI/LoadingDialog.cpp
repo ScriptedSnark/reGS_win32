@@ -276,7 +276,7 @@ void CLoadingDialog::SetupControlSettingsForErrorDisplay(const char* settingsFil
 	m_pCancelButton->SetCommand("Close");
 
 	m_pInfoLabel->SetText("");
-	m_pCancelButton->SetEnabled(false);
+	m_pCancelButton->SetEnabled(true);
 
 	if (m_pCareerMapDescLabel)
 	{
