@@ -1,35 +1,44 @@
 ![1280x640_regs_](https://user-images.githubusercontent.com/51358194/182458618-a3d8876f-d48a-4f91-a3da-d21c0658e189.png)
 
-# reGS: reverse-engineered GoldSrc
+# reGS [![C/C++ CI](https://github.com/ScriptedSnark/reGS_win32/actions/workflows/CI.yml/badge.svg)]
 
-This is the repository of reGS (comeback xD) source code without engine (hardware). **Based on [GoldSourceRebuild](https://github.com/Triang3l/GoldSourceRebuild) repository.**
+Reverse-engineered GoldSrc. **Based on [GoldSourceRebuild](https://github.com/Triang3l/GoldSourceRebuild) repository.**
 
 ## Current projects
 
+All projects based on latest Steam version of Half-Life. Compatibility with older versions is not guaranteed!
+
+Original `version` output:
+<pre>
+Protocol version 48
+Exe version 1.1.2.2/Stdio (valve)
+Exe build: 19:53:27 Aug  3 2020 (8684)
+</pre>
+
 - dedicated (hlds.exe) | Status: WIP (not implemented yet)
-- GameUI (GameUI.dll) | Status: WIP (many bugs from Solokiller's project)
+- GameUI (GameUI.dll) | Status: WIP (without CareerUI)
 - launcher (hl.exe) | Status: Finished (also has improvements)
 - particleman (particleman.dll) | Status: WIP (not implemented yet)
 - tier0 (tier0.dll) | Status: Finished?
 - tier1 (tier1.lib) | Status: Finished?
 - vgui2 (vgui2.dll) | Status: WIP
-- vgui2_controls (vgui2_controls.lib) | Status: WIP (requires re-reversing because also has many bugs from Solokiller's project)
+- vgui2_controls (vgui2_controls.lib) | Status: WIP (requires re-reversing)
 - vgui2_surfacelib (vgui2_surfacelib.lib) | Status: Finished (by [TheDoomsayer](https://github.com/TheDoomsayer))
-- vstdlib (vstdlib.lib) | Status: WIP (not implemented yet)
+- vstdlib (vstdlib.dll) | Status: WIP (not implemented yet)
 
 ## Future projects
 
 - AdminServer | GUI for HLDS
+- hw | GoldSrc OpenGL engine
 - FileSystem_Stdio | File system
 - ServerBrowser | VGUI2 window with a list of all available servers
 - vgui_dll | VGUI1
 
-## Credits
+## Downloads
+* Release builds are unavailable.
+* [Dev builds](https://github.com/ScriptedSnark/reGS_win32/actions/workflows/build.yml)
 
-Thanks to [TheDoomsayer](https://github.com/TheDoomsayer) (the real skillful gigachad)! He helped me to learn reverse-engineering.
-
-Thanks to [xWhitey](https://github.com/xWhitey) for reverse-engineering collaboration when reGS was private.
-
+<b>Warning!</b> reGS is still WIP so there are bugs, crashes, flaws and other issues. If you encounter them, report to [Issues](https://github.com/ScriptedSnark/reGS_win32/issues).
 
 ## Building
 
@@ -41,3 +50,9 @@ This project is for Windows 32-bit systems only.
 3. On the starting screen, click "Clone or check out code".
 4. Enter `https://github.com/ScriptedSnark/reGS_win32.git` and press the Clone button. Wait for the process to finish.
 5. Choose Debug or Release. You can build the workspace using Build→Build All. If you want to build only VGUI2 or something else, right click on wanted project (for example, `GameUI`) and select Build.
+
+## Credits
+
+Thanks to [TheDoomsayer](https://github.com/TheDoomsayer) (the real skillful gigachad)! He helped me to learn reverse-engineering.
+
+Thanks to [xWhitey](https://github.com/xWhitey) for reverse-engineering collaboration when reGS was private.
