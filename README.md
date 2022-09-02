@@ -36,7 +36,7 @@ Exe build: 19:53:27 Aug  3 2020 (8684)
 
 ## Downloads
 * Release builds are unavailable.
-* [Dev builds](https://github.com/ScriptedSnark/reGS_win32/actions/workflows/build.yml)
+* [Dev builds](https://github.com/ScriptedSnark/reGS_win32/actions/workflows/CI.yml)
 
 <b>Warning!</b> reGS is still WIP so there are bugs, crashes, flaws and other issues. If you encounter them, report to [Issues](https://github.com/ScriptedSnark/reGS_win32/issues).
 
