@@ -1,4 +1,4 @@
-![1280x640_regs_](https://user-images.githubusercontent.com/51358194/182458618-a3d8876f-d48a-4f91-a3da-d21c0658e189.png)
+![regs_background_hw](https://user-images.githubusercontent.com/51358194/188197489-cdcd3f04-01a4-4c27-9cef-82f0f3eeffa5.png)
 
 # reGS [![C/C++ CI](https://github.com/ScriptedSnark/reGS_win32/actions/workflows/CI.yml/badge.svg)]
 
