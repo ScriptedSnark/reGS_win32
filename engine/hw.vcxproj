@@ -61,7 +61,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>false</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NO_MALLOC_OVERRIDE;GLQUAKE;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NO_MALLOC_OVERRIDE;GLQUAKE;REGS_FIXES;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>false</ConformanceMode>
       <AdditionalIncludeDirectories>../common;../tier1;../vgui2;../utils/vgui/include/;../pm_shared/;../public;../engine;../external/GLEW/include;../external/SDL2/include</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -79,7 +79,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>false</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NO_MALLOC_OVERRIDE;GLQUAKE;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NO_MALLOC_OVERRIDE;GLQUAKE;REGS_FIXES;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>false</ConformanceMode>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <AdditionalIncludeDirectories>../common;../tier1;../vgui2;../utils/vgui/include/;../pm_shared/;../public;../engine;../external/GLEW/include;../external/SDL2/include</AdditionalIncludeDirectories>
