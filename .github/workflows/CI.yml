@@ -5,7 +5,13 @@ name: CI
 
 on:
   push:
+    paths-ignore:
+      - .gitignore
+      - README.md
   pull_request:
+    paths-ignore:
+      - .gitignore
+      - README.md
   workflow_dispatch:
   schedule:
     - cron: '0 0 1 * *' # Monthly
