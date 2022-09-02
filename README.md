@@ -17,6 +17,7 @@ Exe build: 19:53:27 Aug  3 2020 (8684)
 
 - dedicated (hlds.exe) | Status: WIP (not implemented yet)
 - GameUI (GameUI.dll) | Status: WIP (without CareerUI)
+- hw (hw.dll) | Status: WIP (only game menu without sound engine)
 - launcher (hl.exe) | Status: Finished (also has improvements)
 - particleman (particleman.dll) | Status: WIP (not implemented yet)
 - tier0 (tier0.dll) | Status: Finished?
@@ -29,7 +30,6 @@ Exe build: 19:53:27 Aug  3 2020 (8684)
 ## Future projects
 
 - AdminServer | GUI for HLDS
-- hw | GoldSrc OpenGL engine
 - FileSystem_Stdio | File system
 - ServerBrowser | VGUI2 window with a list of all available servers
 - vgui_dll | VGUI1

@@ -1,0 +1,192 @@
+#include "quakedef.h"
+#include "cl_demo.h"
+
+char gDemoMessageBuffer[512] = {};
+int host_framecount;
+
+#pragma pack(push, 1)
+
+struct demo_anim_t
+{
+	byte cmd;
+	float time;
+	int frame;
+	int anim;
+	int body;
+};
+
+struct demo_command_t
+{
+	byte cmd;
+	float time;
+	int frame;
+};
+
+struct demo_event_t
+{
+	byte cmd;
+	float time;
+	int frame;
+	int flags;
+	int idx;
+	float delay;
+};
+
+struct demo_sound1_t
+{
+	byte cmd;
+	float time;
+	int frame;
+	int channel;
+	int length;
+};
+
+struct hud_command_t
+{
+	byte cmd;
+	float time;
+	int frame;
+	char szNameBuf[64];
+};
+
+struct cl_demo_data_t
+{
+	byte cmd;
+	float time;
+	int frame;
+	vec3_t origin;
+	vec3_t viewangles;
+	int iWeaponBits;
+	float fov;
+};
+
+#pragma pack(pop)
+
+struct demo_sound2_t
+{
+	float volume;
+	float attenuation;
+	int flags;
+	int pitch;
+};
+
+struct sequence_info_t
+{
+	int incoming_sequence;
+	int incoming_acknowledged;
+	int incoming_reliable_acknowledged;
+	int incoming_reliable_sequence;
+	int outgoing_sequence;
+	int reliable_sequence;
+	int last_reliable_sequence;
+	int length;
+};
+
+client_textmessage_t tm_demomessage =
+	{
+		0,
+		255, 255, 255, 255,
+		255, 255, 255, 255,
+		-1, -1,
+		0, 0,
+		0, 0,
+		"__DEMOMESSAGE__",
+		gDemoMessageBuffer};
+
+demo_api_t demoapi =
+	{
+		&CL_DemoAPIRecording,
+		&CL_DemoAPIPlayback,
+		&CL_DemoAPITimedemo,
+		&CL_WriteClientDLLMessage};
+
+int CL_DemoAPIRecording()
+{
+	return (unsigned int)(cls.demorecording != false);
+}
+
+int CL_DemoAPIPlayback()
+{
+	return (unsigned int)(cls.demoplayback != false);
+}
+
+int CL_DemoAPITimedemo()
+{
+	return (unsigned int)(cls.timedemo != false);
+}
+
+void CL_WriteClientDLLMessage(int size, byte* buf)
+{
+	unsigned long localTime;
+	float f;
+	byte cmd;
+
+	if ((CL_DemoAPIRecording() && (cls.demofile != NULL)) && (size > -1))
+	{
+		cmd = '\t';
+		FS_Write(&cmd, 1, cls.demofile);
+		f = (realtime - cls.demostarttime);
+		FS_Write(&f, 4, cls.demofile);
+		localTime = (host_framecount - cls.demostartframe);
+		FS_Write(&localTime, 4, cls.demofile);
+		FS_Write(&size, 4, cls.demofile);
+		FS_Write(buf, size, cls.demofile);
+	}
+	return;
+}
+
+void CL_WriteDLLUpdate(client_data_t* cdata)
+{
+	cl_demo_data_t demcmd;
+
+	if (cls.demofile != NULL)
+	{
+		demcmd.cmd = '\x04';
+		demcmd.time = (realtime - cls.demostarttime);
+		demcmd.frame = (host_framecount - cls.demostartframe);
+		demcmd.origin[0] = cdata->origin[0];
+		demcmd.origin[1] = cdata->origin[1];
+		demcmd.origin[2] = cdata->origin[2];
+		demcmd.viewangles[0] = cdata->viewangles[0];
+		demcmd.viewangles[1] = cdata->viewangles[1];
+		demcmd.viewangles[2] = cdata->viewangles[2];
+		demcmd.iWeaponBits = cdata->iWeaponBits;
+		demcmd.fov = cdata->fov;
+		FS_Write(&demcmd, 41, cls.demofile);
+	}
+	return;
+}
+
+void CL_DemoAnim(int anim, int body)
+{
+	demo_anim_t demcmd;
+
+	if (cls.demofile != NULL)
+	{
+		demcmd.cmd = '\a';
+		demcmd.time = (realtime - cls.demostarttime);
+		demcmd.frame = (host_framecount - cls.demostartframe);
+		demcmd.anim = anim;
+		demcmd.body = body;
+		FS_Write(&demcmd, 17, cls.demofile);
+	}
+	return;
+}
+
+void CL_DemoEvent(int flags, int idx, float delay, event_args_t* pargs)
+{
+	demo_event_t demcmd;
+
+	if (cls.demofile != NULL)
+	{
+		demcmd.cmd = '\x06';
+		demcmd.time = (realtime - cls.demostarttime);
+		demcmd.frame = (host_framecount - cls.demostartframe);
+		demcmd.flags = flags;
+		demcmd.idx = idx;
+		demcmd.delay = delay;
+		FS_Write(&demcmd, 21, cls.demofile);
+		FS_Write(pargs, 72, cls.demofile);
+	}
+	return;
+}

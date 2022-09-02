@@ -27,7 +27,9 @@ jobs:
         mv launcher/Release/hl.exe .\bin
         mv launcher/Release/hl.pdb .\bin\pdb
         # mv dedicated/Release/hlds.exe .\bin
-        # mv dedciated/Release/hlds.pdb .\bin\pdb
+        # mv dedicated/Release/hlds.pdb .\bin\pdb
+        mv engine/Release/hw.dll .\bin
+        mv engine/Release/hw.pdb .\bin\pdb
         mv GameUI/Release/GameUI.dll .\bin\valve\cl_dlls
         mv GameUI/Release/GameUI.pdb .\bin\valve\cl_dlls
         mv tier0/Release/tier0.dll .\bin

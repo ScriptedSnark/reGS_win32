@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{cc87a2cf-345d-4c67-98bb-38d3a6d8c80d}</ProjectGuid>
+    <RootNamespace>engine</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+    <CharacterSet>NotSet</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+    <CharacterSet>NotSet</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.props" />
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <TargetName>hw</TargetName>
+    <IntDir>$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)\engine\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <TargetName>hw</TargetName>
+    <IntDir>$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)\engine\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>false</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NO_MALLOC_OVERRIDE;GLQUAKE;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>false</ConformanceMode>
+      <AdditionalIncludeDirectories>../common;../tier1;../vgui2;../utils/vgui/include/;../pm_shared/;../public;../engine;../external/GLEW/include;../external/SDL2/include</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>false</EnableCOMDATFolding>
+      <OptimizeReferences>false</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>psapi.lib;wsock32.lib;Winmm.lib;../external/game_controls.lib;../external/steam_api.lib;../external/vstdlib.lib;../external/tier0.lib;../tier1/Release/tier1.lib;../vgui2/controls/Release/vgui2_controls.lib;../vgui2/vgui2_surfacelib/Release/vgui2_surfacelib.lib;opengl32.lib;glu32.lib;../external/GLEW/lib/glew32s.lib;../external/SDL2/lib/SDL2.lib;../utils/vgui/lib/win32_vc6/vgui.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>false</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NO_MALLOC_OVERRIDE;GLQUAKE;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>false</ConformanceMode>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <AdditionalIncludeDirectories>../common;../tier1;../vgui2;../utils/vgui/include/;../pm_shared/;../public;../engine;../external/GLEW/include;../external/SDL2/include</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>psapi.lib;wsock32.lib;Winmm.lib;../external/game_controls.lib;../external/steam_api.lib;../external/vstdlib.lib;../external/tier0.lib;../tier1/Debug/tier1.lib;../vgui2/controls/Debug/vgui2_controls.lib;../vgui2/vgui2_surfacelib/Debug/vgui2_surfacelib.lib;opengl32.lib;glu32.lib;../external/GLEW/lib/glew32s.lib;../external/SDL2/lib/SDL2.lib;../utils/vgui/lib/win32_vc6/vgui.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib</AdditionalDependencies>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\common\BaseSystemModule.cpp" />
+    <ClCompile Include="..\common\FilePaths.cpp" />
+    <ClCompile Include="..\common\ObjectList.cpp" />
+    <ClCompile Include="..\common\TokenLine.cpp" />
+    <ClCompile Include="..\public\FileSystem_Helpers.cpp" />
+    <ClCompile Include="..\public\interface.cpp" />
+    <ClCompile Include="..\public\registry.cpp" />
+    <ClCompile Include="..\tier1\CharacterSet.cpp" />
+    <ClCompile Include="..\tier1\TokenReader.cpp" />
+    <ClCompile Include="bitmap_win.cpp" />
+    <ClCompile Include="buildnum.cpp" />
+    <ClCompile Include="cd.cpp" />
+    <ClCompile Include="cdll_exp.cpp" />
+    <ClCompile Include="cdll_int.cpp" />
+    <ClCompile Include="chase.cpp" />
+    <ClCompile Include="cl_demo.cpp" />
+    <ClCompile Include="cl_draw.cpp" />
+    <ClCompile Include="cl_ents.cpp" />
+    <ClCompile Include="cl_main.cpp" />
+    <ClCompile Include="cl_parse.cpp" />
+    <ClCompile Include="cl_parsefn.cpp" />
+    <ClCompile Include="cl_pmove.cpp" />
+    <ClCompile Include="cl_pred.cpp" />
+    <ClCompile Include="cl_spectator.cpp" />
+    <ClCompile Include="cl_tent.cpp" />
+    <ClCompile Include="cmd.cpp" />
+    <ClCompile Include="cmodel.cpp" />
+    <ClCompile Include="common.cpp" />
+    <ClCompile Include="com_custom.cpp" />
+    <ClCompile Include="console.cpp" />
+    <ClCompile Include="crc.cpp" />
+    <ClCompile Include="cvar.cpp" />
+    <ClCompile Include="czmodelcheck.cpp" />
+    <ClCompile Include="decals.cpp" />
+    <ClCompile Include="delta.cpp" />
+    <ClCompile Include="DemoPlayerWrapper.cpp" />
+    <ClCompile Include="DetailTexture.cpp" />
+    <ClCompile Include="eventapi.cpp" />
+    <ClCompile Include="filesystem.cpp" />
+    <ClCompile Include="filesystem_internal.cpp" />
+    <ClCompile Include="glHud.cpp" />
+    <ClCompile Include="gl_draw.cpp" />
+    <ClCompile Include="gl_mesh.cpp" />
+    <ClCompile Include="gl_model.cpp" />
+    <ClCompile Include="gl_rmain.cpp" />
+    <ClCompile Include="gl_rmisc.cpp" />
+    <ClCompile Include="gl_rsurf.cpp" />
+    <ClCompile Include="gl_screen.cpp" />
+    <ClCompile Include="gl_vidnt.cpp" />
+    <ClCompile Include="gl_warp.cpp" />
+    <ClCompile Include="hashpak.cpp" />
+    <ClCompile Include="host.cpp" />
+    <ClCompile Include="host_cmd.cpp" />
+    <ClCompile Include="HUD.cpp" />
+    <ClCompile Include="info.cpp" />
+    <ClCompile Include="ipratelimit.cpp" />
+    <ClCompile Include="ipratelimitWrapper.cpp" />
+    <ClCompile Include="keys.cpp" />
+    <ClCompile Include="LoadBlob.cpp" />
+    <ClCompile Include="mathlib.cpp" />
+    <ClCompile Include="mem.cpp" />
+    <ClCompile Include="module.cpp" />
+    <ClCompile Include="net_api.cpp" />
+    <ClCompile Include="net_chan.cpp" />
+    <ClCompile Include="net_ws.cpp" />
+    <ClCompile Include="pmove.cpp" />
+    <ClCompile Include="pmovetst.cpp" />
+    <ClCompile Include="pr_cmds.cpp" />
+    <ClCompile Include="pr_edict.cpp" />
+    <ClCompile Include="qgl.cpp" />
+    <ClCompile Include="r_efx.cpp" />
+    <ClCompile Include="r_part.cpp" />
+    <ClCompile Include="r_studio.cpp" />
+    <ClCompile Include="r_triangle.cpp" />
+    <ClCompile Include="sequence.cpp" />
+    <ClCompile Include="snd_dma.cpp" />
+    <ClCompile Include="snd_mix.cpp" />
+    <ClCompile Include="snd_sdl.cpp" />
+    <ClCompile Include="sv_log.cpp" />
+    <ClCompile Include="sv_main.cpp" />
+    <ClCompile Include="sv_phys.cpp" />
+    <ClCompile Include="sv_secure.cpp" />
+    <ClCompile Include="sv_steam3.cpp" />
+    <ClCompile Include="sv_upld.cpp" />
+    <ClCompile Include="SystemWrapper.cpp" />
+    <ClCompile Include="sys_dll.cpp" />
+    <ClCompile Include="sys_dll2.cpp" />
+    <ClCompile Include="sys_engine.cpp" />
+    <ClCompile Include="sys_getmodes.cpp" />
+    <ClCompile Include="sys_sdlwind.cpp" />
+    <ClCompile Include="textures.cpp" />
+    <ClCompile Include="tmessage.cpp" />
+    <ClCompile Include="traceinit.cpp" />
+    <ClCompile Include="vgui2\BaseUISurface.cpp" />
+    <ClCompile Include="vgui2\BaseUI_Interface.cpp" />
+    <ClCompile Include="vgui2\FontTextureCache.cpp" />
+    <ClCompile Include="vgui2\text_draw.cpp" />
+    <ClCompile Include="vgui_EngineSurface.cpp" />
+    <ClCompile Include="vgui_EngineSurfaceHW.cpp" />
+    <ClCompile Include="vgui_EngineSurfaceWin32.cpp" />
+    <ClCompile Include="VGUI_EngineSurfaceWrap.cpp" />
+    <ClCompile Include="vgui_int.cpp" />
+    <ClCompile Include="vgui_intwrap.cpp" />
+    <ClCompile Include="vgui_intwrap2.cpp" />
+    <ClCompile Include="view.cpp" />
+    <ClCompile Include="voice.cpp" />
+    <ClCompile Include="wad.cpp" />
+    <ClCompile Include="world.cpp" />
+    <ClCompile Include="zone.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="anorms.h" />
+    <ClInclude Include="APIProxy.h" />
+    <ClInclude Include="bitmap_win.h" />
+    <ClInclude Include="buildnum.h" />
+    <ClInclude Include="cdaudio.h" />
+    <ClInclude Include="cdll_exp.h" />
+    <ClInclude Include="cdll_int.h" />
+    <ClInclude Include="chase.h" />
+    <ClInclude Include="client.h" />
+    <ClInclude Include="cl_demo.h" />
+    <ClInclude Include="cl_draw.h" />
+    <ClInclude Include="cl_ents.h" />
+    <ClInclude Include="cl_main.h" />
+    <ClInclude Include="cl_parse.h" />
+    <ClInclude Include="cl_parsefn.h" />
+    <ClInclude Include="cl_pmove.h" />
+    <ClInclude Include="cl_pred.h" />
+    <ClInclude Include="cl_servercache.h" />
+    <ClInclude Include="cl_spectator.h" />
+    <ClInclude Include="cl_tent.h" />
+    <ClInclude Include="cmd.h" />
+    <ClInclude Include="cmodel.h" />
+    <ClInclude Include="common.h" />
+    <ClInclude Include="com_custom.h" />
+    <ClInclude Include="console.h" />
+    <ClInclude Include="custom.h" />
+    <ClInclude Include="customentity.h" />
+    <ClInclude Include="cvar.h" />
+    <ClInclude Include="decals.h" />
+    <ClInclude Include="delta.h" />
+    <ClInclude Include="DemoPlayerWrapper.h" />
+    <ClInclude Include="DetailTexture.h" />
+    <ClInclude Include="edict.h" />
+    <ClInclude Include="eiface.h" />
+    <ClInclude Include="eventapi.h" />
+    <ClInclude Include="filesystem.h" />
+    <ClInclude Include="glHud.h" />
+    <ClInclude Include="gl_draw.h" />
+    <ClInclude Include="gl_mesh.h" />
+    <ClInclude Include="gl_model.h" />
+    <ClInclude Include="gl_rmain.h" />
+    <ClInclude Include="gl_rmisc.h" />
+    <ClInclude Include="gl_rsurf.h" />
+    <ClInclude Include="gl_screen.h" />
+    <ClInclude Include="gl_vidnt.h" />
+    <ClInclude Include="hashpak.h" />
+    <ClInclude Include="host.h" />
+    <ClInclude Include="host_cmd.h" />
+    <ClInclude Include="HUD.h" />
+    <ClInclude Include="IEngine.h" />
+    <ClInclude Include="IGame.h" />
+    <ClInclude Include="info.h" />
+    <ClInclude Include="ipratelimit.h" />
+    <ClInclude Include="ipratelimitWrapper.h" />
+    <ClInclude Include="ithread.h" />
+    <ClInclude Include="keys.h" />
+    <ClInclude Include="LoadBlob.h" />
+    <ClInclude Include="mathlib.h" />
+    <ClInclude Include="mem.h" />
+    <ClInclude Include="modelgen.h" />
+    <ClInclude Include="modinfo.h" />
+    <ClInclude Include="module.h" />
+    <ClInclude Include="net.h" />
+    <ClInclude Include="net_api_int.h" />
+    <ClInclude Include="net_chan.h" />
+    <ClInclude Include="pmove.h" />
+    <ClInclude Include="pmovetst.h" />
+    <ClInclude Include="progdefs.h" />
+    <ClInclude Include="progs.h" />
+    <ClInclude Include="protocol.h" />
+    <ClInclude Include="pr_cmds.h" />
+    <ClInclude Include="pr_edict.h" />
+    <ClInclude Include="qgl.h" />
+    <ClInclude Include="quakedef.h" />
+    <ClInclude Include="render.h" />
+    <ClInclude Include="r_efx_int.h" />
+    <ClInclude Include="r_part.h" />
+    <ClInclude Include="r_studio.h" />
+    <ClInclude Include="r_triangle.h" />
+    <ClInclude Include="server.h" />
+    <ClInclude Include="shake.h" />
+    <ClInclude Include="sound.h" />
+    <ClInclude Include="spritegn.h" />
+    <ClInclude Include="studio.h" />
+    <ClInclude Include="sv_log.h" />
+    <ClInclude Include="sv_main.h" />
+    <ClInclude Include="sv_phys.h" />
+    <ClInclude Include="sv_secure.h" />
+    <ClInclude Include="sv_steam3.h" />
+    <ClInclude Include="sv_upld.h" />
+    <ClInclude Include="sys.h" />
+    <ClInclude Include="SystemWrapper.h" />
+    <ClInclude Include="sys_getmodes.h" />
+    <ClInclude Include="textures.h" />
+    <ClInclude Include="tmessage.h" />
+    <ClInclude Include="traceinit.h" />
+    <ClInclude Include="vgui2\BasePanel.h" />
+    <ClInclude Include="vgui2\BaseUISurface.h" />
+    <ClInclude Include="vgui2\BaseUI_Interface.h" />
+    <ClInclude Include="vgui2\FontTextureCache.h" />
+    <ClInclude Include="vgui2\IMouseControl.h" />
+    <ClInclude Include="vgui2\text_draw.h" />
+    <ClInclude Include="vgui_EngineSurface.h" />
+    <ClInclude Include="VGUI_EngineSurfaceWrap.h" />
+    <ClInclude Include="vgui_int.h" />
+    <ClInclude Include="vid.h" />
+    <ClInclude Include="view.h" />
+    <ClInclude Include="voice.h" />
+    <ClInclude Include="wad.h" />
+    <ClInclude Include="world.h" />
+    <ClInclude Include="zone.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.targets" />
+  </ImportGroup>
+</Project>

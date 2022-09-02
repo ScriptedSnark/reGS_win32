@@ -18,6 +18,8 @@ tier1/Release/
 tier1/Debug/
 dlls/Release/
 dlls/Debug/
+engine/Release/
+engine/Debug/
 GameUI/Release/
 GameUI/Debug/
 dedicated/Release/
