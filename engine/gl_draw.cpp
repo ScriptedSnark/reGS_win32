@@ -271,12 +271,10 @@ void GL_Bind(int texnum)
 
 bool ValidateWRect(const wrect_t* prc)
 {
-	if (prc)
-	{
-		if ((prc->left <= prc->right) || (prc->top >= prc->bottom))
-			return false;
-	}
-	else
+	if (!prc)
+		return false;
+
+	if ((prc->left >= prc->right) || (prc->top >= prc->bottom))
 		return false;
 
 	return true;
