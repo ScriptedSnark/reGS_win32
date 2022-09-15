@@ -2,6 +2,8 @@
 #define ENGINE_NET_API_INT_H
 
 #include "net_api.h"
+#include <winsock.h>
+#include "client.h"
 
 void Net_InitNetworking();
 
