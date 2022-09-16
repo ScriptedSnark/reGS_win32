@@ -212,7 +212,8 @@ void NET_GetLocalAddress()
 					net_local_adr.ip[0],
 					net_local_adr.ip[1],
 					net_local_adr.ip[2],
-					net_local_adr.ip[3] /* port */);
+					net_local_adr.ip[3],
+					(net_local_adr.port >> 8 | net_local_adr.port << 8));
 			}
 
 			Con_Printf("Server IP address %s\n", s);
