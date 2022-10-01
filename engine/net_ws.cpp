@@ -114,40 +114,6 @@ void NetadrToSockadr(const netadr_t* a, struct sockaddr* s)
 	}
 }
 
-qboolean NET_StringToSockaddr(const char* s, struct sockaddr* sadr)
-{
-	struct hostent* h;
-	char* colon;
-	char copy[128];
-
-	Q_memset(sadr, 0, sizeof(*sadr));
-	((struct sockaddr_in*)sadr)->sin_family = AF_INET;
-	((struct sockaddr_in*)sadr)->sin_port = 0;
-
-	Q_strcpy(copy, s);
-	// strip off a trailing :port if present
-	for (colon = copy; *colon; colon++)
-		if (*colon == ':')
-		{
-			*colon = 0;
-			((struct sockaddr_in*)sadr)->sin_port = htons((short)atoi(colon + 1));
-		}
-
-	if (copy[0] >= '0' && copy[0] <= '9' && Q_strstr(copy, "."))
-	{
-		*(int*)&((struct sockaddr_in*)sadr)->sin_addr = inet_addr(copy);
-	}
-	else
-	{
-		if (!(h = gethostbyname(copy)))
-			return 0;
-		*(int*)&((struct sockaddr_in*)sadr)->sin_addr = *(int*)h->h_addr_list[0];
-	}
-
-	return true;
-}
-
-
 void NET_GetLocalAddress()
 {
 	memset(&net_local_adr, 0, 20);
