@@ -31,6 +31,8 @@ HANDLE hNetThread;
 DWORD dwNetThreadId;
 CRITICAL_SECTION net_cs;
 
+typedef int socklen_t;
+
 typedef struct
 {
 	byte data[NET_MAX_MESSAGE];
@@ -112,6 +114,82 @@ void NetadrToSockadr(const netadr_t* a, struct sockaddr* s)
 	}
 }
 
+void NET_GetLocalAddress()
+{
+	memset(&net_local_adr, 0, 20);
+
+	char* s;
+
+	if (noip)
+		Con_Printf("TCP/IP Disabled.\n");
+	else
+	{
+		char buff[512];
+		if (strcmp(ipname.string, "localhost"))
+			strncpy(buff, ipname.string, sizeof(buff) - 1);
+		else
+			gethostname(buff, sizeof(buff));
+
+		buff[511] = 0;
+
+		sockaddr sadr;
+
+		if (strcmp(buff, "localhost") && strcmp(buff, "127.0.0.1"))
+		{
+			if (NET_StringToSockaddr(buff, &sadr) && sadr.sa_family == 2)
+			{
+				net_local_adr.type = NA_IP;
+				*(DWORD*)net_local_adr.ip = *(DWORD*)&sadr.sa_data[2];
+				net_local_adr.port = (DWORD)sadr.sa_data;
+			}
+		}
+		else
+		{
+			memset(&net_local_adr, 0, 20);
+			net_local_adr.type = NA_LOOPBACK;
+		}
+
+		int ip_socket = ip_sockets[1];
+		socklen_t namelen[4];
+		namelen[0] = 16;
+
+		sockaddr_in address;
+		if (getsockname(ip_socket, (sockaddr*)&address, namelen))
+		{
+			int* error_location = _errno();
+			noip = true;
+			char* error_reason = strerror(*error_location);
+			Con_Printf("Could not get TCP/IP address, TCP/IP disabled\nReason:  %s\n", error_reason);
+		}
+		else
+		{
+			netadrtype_t type = net_local_adr.type;
+
+			net_local_adr.port = address.sin_port;
+
+			if (type == NA_LOOPBACK)
+				snprintf(s, 64, "loopback");
+			else if (type == NA_IP)
+			{
+				snprintf(
+					s,
+					64,
+					"%i.%i.%i.%i:%i",
+					net_local_adr.ip[0],
+					net_local_adr.ip[1],
+					net_local_adr.ip[2],
+					net_local_adr.ip[3],
+					(net_local_adr.port >> 8 | net_local_adr.port << 8));
+			}
+
+			Con_Printf("Server IP address %s\n", s);
+
+			char* net_adr = va((char*)"%s", s);
+			Cvar_Set("net_address", net_adr);
+		}
+	}
+}
+
 void NET_Config(qboolean multiplayer)
 {
 	static qboolean old_config;
@@ -134,7 +212,7 @@ void NET_Config(qboolean multiplayer)
 		if (bFirst)
 		{
 			bFirst = FALSE;
-			// NET_GetLocalAddress(); - TODO: implement - ScriptedSnark
+			NET_GetLocalAddress();
 		}
 	}
 	else

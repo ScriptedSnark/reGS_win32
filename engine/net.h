@@ -251,5 +251,6 @@ void NET_AllocateQueues();
 void NET_Init();
 
 char* NET_AdrToString(netadr_t a);
+qboolean NET_StringToSockaddr(const char* s, struct sockaddr* sadr);
 
 #endif // ENGINE_NET_H
