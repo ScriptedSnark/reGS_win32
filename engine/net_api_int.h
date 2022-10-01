@@ -2,7 +2,9 @@
 #define ENGINE_NET_API_INT_H
 
 #include "net_api.h"
+#include <winsani_in.h>
 #include <winsock.h>
+#include <winsani_out.h>
 #include "client.h"
 
 void Net_InitNetworking();
