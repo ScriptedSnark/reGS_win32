@@ -334,6 +334,7 @@ void CL_Shutdown()
 
 void CL_Init()
 {
+	CL_InitTEnts();
 	// TODO: implement - Solokiller
 	TextMessageInit();
 	// TODO: implement - Solokiller

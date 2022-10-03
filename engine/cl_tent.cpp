@@ -7,6 +7,8 @@
 
 TEMPENTITY gTempEnts[MAX_TEMP_ENTITIES], *gpTempEntFree, *gpTempEntActive;
 
+sfx_t *cl_sfx_ric1, *cl_sfx_ric2, *cl_sfx_ric3, *cl_sfx_ric4, *cl_sfx_ric5;
+
 void CL_TempEntInit()
 {
 	Q_memset(gTempEnts, 0, sizeof(gTempEnts));
@@ -199,6 +201,15 @@ TEMPENTITY* CL_AllocCustomTempEntity(float* origin, model_t* model, int high, vo
 	return tempent;
 }
 
+void CL_InitTEnts() // TODO: implement - ScriptedSnark
+{
+	cl_sfx_ric1 = S_PrecacheSound("weapons/ric1.wav");
+	cl_sfx_ric2 = S_PrecacheSound("weapons/ric2.wav");
+	cl_sfx_ric3 = S_PrecacheSound("weapons/ric3.wav");
+	cl_sfx_ric4 = S_PrecacheSound("weapons/ric4.wav");
+	cl_sfx_ric5 = S_PrecacheSound("weapons/ric5.wav");
+}
+
 void R_BloodSprite(vec_t* org, int colorindex, int modelIndex, int modelIndex2, float size)
 {
 	// TODO: implement - Solokiller
@@ -271,7 +282,26 @@ void R_Projectile(vec_t* origin, vec_t* velocity, int modelIndex, int life, int 
 
 void R_RicochetSound(vec_t* pos)
 {
-	// TODO: implement - Solokiller
+	switch (RandomLong(0, 4))
+	{
+	case 0:
+		S_StartDynamicSound(-1, 0, cl_sfx_ric1, pos, 1.0, 1.0, 0, 100);
+		break;
+	case 1:
+		S_StartDynamicSound(-1, 0, cl_sfx_ric2, pos, 1.0, 1.0, 0, 100);
+		break;
+	case 2:
+		S_StartDynamicSound(-1, 0, cl_sfx_ric3, pos, 1.0, 1.0, 0, 100);
+		break;
+	case 3:
+		S_StartDynamicSound(-1, 0, cl_sfx_ric4, pos, 1.0, 1.0, 0, 100);
+		break;
+	case 4:
+		S_StartDynamicSound(-1, 0, cl_sfx_ric5, pos, 1.0, 1.0, 0, 100);
+		break;
+	default:
+		return;
+	}
 }
 
 void R_RicochetSprite(float* pos, model_t* pmodel, float duration, float scale)
