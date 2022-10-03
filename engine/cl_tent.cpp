@@ -1,14 +1,11 @@
 #include "quakedef.h"
 #include "client.h"
 #include "cl_tent.h"
-#include <cl_main.h>
-#include <gl_model.h>
-#include <pr_cmds.h>
+#include "cl_main.h"
+#include "gl_model.h"
+#include "pr_cmds.h"
 
-static TEMPENTITY gTempEnts[MAX_TEMP_ENTITIES];
-
-static TEMPENTITY* gpTempEntActive = nullptr;
-static TEMPENTITY* gpTempEntFree = nullptr;
+TEMPENTITY gTempEnts[MAX_TEMP_ENTITIES], *gpTempEntFree, *gpTempEntActive;
 
 void CL_TempEntInit()
 {
@@ -35,7 +32,7 @@ TEMPENTITY* CL_TempEntAlloc(vec_t* org, model_t* model)
 	pTVar2 = gpTempEntFree;
 	if (gpTempEntFree == NULL)
 	{
-		Con_DPrintf("Overflow %d temporary ents!\n", 500);
+		Con_DPrintf("Overflow %d temporary ents!\n", MAX_TEMP_ENTITIES);
 	}
 	else if (model == NULL)
 	{
@@ -79,7 +76,7 @@ TEMPENTITY* CL_TempEntAllocNoModel(vec_t* org)
 	pTVar1 = gpTempEntFree;
 	if (gpTempEntFree == NULL)
 	{
-		Con_DPrintf("Overflow %d temporary ents!\n", 500);
+		Con_DPrintf("Overflow %d temporary ents!\n", MAX_TEMP_ENTITIES);
 	}
 	else
 	{
