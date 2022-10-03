@@ -23,6 +23,21 @@ void CL_TempEntInit()
 	gpTempEntActive = nullptr;
 }
 
+void CL_TempEntPrepare(TEMPENTITY* pTemp, model_t* model)
+{
+	Q_memset(&pTemp->entity, 0, sizeof(pTemp->entity));
+	pTemp->flags = 0;
+	pTemp->entity.curstate.colormap = 0;
+	pTemp->die = cl.time + 0.75;
+	pTemp->entity.model = model;
+	pTemp->fadeSpeed = 0.5;
+	pTemp->hitSound = 0;
+	pTemp->clientIndex = -1;
+	pTemp->bounceFactor = 1.0;
+	pTemp->hitcallback = 0;
+	pTemp->callback = 0;
+}
+
 TEMPENTITY* CL_TempEntAlloc(vec_t* org, model_t* model)
 {
 	cl_entity_t* dest;
