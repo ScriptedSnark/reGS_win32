@@ -49,13 +49,13 @@
     <LinkIncremental>true</LinkIncremental>
     <TargetName>hw</TargetName>
     <IntDir>$(Configuration)\</IntDir>
-    <OutDir>$(SolutionDir)\engine\$(Configuration)\</OutDir>
+    <OutDir>$(SolutionDir)\engine\GL_Debug_STEAM</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <TargetName>hw</TargetName>
     <IntDir>$(Configuration)\</IntDir>
-    <OutDir>$(SolutionDir)\engine\$(Configuration)\</OutDir>
+    <OutDir>$(SolutionDir)\engine\GL_Release_STEAM</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>

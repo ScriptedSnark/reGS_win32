@@ -20,6 +20,8 @@ dlls/Release/
 dlls/Debug/
 engine/Release/
 engine/Debug/
+engine/GL_Release_STEAM/
+engine/GL_Debug_STEAM/
 GameUI/Release/
 GameUI/Debug/
 dedicated/Release/
