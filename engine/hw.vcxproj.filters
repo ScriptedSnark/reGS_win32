@@ -110,6 +110,7 @@
     <ClCompile Include="world.cpp" />
     <ClCompile Include="zone.cpp" />
     <ClCompile Include="snd_sdl.cpp" />
+    <ClCompile Include="thread.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="anorms.h" />
@@ -165,7 +166,6 @@
     <ClInclude Include="info.h" />
     <ClInclude Include="ipratelimit.h" />
     <ClInclude Include="ipratelimitWrapper.h" />
-    <ClInclude Include="ithread.h" />
     <ClInclude Include="keys.h" />
     <ClInclude Include="LoadBlob.h" />
     <ClInclude Include="mathlib.h" />
@@ -222,6 +222,8 @@
     <ClInclude Include="wad.h" />
     <ClInclude Include="world.h" />
     <ClInclude Include="zone.h" />
-    <ClInclude Include="cdaudio.h" />
+    <ClInclude Include="ithread.h" />
+    <ClInclude Include="cd.h" />
+    <ClInclude Include="cd_internal.h" />
   </ItemGroup>
 </Project>

@@ -183,6 +183,7 @@
     <ClCompile Include="sys_getmodes.cpp" />
     <ClCompile Include="sys_sdlwind.cpp" />
     <ClCompile Include="textures.cpp" />
+    <ClCompile Include="thread.cpp" />
     <ClCompile Include="tmessage.cpp" />
     <ClCompile Include="traceinit.cpp" />
     <ClCompile Include="vgui2\BaseUISurface.cpp" />
@@ -207,9 +208,10 @@
     <ClInclude Include="APIProxy.h" />
     <ClInclude Include="bitmap_win.h" />
     <ClInclude Include="buildnum.h" />
-    <ClInclude Include="cdaudio.h" />
+    <ClInclude Include="cd.h" />
     <ClInclude Include="cdll_exp.h" />
     <ClInclude Include="cdll_int.h" />
+    <ClInclude Include="cd_internal.h" />
     <ClInclude Include="chase.h" />
     <ClInclude Include="client.h" />
     <ClInclude Include="cl_demo.h" />
