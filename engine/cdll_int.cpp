@@ -3,7 +3,7 @@
 #include "winheaders.h"
 
 #include "quakedef.h"
-#include "cdaudio.h"
+#include "cd.h"
 #include "client.h"
 #include "cl_demo.h"
 #include "cl_draw.h"
