@@ -111,6 +111,7 @@
     <ClCompile Include="zone.cpp" />
     <ClCompile Include="snd_sdl.cpp" />
     <ClCompile Include="thread.cpp" />
+    <ClCompile Include="cl_extrap.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="anorms.h" />

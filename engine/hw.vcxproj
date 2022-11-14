@@ -110,6 +110,7 @@
     <ClCompile Include="cl_demo.cpp" />
     <ClCompile Include="cl_draw.cpp" />
     <ClCompile Include="cl_ents.cpp" />
+    <ClCompile Include="cl_extrap.cpp" />
     <ClCompile Include="cl_main.cpp" />
     <ClCompile Include="cl_parse.cpp" />
     <ClCompile Include="cl_parsefn.cpp" />
