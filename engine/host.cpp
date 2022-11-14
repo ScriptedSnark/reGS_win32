@@ -407,7 +407,7 @@ bool Host_Init(quakeparms_t* parms)
 
 	Cvar_Set("sv_version", versionString);
 
-	Con_DPrintf("%4.1f Mb heap\n", parms->memsize / (1024 * 1024));
+	Con_DPrintf("%4.1f Mb heap\n", parms->memsize / (1024 * 1024.0));
 
 	R_InitTextures();
 	HPAK_CheckIntegrity("custom");
