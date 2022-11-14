@@ -55,4 +55,4 @@ This project is for Windows 32-bit systems only.
 
 Thanks to [TheDoomsayer](https://github.com/TheDoomsayer) (the real skillful gigachad)! He helped me to learn reverse-engineering.
 
-Thanks to [xWhitey](https://github.com/xWhitey) for reverse-engineering collaboration when reGS was private.
+Thanks to [Terrorgor](https://github.com/Terrorgor) for reverse-engineering collaboration when reGS was private.
