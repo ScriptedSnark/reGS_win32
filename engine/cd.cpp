@@ -225,7 +225,7 @@ void CCDAudio::Frame(void)
 
 void CDAudio_Init(void)
 {
-	// TODO: implement - ScriptedSnark
+	thread->Init();
 }
 
 void CDAudio_Shutdown(void)
