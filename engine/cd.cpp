@@ -298,7 +298,11 @@ void CCDAudio::MP3_Suspend_Audio(void)
 
 void CCDAudio::MP3_ReleaseDriver(void)
 {
-	// TODO: implement - ScriptedSnark
+	if (MP3digitalDriver)
+	{
+		AIL_close_digital_driver(MP3digitalDriver);
+		MP3digitalDriver = nullptr; // 0
+	}
 }
 
 float CCDAudio::MP3_SetVolume(float NewVol)
