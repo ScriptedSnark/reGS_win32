@@ -230,7 +230,7 @@ void CDAudio_Init(void)
 
 void CDAudio_Shutdown(void)
 {
-	// TODO: implement - ScriptedSnark
+	thread->Shutdown();
 }
 
 void CDAudio_Play(int track, int looping)
