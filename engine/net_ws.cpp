@@ -12,6 +12,8 @@
 
 #define MAX_LOOPBACK 4
 
+#define LERP_HEIGHT 24
+
 qboolean net_thread_initialized;
 
 int net_configured;
@@ -369,12 +371,161 @@ void NET_Init()
 	Con_DPrintf("Base networking initialized.\n");
 }
 
+void NET_ClearLaggedList(packetlag_t* pList)
+{
+	packetlag_s* pNext = pList->pNext;
+	if (pList != pNext && pNext)
+		while (true)
+		{
+			pNext->pPrev->pNext = pNext;
+			pNext->pNext->pPrev = pNext->pPrev;
+			uint8_t* pPacketData = pNext->pPacketData;
+			pNext->pPrev = 0;
+			pNext->pNext = 0;
+
+			if (pPacketData)
+			{
+				Mem_Free(pPacketData);
+				pNext->pPacketData = 0;
+			}
+
+			Mem_Free(pNext);
+			if (pList == pNext || pNext)
+				break;
+
+			pNext = pNext->pNext;
+		}
+
+	pList->pPrev = pList;
+	pList->pNext = pList;
+}
+
+void NET_InitColors()
+{
+	int i, j;
+	byte mincolor[2][3];
+	byte maxcolor[2][3];
+	float dc[2][3];
+	int hfrac;
+	float f;
+	unsigned __int8 colors[24][3];
+
+	mincolor[0][0] = 63;
+	mincolor[0][1] = 0;
+	mincolor[0][2] = 100;
+
+	maxcolor[0][0] = 0;
+	maxcolor[0][1] = 63;
+	maxcolor[0][2] = 255;
+
+	mincolor[1][0] = 255;
+	mincolor[1][1] = 127;
+	mincolor[1][2] = 0;
+
+	maxcolor[1][0] = 250;
+	maxcolor[1][1] = 0;
+	maxcolor[1][2] = 0;
+
+	for (i = 0; i < 3; i++)
+	{
+		dc[0][i] = (float)(maxcolor[0][i] - mincolor[0][i]);
+		dc[1][i] = (float)(maxcolor[1][i] - mincolor[1][i]);
+	}
+
+	hfrac = LERP_HEIGHT / 3;
+
+	for (i = 0; i < LERP_HEIGHT; i++)
+	{
+		if (i < hfrac)
+		{
+			f = (float)i / (float)hfrac;
+			for (j = 0; j < 3; j++)
+			{
+				colors[i][j] = mincolor[0][j] + f * dc[0][j];
+			}
+		}
+		else
+		{
+			f = (float)(i - hfrac) / (float)(LERP_HEIGHT - hfrac);
+			for (j = 0; j < 3; j++)
+			{
+				colors[i][j] = mincolor[1][j] + f * dc[1][j];
+			}
+		}
+	}
+}
+
+void NET_FillRect(vrect_t* rect, unsigned __int8* color, unsigned __int8 alpha)
+{
+	Draw_FillRGBA(rect->x, rect->y, rect->width, rect->height, *color, color[1], color[2], alpha);
+}
+
+int NET_DrawDataSegment(vrect_t* rcFill, int bytes, byte r, byte g, byte b, byte alpha)
+{
+	int h;
+	byte color[3];
+
+	h = bytes / net_scale.value;
+
+	color[0] = r;
+	color[1] = g;
+	color[2] = b;
+
+	rcFill->height = h;
+	rcFill->y -= h;
+
+	if (rcFill->y < 2)
+		return 0;
+
+	NET_FillRect(rcFill, color, alpha);
+
+	return 1;
+}
+
+void NET_DrawHatches(int x, int y, int maxmsgbytes)
+{
+	int starty;
+	int ystep;
+	vrect_t rcHatch;
+
+	byte colorminor[3];
+	byte color[3];
+
+	ystep = (int)(10.0 / net_scale.value);
+	ystep = max(ystep, 1);
+
+	rcHatch.y = y;
+	rcHatch.height = 1;
+	rcHatch.x = x;
+	rcHatch.width = 3;
+
+	color[0] = 0;
+	color[1] = 200;
+	color[2] = 0;
+
+	colorminor[0] = 63;
+	colorminor[1] = 63;
+	colorminor[2] = 0;
+
+	for (starty = rcHatch.y; rcHatch.y > 0 && ((starty - rcHatch.y) * net_scale.value < (maxmsgbytes + 50)); rcHatch.y -= ystep)
+	{
+		if (!((int)((starty - rcHatch.y) * net_scale.value) % 50))
+		{
+			NET_FillRect(&rcHatch, color, 255);
+		}
+		else if (ystep > 5)
+		{
+			NET_FillRect(&rcHatch, colorminor, 200);
+		}
+	}
+}
+
 void NET_Shutdown()
 {
 	NET_ThreadLock();
 
-	// NET_ClearLaggedList(g_pLagData); - TODO: implement - ScriptedSnark
-	// NET_ClearLaggedList(&g_pLagData[1]); - TODO: implement - ScriptedSnark
+	NET_ClearLaggedList(g_pLagData);
+	NET_ClearLaggedList(&g_pLagData[1]);
 
 	NET_ThreadUnlock();
 
