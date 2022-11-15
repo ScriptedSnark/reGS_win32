@@ -587,6 +587,16 @@ void NET_DrawString(int x, int y, int font, float r, float g, float b, char* fmt
 	Draw_String(x, y, string);
 }
 
+int NET_GraphValue()
+{
+	kbutton_s* in_graph = ClientDLL_FindKey("in_graph");
+
+	if (!net_graph.value && in_graph && (in_graph->state & 1) != 0)
+		net_graph.value = 2;
+
+	return net_graph.value;
+}
+
 /*
 ==================
 SCR_NetGraph
