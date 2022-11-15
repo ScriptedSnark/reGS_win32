@@ -44,12 +44,12 @@ Exe build: 19:53:27 Aug  3 2020 (8684)
 
 This project is for Windows 32-bit systems only.
 
-### Visual Studio 2019 & Visual Studio 2022
-1. Install [Visual Studio 2019](https://my.visualstudio.com/Downloads?q=Visual%20Studio%20Community%202019) or [Visual Studio 2022](https://visualstudio.microsoft.com/vs/preview/vs2022/#download-preview). In the Visual Studio Installer, select Desktop Development for C++.
+### Visual Studio 2022
+1. Install [Visual Studio 2022](https://visualstudio.microsoft.com/ru/vs/). In the Visual Studio Installer, select Desktop Development for C++.
 2. Open Visual Studio.
 3. On the starting screen, click "Clone or check out code".
 4. Enter `https://github.com/ScriptedSnark/reGS_win32.git` and press the Clone button. Wait for the process to finish.
-5. Choose Debug or Release. You can build the workspace using Build→Build All. If you want to build only VGUI2 or something else, right click on wanted project (for example, `GameUI`) and select Build.
+5. Choose Debug or Release configuration. You can build the workspace using Build→Build All. If you want to build only VGUI2 or something else, right click on wanted project (for example, `GameUI`) and select Build.
 
 ## Credits
 
