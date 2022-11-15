@@ -345,7 +345,7 @@ void ReGS_DrawStringRightAlligned(int x, int y, char* str)
 
 void ReGS_DrawDebugInfo()
 {
-	char szDebugInfo[256];
+	char szDebugInfo[1024];
 	sprintf(szDebugInfo, "Build number: %i", build_number());
 	ReGS_DrawStringRightAlligned(vid.width - 5, 2, szDebugInfo);
 	sprintf(szDebugInfo, "Client-server state: %i", cls.state);
