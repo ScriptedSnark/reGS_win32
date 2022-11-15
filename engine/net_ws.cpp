@@ -597,6 +597,22 @@ int NET_GraphValue()
 	return net_graph.value;
 }
 
+void NET_GraphGetXY(vrect_t* rect, int width, int* x, int* y)
+{
+	*x = rect->x + 5;
+
+	if (net_graphpos.value == 1)
+	{
+		*x = rect->width + rect->x - 5 - width;
+	}
+	else if (net_graphpos.value == 2)
+	{
+		*x = rect->x + (rect->width - 10 - width) / 2;
+	}
+
+	*y = rect->height + rect->y - 29;
+}
+
 /*
 ==================
 SCR_NetGraph
