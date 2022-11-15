@@ -16,6 +16,10 @@
 #include "wad.h"
 #include "vgui2/text_draw.h"
 
+#ifdef REGS_DEBUG
+#include "buildnum.h"
+#endif
+
 #define SCR_CENTERSTRING_MAX 40
 
 viddef_t vid; // global video state
@@ -331,6 +335,29 @@ void SCR_SetUpToDrawConsole()
 	Con_CheckResize();
 }
 
+#ifdef REGS_DEBUG
+
+void ReGS_DrawStringRightAlligned(int x, int y, char* str)
+{
+	int width = VGUI2_Draw_StringLen(str, VGUI2_GetConsoleFont());
+	Draw_String(x - width, y, str);
+}
+
+void ReGS_DrawDebugInfo()
+{
+	char szDebugInfo[256];
+	sprintf(szDebugInfo, "Build number: %i", build_number());
+	ReGS_DrawStringRightAlligned(vid.width - 5, 2, szDebugInfo);
+	sprintf(szDebugInfo, "Client-server state: %i", cls.state);
+	ReGS_DrawStringRightAlligned(vid.width - 5, 2 * 10, szDebugInfo);
+	sprintf(szDebugInfo, "Client intermission: %i", cl.intermission);
+	ReGS_DrawStringRightAlligned(vid.width - 5, 2 * 20, szDebugInfo);
+	sprintf(szDebugInfo, "Client time: %.01f", realtime);
+	ReGS_DrawStringRightAlligned(vid.width - 5, 2 * 30, szDebugInfo);
+}
+
+#endif
+
 void SCR_UpdateScreen()
 {
 	static bool recursionGuard = false;
@@ -429,6 +456,10 @@ void SCR_UpdateScreen()
 				// Draw FPS and net graph
 				SCR_DrawFPS();
 				SCR_NetGraph();
+
+				#ifdef REGS_DEBUG
+				ReGS_DrawDebugInfo();
+				#endif
 
 				if (!VGuiWrap2_IsGameUIVisible())
 				{
